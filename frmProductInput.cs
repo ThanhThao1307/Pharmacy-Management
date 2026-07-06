@@ -237,10 +237,8 @@ namespace Pharmacy_Nhom1
                         db.Products.Add(productToSave);
                     }
 
-                    // Lưu lần 1 để lấy ProductId cho sản phẩm mới
                     db.SaveChanges();
 
-                    // Xử lý lưu ảnh sản phẩm
                     string selectedImagePath = txtImageFile.Text.Trim();
                     if (!string.IsNullOrEmpty(selectedImagePath) && Path.IsPathRooted(selectedImagePath) && File.Exists(selectedImagePath))
                     {
@@ -248,12 +246,10 @@ namespace Pharmacy_Nhom1
                         string newFileName = productToSave.ProductId + ext;
                         string destPath = Path.Combine(Utility.ImagePath, newFileName);
 
-                        // Giải phóng ảnh đang preview trước khi copy để chắc chắn không giữ quyền truy cập file
                         var previewImg = picPreview.Image;
                         picPreview.Image = null;
                         previewImg?.Dispose();
 
-                        // Kiểm tra nếu file nguồn và file đích là cùng một file (người dùng chọn lại đúng ảnh trong thư mục Images) thì không cần copy
                         string fullSource = Path.GetFullPath(selectedImagePath);
                         string fullDest = Path.GetFullPath(destPath);
                         if (!string.Equals(fullSource, fullDest, StringComparison.OrdinalIgnoreCase))
@@ -262,7 +258,7 @@ namespace Pharmacy_Nhom1
                         }
 
                         productToSave.ImageFile = newFileName;
-                        db.SaveChanges(); // Lưu lần 2
+                        db.SaveChanges();
                     }
                 }
 

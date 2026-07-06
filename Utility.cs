@@ -6,7 +6,6 @@ namespace Pharmacy_Nhom1
 {
     public static class Utility
     {
-        // Quản lý phiên đăng nhập (gom từ SessionManager để giảm số file)
         public static Pharmacy_Nhom1.Models.User CurrentUser { get; set; } = null!;
         public static bool IsAdmin => CurrentUser?.Role?.RoleName?.Equals("Admin", StringComparison.OrdinalIgnoreCase) == true;
         public static bool IsEmployee => CurrentUser?.Role?.RoleName?.Equals("Nhân viên", StringComparison.OrdinalIgnoreCase) == true;
@@ -42,7 +41,6 @@ namespace Pharmacy_Nhom1
             }
         }
 
-        // Hàm load ảnh an toàn từ file, tạo bản sao độc lập trong RAM để không bao giờ bị khóa file (lock file) trên hệ thống
         public static Image? LoadBitmapWithoutLock(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath)) return null;
@@ -52,7 +50,7 @@ namespace Pharmacy_Nhom1
                 {
                     using (var tempImage = Image.FromStream(stream))
                     {
-                        return new Bitmap(tempImage); // Tạo bản sao độc lập trong bộ nhớ, ngắt hoàn toàn kết nối với file trên đĩa
+                        return new Bitmap(tempImage);
                     }
                 }
             }

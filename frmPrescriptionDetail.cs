@@ -105,9 +105,8 @@ namespace Pharmacy_Nhom1
                     pFile.Status = chkStatus.Checked;
                     pFile.Note = txtNote.Text.Trim();
 
-                    db.SaveChanges(); // Lần 1 để lấy ID khi tạo mới
+                    db.SaveChanges();
 
-                    // Nếu có tải ảnh mới lên từ nút Chọn ảnh
                     if (!string.IsNullOrEmpty(_selectedSourcePath) && File.Exists(_selectedSourcePath))
                     {
                         string ext = Path.GetExtension(_selectedSourcePath);
@@ -126,11 +125,10 @@ namespace Pharmacy_Nhom1
                         }
 
                         pFile.FilePath = newFileName;
-                        db.SaveChanges(); // Lần 2 lưu FilePath
+                        db.SaveChanges();
                         picPrescription.Image = Utility.LoadBitmapWithoutLock(destPath);
                     }
 
-                    // Nếu form mở từ 1 Đơn hàng cụ thể thì gắn Toa thuốc này cho Đơn hàng đó
                     if (_orderId > 0)
                     {
                         var order = db.Orders.Find(_orderId);

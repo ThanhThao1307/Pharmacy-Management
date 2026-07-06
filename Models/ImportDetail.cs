@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,7 +22,6 @@ namespace Pharmacy_Nhom1.Models
         [Required(ErrorMessage = "Nhập hạn sử dụng thuốc")]
         public DateTime ExpiryDate { get; set; }
 
-        // Mọi số lượng lưu trữ trong kho quy về đơn vị nhỏ nhất để đảm bảo tính đồng nhất
         [Required(ErrorMessage = "Nhập số lượng nhập gốc")]
         public int OriginalQuantity { get; set; }
 

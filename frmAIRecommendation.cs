@@ -25,13 +25,11 @@ namespace Pharmacy_Nhom1
         {
             try
             {
-                // Nạp danh sách Khách hàng
                 cbCustomers.DisplayMember = "FullName";
                 cbCustomers.ValueMember = "CustomerId";
                 cbCustomers.DataSource = db.Customers.Select(c => new { c.CustomerId, FullName = c.FullName }).ToList();
                 cbCustomers.Text = null;
 
-                // Nạp danh sách Sản phẩm thuốc
                 cbProducts.DisplayMember = "ProductName";
                 cbProducts.ValueMember = "ProductId";
                 cbProducts.DataSource = db.Products.Select(p => new { p.ProductId, ProductName = p.ProductName }).ToList();
@@ -43,15 +41,10 @@ namespace Pharmacy_Nhom1
             }
         }
 
-        // 1. Lấy dữ liệu từ CSDL, trả về 2 tập: huấn luyện (training) và kiểm tra (test)
         public static (IDataView training, IDataView test) LoadData(MLContext mlContext)
         {
             using var db = new PharmacyDbContext();
 
-            // Khắc phục 5 lỗi khi chuyển đổi code từ bài hướng dẫn phim sang quản lý thuốc:
-            // - Lỗi 1 & 2: OrderDetail không có ProductId -> Phải Include(od => od.ImportDetail) và lấy od.ImportDetail.ProductId
-            // - Lỗi 3 & 4: CustomerId trong Order là nullable (long?) -> Lọc od.Order.CustomerId.HasValue và ép kiểu an toàn
-            // - Lỗi 5: Map đúng kiểu dữ liệu float cho CustomerId, ProductId và QuantityBought
             var list = db.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.ImportDetail)
@@ -59,7 +52,7 @@ namespace Pharmacy_Nhom1
                 .Select(od => new MedicineRating
                 {
                     CustomerId = (float)od.Order!.CustomerId!.Value,
-                    ProductId = (float)od.ImportDetail.ProductId, // Lấy từ ImportDetail
+                    ProductId = (float)od.ImportDetail.ProductId,
                     QuantityBought = (float)od.Quantity
                 })
                 .ToList();
@@ -71,19 +64,15 @@ namespace Pharmacy_Nhom1
 
             IDataView dataView = mlContext.Data.LoadFromEnumerable(list);
 
-            // Chia theo tỉ lệ 20% dữ liệu kiểm tra, 80% dữ liệu huấn luyện
             DataOperationsCatalog.TrainTestData dataSplit = mlContext.Data.TrainTestSplit(dataView, testFraction: 0.2);
             return (dataSplit.TrainSet, dataSplit.TestSet);
         }
 
-        // 2. Huấn luyện và xây dựng mô hình gợi ý thuốc bằng thuật toán MatrixFactorization
         public static ITransformer BuildAndTrainModel(MLContext mlContext, IDataView trainingDataView)
         {
-            // Sử dụng đúng tên thuộc tính CustomerId và ProductId trong class MedicineRating
             IEstimator<ITransformer> estimator = mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "customerIdEncoded", inputColumnName: nameof(MedicineRating.CustomerId))
                 .Append(mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "productIdEncoded", inputColumnName: nameof(MedicineRating.ProductId)));
 
-            // Thiết lập các thông số cho thuật toán MatrixFactorization, LabelColumnName là QuantityBought
             var options = new MatrixFactorizationTrainer.Options
             {
                 MatrixColumnIndexColumnName = "customerIdEncoded",
@@ -98,7 +87,6 @@ namespace Pharmacy_Nhom1
             return model;
         }
 
-        // 3. Đánh giá mô hình trên tập kiểm tra
         public static string EvaluateModel(MLContext mlContext, IDataView testDataView, ITransformer model)
         {
             var prediction = model.Transform(testDataView);
@@ -110,7 +98,6 @@ namespace Pharmacy_Nhom1
                    $"Mô hình đã học xong xu hướng mua của khách hàng và sẵn sàng tư vấn!";
         }
 
-        // 4. Lưu mô hình thành file zip
         public static string SaveModel(MLContext mlContext, DataViewSchema schema, ITransformer model)
         {
             string modelPath = Path.Combine(Application.StartupPath, "MedicineRecommenderModel.zip");
@@ -174,7 +161,6 @@ namespace Pharmacy_Nhom1
                 float customerId = Convert.ToSingle(cbCustomers.SelectedValue);
                 float productId = Convert.ToSingle(cbProducts.SelectedValue);
 
-                // Dự đoán điểm quan tâm của khách hàng với sản phẩm đã chọn
                 var testInput = new MedicineRating { CustomerId = customerId, ProductId = productId };
                 var prediction = predictionEngine.Predict(testInput);
 
@@ -196,7 +182,6 @@ namespace Pharmacy_Nhom1
                     resultText += $"=> Lời khuyên: Có thể tư vấn dòng thuốc khác phù hợp hơn.\r\n\r\n";
                 }
 
-                // Gợi ý thêm top 3 thuốc có khả năng khách mua cao nhất
                 resultText += "💡 TOP 3 THUỐC ĐỀ XUẤT PHÙ HỢP NHẤT CHO KHÁCH HÀNG NÀY:\r\n";
                 var allProducts = db.Products.Where(p => p.Status).ToList();
                 var recommendations = new List<(string Name, float Score)>();

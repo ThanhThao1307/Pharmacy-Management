@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy_Nhom1.Models
@@ -12,7 +12,7 @@ namespace Pharmacy_Nhom1.Models
         public long OrderId { get; set; }
 
         [Required]
-        public long ImportDetailId { get; set; } // Xác định bán từ lô nào (Từ đây truy vấn bắc cầu ra ProductId)
+        public long ImportDetailId { get; set; }
 
         [Required]
         [StringLength(50)]

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,7 +12,6 @@ namespace Pharmacy_Nhom1
         private readonly Category? _category;
         private readonly bool _isEditMode = false;
 
-        // Constructor dùng cho chức năng THÊM MỚI
         public frmCategoryInput()
         {
             InitializeComponent();
@@ -20,7 +19,6 @@ namespace Pharmacy_Nhom1
             _isEditMode = false;
         }
 
-        // Constructor dùng cho chức năng CẬP NHẬT (SỬA)
         public frmCategoryInput(int categoryId)
         {
             InitializeComponent();
@@ -39,7 +37,7 @@ namespace Pharmacy_Nhom1
                 {
                     txtCategoryCode.Text = _category.CategoryCode;
                     txtCategoryCode.Enabled = false;
-                    txtCategoryCode.BackColor = Color.FromArgb(240, 240, 240); // Đổi màu xám đồng bộ với form Product
+                    txtCategoryCode.BackColor = Color.FromArgb(240, 240, 240);
 
                     txtCategoryName.Text = _category.CategoryName;
                     txtDescription.Text = _category.Description;
@@ -55,7 +53,7 @@ namespace Pharmacy_Nhom1
             {
                 this.Text = "Thêm mới danh mục nhóm thuốc";
                 lblFormTitle.Text = "THÊM DANH MỤC THUỐC MỚI";
-                chkStatus.Checked = true; // SỬA LỖI: Đảm bảo mặc định danh mục mới luôn ở trạng thái kích hoạt để form Product tìm thấy
+                chkStatus.Checked = true;
                 txtCategoryCode.Focus();
             }
         }
@@ -96,7 +94,6 @@ namespace Pharmacy_Nhom1
                 {
                     _category.CategoryCode = code;
 
-                    // Kiểm tra trùng lặp khóa chính / mã danh mục dưới Database
                     bool isDuplicate = _db.Categories.Any(c => c.CategoryCode.ToLower() == code.ToLower());
                     if (isDuplicate)
                     {
@@ -108,7 +105,7 @@ namespace Pharmacy_Nhom1
                     _db.Categories.Add(_category);
                 }
 
-                _db.SaveChanges(); // Đồng bộ thực tế xuống SQL Server
+                _db.SaveChanges(); 
 
                 MessageBox.Show(_isEditMode ? "Cập nhật dữ liệu thành công!" : "Thêm mới danh mục thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

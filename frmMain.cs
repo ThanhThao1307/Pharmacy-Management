@@ -15,7 +15,7 @@ namespace Pharmacy_Nhom1
             if (Utility.CurrentUser != null)
             {
                 lblWelcomeStatus.Text = $"Chào mừng: {Utility.CurrentUser.FullName} | Quyền: {Utility.CurrentUser.Role?.RoleName}";
-                if (tsmEmployee != null) tsmEmployee.Visible = Utility.IsAdmin; // Chỉ Admin mới thấy menu Nhân viên
+                if (tsmEmployee != null) tsmEmployee.Visible = Utility.IsAdmin;
             }
             else
             {
@@ -69,18 +69,16 @@ namespace Pharmacy_Nhom1
             {
                 Utility.Logout();
                 this.Hide();
-                Application.Exit(); // Thoát hẳn ứng dụng, tránh lỗi chạy ngầm
+                Application.Exit();
             }
         }
 
-        // Tự động đóng toàn bộ ứng dụng chạy ngầm khi bấm nút [X] ở góc màn hình
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             base.OnFormClosed(e);
             Application.Exit();
         }
 
-        // Hàm xử lý hiển thị form con vào panel giữa màn hình chính
         private void OpenChildForm(Form childForm)
         {
             if (pnlContent == null) return;

@@ -19,7 +19,7 @@ namespace Pharmacy_Nhom1.Models
 
         [Required]
         [StringLength(100)]
-        public string CreatedBy { get; set; } = null!; // Lưu tên người nhập trực tiếp bằng chuỗi, không tạo khóa ngoại liên kết sang bảng Users
+        public string CreatedBy { get; set; } = null!;
 
         [Required]
         public DateTime ImportDate { get; set; } = DateTime.Now;

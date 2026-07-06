@@ -57,7 +57,7 @@ namespace Pharmacy_Nhom1.Models
                 entity.Property(e => e.TotalSpent).HasColumnType("decimal(18,2)");
             });
 
-            // 4. CẤU HÌNH IMPORTS (Đã xóa bỏ hoàn toàn cấu hình liên kết sang bảng Users tại đây)
+            // 4. CẤU HÌNH IMPORTS
             modelBuilder.Entity<Import>(entity =>
             {
                 entity.Property(e => e.TotalAmount).HasColumnType("decimal(18,2)");
@@ -180,7 +180,7 @@ namespace Pharmacy_Nhom1.Models
                 new ProductUnit { ProductUnitId = 6, ProductId = 9, UnitName = "Hộp", ConversionRate = 20, Price = 55000 }
             );
 
-            // 8. SEED IMPORTS (CreatedBy lưu dạng chuỗi trực tiếp)
+            // 8. SEED IMPORTS
             modelBuilder.Entity<Import>().HasData(
                 new Import { ImportId = 1, ImportCode = "HDN_001", SupplierId = 1, CreatedBy = "admin", ImportDate = DateTime.Now.AddDays(-30), TotalAmount = 5100000, Status = 1 },
                 new Import { ImportId = 2, ImportCode = "HDN_002", SupplierId = 3, CreatedBy = "admin", ImportDate = DateTime.Now.AddDays(-15), TotalAmount = 3250000, Status = 1 },

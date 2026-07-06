@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -27,7 +27,6 @@ namespace Pharmacy_Nhom1
                 {
                     string keyword = txtSearch.Text?.Trim().ToLower() ?? "";
 
-                    // TỐI ƯU: Sử dụng Query đầu tiên (IQueryable) để SQL Server xử lý biên dịch trước khi nạp vào RAM
                     var query = from i in db.Imports
                                 join s in db.Suppliers on i.SupplierId equals s.SupplierId
                                 select new ImportViewModel
@@ -38,19 +37,17 @@ namespace Pharmacy_Nhom1
                                     ImportDate = i.ImportDate,
                                     TotalAmount = i.TotalAmount,
                                     CreatedBy = i.CreatedBy,
-                                    Status = i.Status, // Giữ lại trường gốc để tí map chữ
+                                    Status = i.Status,
                                     StatusText = i.Status == 0 ? "0 - Lưu nháp" :
                                                  i.Status == 1 ? "1 - Hoàn thành" : "2 - Đã hủy"
                                 };
 
-                    // Lọc dữ liệu trực tiếp trên Database Server nếu có từ khóa
                     if (!string.IsNullOrEmpty(keyword))
                     {
                         query = query.Where(i => i.ImportCode.ToLower().Contains(keyword) ||
                                                  i.CreatedBy.ToLower().Contains(keyword));
                     }
 
-                    // Đổ dữ liệu đã tối ưu, sắp xếp theo ngày mới nhất lên lưới
                     dgvImports.DataSource = query.OrderByDescending(i => i.ImportDate).ToList();
                 }
             }
@@ -67,11 +64,10 @@ namespace Pharmacy_Nhom1
 
         private void btNew_Click(object sender, EventArgs e)
         {
-            // Mở form nhập liệu ở chế độ thêm mới
             frmImportInput inputForm = new frmImportInput();
             if (inputForm.ShowDialog() == DialogResult.OK)
             {
-                LoadData(); // Reload lại lưới danh sách khi lưu thành công
+                LoadData();
             }
         }
 
@@ -84,13 +80,12 @@ namespace Pharmacy_Nhom1
                 long importId = currentItem.ImportId;
                 string columnName = dgvImports.Columns[e.ColumnIndex].Name;
 
-                // Kiểm tra nếu bấm trúng cột có Name là "Edit"
                 if (columnName == "Edit")
                 {
                     frmImportInput editForm = new frmImportInput(importId);
                     if (editForm.ShowDialog() == DialogResult.OK)
                     {
-                        LoadData(); // Reload danh sách sau khi sửa đổi dữ liệu dữ liệu chi tiết
+                        LoadData();
                     }
                 }
             }

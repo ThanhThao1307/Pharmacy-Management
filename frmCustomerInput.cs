@@ -10,7 +10,6 @@ namespace Pharmacy_Nhom1
         private Customer? _customer;
         private readonly bool _isEditMode = false;
 
-        // Constructor thêm mới
         public frmCustomerInput()
         {
             InitializeComponent();
@@ -18,7 +17,6 @@ namespace Pharmacy_Nhom1
             _isEditMode = false;
         }
 
-        // Constructor chỉnh sửa
         public frmCustomerInput(long customerId)
         {
             InitializeComponent();
@@ -31,7 +29,6 @@ namespace Pharmacy_Nhom1
 
         private void frmCustomerInput_Load(object sender, EventArgs e)
         {
-            // Khởi tạo ComboBox giới tính theo tài liệu
             cboGender.Items.Clear();
             cboGender.Items.Add("-- Chưa xác định --");
             cboGender.Items.Add("Nam");
@@ -43,12 +40,10 @@ namespace Pharmacy_Nhom1
                 this.Text = "Cập nhật thông tin khách hàng";
                 txtName.Text = _customer.FullName;
 
-                // Giới tính
                 if (_customer.Gender == true) cboGender.SelectedIndex = 1;
                 else if (_customer.Gender == false) cboGender.SelectedIndex = 2;
                 else cboGender.SelectedIndex = 0;
 
-                // Ngày sinh
                 dtpBirthDate.Value = _customer.BirthDate ?? DateTime.Today.AddYears(-20);
 
                 txtPhone.Text = _customer.Phone;
@@ -98,7 +93,6 @@ namespace Pharmacy_Nhom1
                     }
                     else
                     {
-                        // Kiểm tra trùng SĐT
                         bool phoneExists = db.Customers.Any(c => c.Phone == phone);
                         if (phoneExists)
                         {
@@ -116,10 +110,9 @@ namespace Pharmacy_Nhom1
 
                     customerToSave.FullName = name;
 
-                    // Giới tính từ ComboBox
-                    if (cboGender.SelectedIndex == 1) customerToSave.Gender = true;       // Nam
-                    else if (cboGender.SelectedIndex == 2) customerToSave.Gender = false;  // Nữ
-                    else customerToSave.Gender = null;                                     // Chưa xác định
+                    if (cboGender.SelectedIndex == 1) customerToSave.Gender = true;
+                    else if (cboGender.SelectedIndex == 2) customerToSave.Gender = false;
+                    else customerToSave.Gender = null;
 
                     customerToSave.BirthDate = dtpBirthDate.Value.Date;
                     customerToSave.Phone = phone;

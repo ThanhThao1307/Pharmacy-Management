@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +19,7 @@ namespace Pharmacy_Nhom1.Models
         [Required]
         public long UserId { get; set; }
 
-        public long? PrescriptionFileId { get; set; } // Đổi lại tên trường gốc
+        public long? PrescriptionFileId { get; set; }
 
         [Required]
         public DateTime OrderDate { get; set; } = DateTime.Now;
@@ -43,7 +43,7 @@ namespace Pharmacy_Nhom1.Models
         public virtual User User { get; set; } = null!;
 
         [ForeignKey("PrescriptionFileId")]
-        public virtual PrescriptionFile? PrescriptionFile { get; set; } // Đổi loại tham chiếu
+        public virtual PrescriptionFile? PrescriptionFile { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }

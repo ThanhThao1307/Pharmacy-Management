@@ -37,7 +37,7 @@ namespace Pharmacy_Nhom1
             cbCustomer.ValueMember = "CustomerId";
             cbCustomer.DataSource = db.Customers.Select(c => new { c.CustomerId, Name = c.FullName }).ToList();
             cbCustomer.Text = null;
-            cbCustomer.Enabled = false; // Khóa cố định khách hàng khi xử lý chi tiết theo đúng quy trình bước 2
+            cbCustomer.Enabled = false;
         }
 
         private void LoadCbOrders()
@@ -53,7 +53,6 @@ namespace Pharmacy_Nhom1
 
         private void loadOrderDetails()
         {
-            // Truy vấn bắc cầu qua ImportDetail để lấy ProductId và ProductName (vì OrderDetail không có ProductId)
             var details = db.OrderDetails
                 .Include(d => d.ImportDetail)
                 .ThenInclude(id => id.Product)
@@ -62,7 +61,7 @@ namespace Pharmacy_Nhom1
                 { 
                     d.OrderDetailId, 
                     d.OrderId, 
-                    ProductId = d.ImportDetail.ProductId, // Truy vấn từ lô nhập ra ProductId
+                    ProductId = d.ImportDetail.ProductId,
                     d.Quantity, 
                     d.Price, 
                     ProductName = d.ImportDetail.Product.ProductName 
@@ -136,7 +135,6 @@ namespace Pharmacy_Nhom1
                     OrderDetail orderdetail = db.OrderDetails.Single(o => o.OrderDetailId == detailID);
                     if (MessageBox.Show("Bạn muốn xóa chi tiết số " + detailID, "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        // Hoàn lại tồn kho cho lô nhập tương ứng
                         var batch = db.ImportDetails.Find(orderdetail.ImportDetailId);
                         if (batch != null) batch.CurrentQuantity += (orderdetail.Quantity * orderdetail.ConversionRate);
 
@@ -171,7 +169,6 @@ namespace Pharmacy_Nhom1
                 {
                     mPrice.Text = product.Price.ToString();
 
-                    // Hiển thị hình ảnh sản phẩm
                     var oldImg = picProductImage.Image;
                     if (!string.IsNullOrEmpty(product.ImageFile))
                     {
@@ -219,7 +216,6 @@ namespace Pharmacy_Nhom1
             {
                 long productID = Convert.ToInt64(cbProducts.SelectedValue);
 
-                // Kiểm tra thuốc kê đơn GPP
                 var prodCheck = db.Products.Find(productID);
                 var orderCheck = db.Orders.Find(mOrderID);
                 if (prodCheck != null && prodCheck.PrescriptionRequired && orderCheck != null && orderCheck.PrescriptionFileId == null)
@@ -236,7 +232,6 @@ namespace Pharmacy_Nhom1
                     }
                 }
 
-                // Kiểm tra xem sản phẩm đã có trong danh sách hiển thị chưa
                 if (list.Any(o => o.OrderID == mOrderID && o.ProductID == productID))
                 {
                     toolTip1.Show("Đơn hàng đã có sản phẩm này. Vui lòng chọn sửa số lượng ở danh sách bên dưới!", cbProducts, 0, 0, 1500);
@@ -244,7 +239,6 @@ namespace Pharmacy_Nhom1
                     return;
                 }
 
-                // Lấy các lô nhập hợp lệ (còn hạn sử dụng và còn tồn kho), ưu tiên lô hết hạn trước (FIFO / FEFO)
                 var validBatches = db.ImportDetails
                     .Where(id => id.ProductId == productID && id.CurrentQuantity > 0 && id.ExpiryDate >= DateTime.Today)
                     .OrderBy(id => id.ExpiryDate)
@@ -257,7 +251,6 @@ namespace Pharmacy_Nhom1
                     return;
                 }
 
-                // Phân bổ số lượng bán vào các lô theo thứ tự ưu tiên
                 int remainingQty = qty;
                 foreach (var batch in validBatches)
                 {
@@ -268,7 +261,7 @@ namespace Pharmacy_Nhom1
                     OrderDetail orderDetail = new OrderDetail
                     {
                         OrderId = mOrderID,
-                        ImportDetailId = batch.ImportDetailId, // Gán ID của lô nhập (không dùng ProductId trực tiếp)
+                        ImportDetailId = batch.ImportDetailId,
                         Quantity = takeQty,
                         Price = price,
                         SoldUnit = "Đơn vị cơ bản",
@@ -331,7 +324,6 @@ namespace Pharmacy_Nhom1
             {
                 long newProductID = Convert.ToInt64(cbProducts.SelectedValue);
 
-                // Kiểm tra trùng sản phẩm ở dòng khác
                 if (list.Any(o => o.ProductID == newProductID && o.OrderDetailID != mOrderDetailID))
                 {
                     toolTip1.Show("Đơn hàng đã có sản phẩm này ở dòng khác!", cbProducts, 0, 0, 1500);
@@ -346,14 +338,12 @@ namespace Pharmacy_Nhom1
                     return;
                 }
 
-                // Hoàn lại tồn kho cho lô cũ
                 var oldBatch = db.ImportDetails.Find(orderDetail.ImportDetailId);
                 if (oldBatch != null)
                 {
                     oldBatch.CurrentQuantity += (orderDetail.Quantity * orderDetail.ConversionRate);
                 }
 
-                // Kiểm tra tồn kho khả dụng của sản phẩm
                 var validBatches = db.ImportDetails
                     .Where(id => id.ProductId == newProductID && id.CurrentQuantity > 0 && id.ExpiryDate >= DateTime.Today)
                     .OrderBy(id => id.ExpiryDate)
@@ -362,13 +352,11 @@ namespace Pharmacy_Nhom1
                 int totalAvailable = validBatches.Sum(b => b.CurrentQuantity);
                 if (totalAvailable < newQty)
                 {
-                    // Nếu không đủ, hoàn tác lại số lượng vừa cộng trả cho lô cũ
                     if (oldBatch != null) oldBatch.CurrentQuantity -= (orderDetail.Quantity * orderDetail.ConversionRate);
                     MessageBox.Show($"Không đủ tồn kho để sửa số lượng! (Tổng tồn kho khả dụng: {totalAvailable})", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Xóa dòng chi tiết cũ và phân bổ lại theo lô (FIFO / FEFO)
                 db.OrderDetails.Remove(orderDetail);
 
                 int remainingQty = newQty;

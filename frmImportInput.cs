@@ -13,12 +13,10 @@ namespace Pharmacy_Nhom1
 {
     public partial class frmImportInput : Form
     {
-        // Khai báo cho phép nhận null để xóa lỗi constructor của chế độ Nullable
         private Import? _import;
         private bool _isEditMode = false;
         private BindingList<ImportDetailWrapper> _importDetailsGridList = new BindingList<ImportDetailWrapper>();
 
-        // Lớp Wrapper cấu hình hiển thị chi tiết lô hạn dùng trên DataGridView
         public class ImportDetailWrapper
         {
             public long ProductId { get; set; }
@@ -56,7 +54,6 @@ namespace Pharmacy_Nhom1
             LoadSuppliers();
             LoadProducts();
 
-            // Khởi tạo ComboBox trạng thái
             cboStatus.DisplayMember = "Text";
             cboStatus.ValueMember = "Value";
             cboStatus.DataSource = new[]
@@ -105,9 +102,7 @@ namespace Pharmacy_Nhom1
                 this.Text = "Lập phiếu nhập kho dược mới";
                 txtImportCode.Text = "PNK-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
                 txtCreatedBy.Text = Utility.CurrentUser?.Username ?? "admin";
-                cboStatus.SelectedValue = (byte)1; // Hoàn thành
-
-                // Đặt mặc định hạn dùng 2 năm, số lô mẫu
+                cboStatus.SelectedValue = (byte)1;
                 dtpExpiryDate.Value = DateTime.Today.AddYears(2);
                 txtBatchNumber.Text = "LOT-" + DateTime.Now.ToString("MM-yy");
             }
@@ -134,7 +129,6 @@ namespace Pharmacy_Nhom1
                 cboProduct.DisplayMember = "ProductName";
                 cboProduct.ValueMember = "ProductId";
             }
-            // Sau khi load xong, hiển thị ảnh sản phẩm đang được chọn
             ShowSelectedProductImage();
         }
 
@@ -178,7 +172,6 @@ namespace Pharmacy_Nhom1
             int qty = (int)nudOriginalQuantity.Value;
             decimal price = nudImportPrice.Value;
 
-            // Kiểm tra xem đã có thuốc này với số lô này trong danh sách chưa để cộng dồn
             var existing = _importDetailsGridList.FirstOrDefault(x => x.ProductId == selectedProduct!.ProductId && x.BatchNumber.Equals(batch, StringComparison.OrdinalIgnoreCase));
             if (existing != null)
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using Pharmacy_Nhom1.Models;
@@ -11,7 +11,6 @@ namespace Pharmacy_Nhom1
         private readonly Supplier? _supplier;
         private readonly bool _isEditMode = false;
 
-        // Constructor cho chức năng THÊM MỚI
         public frmSupplierInput()
         {
             InitializeComponent();
@@ -19,7 +18,6 @@ namespace Pharmacy_Nhom1
             _isEditMode = false;
         }
 
-        // Constructor cho chức năng CẬP NHẬT (SỬA)
         public frmSupplierInput(long supplierId)
         {
             InitializeComponent();
@@ -34,7 +32,6 @@ namespace Pharmacy_Nhom1
                 this.Text = "Cập nhật nhà cung cấp";
                 if (_supplier != null)
                 {
-                    // Đổ dữ liệu từ Database lên giao diện (KHÔNG CÓ SUPPLIERCODE)
                     txtSupplierName.Text = _supplier.SupplierName;
                     txtPhone.Text = _supplier.Phone;
                     txtTaxCode.Text = _supplier.TaxCode;
@@ -51,7 +48,7 @@ namespace Pharmacy_Nhom1
             else
             {
                 this.Text = "Thêm mới nhà cung cấp";
-                chkStatus.Checked = true; // Mặc định kích hoạt hoạt động khi thêm mới
+                chkStatus.Checked = true;
                 txtSupplierName.Focus();
             }
         }
@@ -64,7 +61,6 @@ namespace Pharmacy_Nhom1
             string email = txtEmail.Text?.Trim() ?? "";
             string address = txtAddress.Text?.Trim() ?? "";
 
-            // Ràng buộc nghiệp vụ theo DataAnnotations của Database
             if (string.IsNullOrEmpty(name))
             {
                 MessageBox.Show("Tên nhà cung cấp không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -90,12 +86,10 @@ namespace Pharmacy_Nhom1
 
             try
             {
-                // Gán dữ liệu vào đối tượng Model
                 _supplier.SupplierName = name;
                 _supplier.Phone = phone;
                 _supplier.TaxCode = taxCode;
 
-                // Các trường cho phép nhận thuộc tính NULL trong Database
                 _supplier.Email = string.IsNullOrEmpty(email) ? null : email;
                 _supplier.Address = string.IsNullOrEmpty(address) ? null : address;
                 _supplier.Status = chkStatus.Checked;

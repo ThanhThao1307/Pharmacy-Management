@@ -31,7 +31,6 @@ namespace Pharmacy_Nhom1
                         .Select(c => new { c.CategoryId, c.CategoryName })
                         .ToList();
 
-                    // Thêm lựa chọn "Tất cả" lên đầu danh sách
                     categories.Insert(0, new { CategoryId = 0, CategoryName = "-- Tất cả danh mục --" });
 
                     cbCategories.DisplayMember = "CategoryName";
@@ -45,7 +44,6 @@ namespace Pharmacy_Nhom1
             }
         }
 
-        // Sự kiện Click nút "Xem Báo Cáo"
         private void btXemBaoCao_Click(object sender, EventArgs e)
         {
             try
@@ -54,12 +52,11 @@ namespace Pharmacy_Nhom1
 
                 using (var db = new PharmacyDbContext())
                 {
-                    // Lấy dữ liệu, lọc theo danh mục nếu có chọn
                     var data = db.Products
                         .Include(p => p.Category)
                         .Include(p => p.ImportDetails)
                         .Where(p => selectedCategoryId == 0 || p.CategoryId == selectedCategoryId)
-                        .AsEnumerable() // Cần AsEnumerable() để gọi TotalStock [NotMapped]
+                        .AsEnumerable()
                         .Select(p => new
                         {
                             p.ProductCode,
@@ -67,11 +64,10 @@ namespace Pharmacy_Nhom1
                             p.Unit,
                             p.Price,
                             CategoryName = p.Category.CategoryName,
-                            Quantity = p.TotalStock   // TotalStock tính tổng CurrentQuantity chưa hết hạn
+                            Quantity = p.TotalStock
                         })
                         .ToList();
 
-                    // Nạp báo cáo vào ReportViewer
                     reportViewer1.Reset();
                     reportViewer1.LocalReport.ReportPath = "rptProductInventory.rdlc";
                     reportViewer1.LocalReport.DataSources.Clear();
