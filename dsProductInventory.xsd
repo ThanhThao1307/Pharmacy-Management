@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsProductInventory" targetNamespace="http://tempuri.org/dsProductInventory.xsd" xmlns:mstns="http://tempuri.org/dsProductInventory.xsd" xmlns="http://tempuri.org/dsProductInventory.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="Data Source=LAPTOP-SMOFL10C\SQLEXPRESS2022;Initial Catalog=Pharmacy;Integrated Security=True;Encrypt=True;TrustServerCertificate=True" IsAppSettingsProperty="false" Modifier="Assembly" Name="laptop-smofl10c\sqlexpress2022.Pharmacy.dbo" ParameterPrefix="@" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="View_ProductInventoryTableAdapter" GeneratorDataComponentClassName="View_ProductInventoryTableAdapter" Name="View_ProductInventory" UserDataComponentName="View_ProductInventoryTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="laptop-smofl10c\sqlexpress2022.Pharmacy.dbo" DbObjectName="Pharmacy.dbo.View_ProductInventory" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT ProductId, ProductCode, ProductName, Unit, Price, CategoryId, CategoryName FROM dbo.View_ProductInventory</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ProductId" DataSetColumn="ProductId" />
+              <Mapping SourceColumn="ProductCode" DataSetColumn="ProductCode" />
+              <Mapping SourceColumn="ProductName" DataSetColumn="ProductName" />
+              <Mapping SourceColumn="Unit" DataSetColumn="Unit" />
+              <Mapping SourceColumn="Price" DataSetColumn="Price" />
+              <Mapping SourceColumn="CategoryId" DataSetColumn="CategoryId" />
+              <Mapping SourceColumn="CategoryName" DataSetColumn="CategoryName" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsProductInventory" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsProductInventory" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="dsProductInventory">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="View_ProductInventory" msprop:Generator_RowClassName="View_ProductInventoryRow" msprop:Generator_RowEvHandlerName="View_ProductInventoryRowChangeEventHandler" msprop:Generator_RowDeletedName="View_ProductInventoryRowDeleted" msprop:Generator_RowDeletingName="View_ProductInventoryRowDeleting" msprop:Generator_RowEvArgName="View_ProductInventoryRowChangeEvent" msprop:Generator_TablePropName="View_ProductInventory" msprop:Generator_RowChangedName="View_ProductInventoryRowChanged" msprop:Generator_UserTableName="View_ProductInventory" msprop:Generator_RowChangingName="View_ProductInventoryRowChanging" msprop:Generator_TableClassName="View_ProductInventoryDataTable" msprop:Generator_TableVarName="tableView_ProductInventory">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ProductId" msprop:Generator_UserColumnName="ProductId" msprop:Generator_ColumnPropNameInTable="ProductIdColumn" msprop:Generator_ColumnPropNameInRow="ProductId" msprop:Generator_ColumnVarNameInTable="columnProductId" type="xs:long" />
+              <xs:element name="ProductCode" msprop:Generator_UserColumnName="ProductCode" msprop:Generator_ColumnPropNameInTable="ProductCodeColumn" msprop:Generator_ColumnPropNameInRow="ProductCode" msprop:Generator_ColumnVarNameInTable="columnProductCode">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ProductName" msprop:Generator_UserColumnName="ProductName" msprop:Generator_ColumnPropNameInTable="ProductNameColumn" msprop:Generator_ColumnPropNameInRow="ProductName" msprop:Generator_ColumnVarNameInTable="columnProductName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Unit" msprop:Generator_UserColumnName="Unit" msprop:Generator_ColumnPropNameInTable="UnitColumn" msprop:Generator_ColumnPropNameInRow="Unit" msprop:Generator_ColumnVarNameInTable="columnUnit">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Price" msprop:Generator_UserColumnName="Price" msprop:Generator_ColumnPropNameInTable="PriceColumn" msprop:Generator_ColumnPropNameInRow="Price" msprop:Generator_ColumnVarNameInTable="columnPrice" type="xs:decimal" />
+              <xs:element name="CategoryId" msprop:Generator_UserColumnName="CategoryId" msprop:Generator_ColumnPropNameInTable="CategoryIdColumn" msprop:Generator_ColumnPropNameInRow="CategoryId" msprop:Generator_ColumnVarNameInTable="columnCategoryId" type="xs:int" />
+              <xs:element name="CategoryName" msprop:Generator_UserColumnName="CategoryName" msprop:Generator_ColumnPropNameInTable="CategoryNameColumn" msprop:Generator_ColumnPropNameInRow="CategoryName" msprop:Generator_ColumnVarNameInTable="columnCategoryName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Quantity" msprop:Generator_ColumnPropNameInRow="Quantity" msprop:Generator_ColumnPropNameInTable="QuantityColumn" msprop:Generator_ColumnVarNameInTable="columnQuantity" msprop:Generator_UserColumnName="Quantity" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:View_ProductInventory" />
+      <xs:field xpath="mstns:ProductId" />
+      <xs:field xpath="mstns:CategoryId" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
