@@ -31,6 +31,7 @@
             pnlHeader = new Panel();
             lblTitle = new Label();
             gbHuanLuyen = new GroupBox();
+            txtEvaluate = new TextBox();
             btTrain = new Button();
             gbDuDoan = new GroupBox();
             lblResult = new Label();
@@ -39,7 +40,6 @@
             lblProd = new Label();
             cbCustomers = new ComboBox();
             lblCust = new Label();
-            txtEvaluate = new TextBox();
             pnlHeader.SuspendLayout();
             gbHuanLuyen.SuspendLayout();
             gbDuDoan.SuspendLayout();
@@ -47,18 +47,18 @@
             // 
             // pnlHeader
             // 
-            pnlHeader.BackColor = Color.CadetBlue;
+            pnlHeader.BackColor = Color.SteelBlue;
             pnlHeader.Controls.Add(lblTitle);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(1131, 67);
+            pnlHeader.Size = new Size(1431, 67);
             pnlHeader.TabIndex = 0;
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.BackColor = Color.CadetBlue;
+            lblTitle.BackColor = Color.SteelBlue;
             lblTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(24, 17);
@@ -75,14 +75,24 @@
             gbHuanLuyen.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             gbHuanLuyen.Location = new Point(0, 67);
             gbHuanLuyen.Name = "gbHuanLuyen";
-            gbHuanLuyen.Size = new Size(470, 632);
+            gbHuanLuyen.Size = new Size(470, 707);
             gbHuanLuyen.TabIndex = 1;
             gbHuanLuyen.TabStop = false;
             gbHuanLuyen.Text = "1. Huấn luyện Mô hình AI từ CSDL";
             // 
+            // txtEvaluate
+            // 
+            txtEvaluate.Location = new Point(24, 129);
+            txtEvaluate.Multiline = true;
+            txtEvaluate.Name = "txtEvaluate";
+            txtEvaluate.ReadOnly = true;
+            txtEvaluate.ScrollBars = ScrollBars.Vertical;
+            txtEvaluate.Size = new Size(420, 566);
+            txtEvaluate.TabIndex = 1;
+            // 
             // btTrain
             // 
-            btTrain.BackColor = Color.MediumSeaGreen;
+            btTrain.BackColor = Color.Teal;
             btTrain.Cursor = Cursors.Hand;
             btTrain.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btTrain.ForeColor = Color.MistyRose;
@@ -106,7 +116,7 @@
             gbDuDoan.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             gbDuDoan.Location = new Point(470, 67);
             gbDuDoan.Name = "gbDuDoan";
-            gbDuDoan.Size = new Size(661, 632);
+            gbDuDoan.Size = new Size(961, 707);
             gbDuDoan.TabIndex = 2;
             gbDuDoan.TabStop = false;
             gbDuDoan.Text = "2. Phân tích xu hướng & Tư vấn mua thuốc";
@@ -117,7 +127,7 @@
             lblResult.ForeColor = Color.Crimson;
             lblResult.Location = new Point(20, 218);
             lblResult.Name = "lblResult";
-            lblResult.Size = new Size(617, 396);
+            lblResult.Size = new Size(880, 396);
             lblResult.TabIndex = 5;
             lblResult.Text = " 💡 Kết quả dự đoán và lời khuyên tư vấn của AI sẽ hiển thị tại đây...";
             // 
@@ -129,7 +139,7 @@
             btPredict.ForeColor = Color.White;
             btPredict.Location = new Point(20, 152);
             btPredict.Name = "btPredict";
-            btPredict.Size = new Size(419, 50);
+            btPredict.Size = new Size(880, 50);
             btPredict.TabIndex = 4;
             btPredict.Text = "🔍 Phân tích & Dự đoán xu hướng mua";
             btPredict.UseVisualStyleBackColor = false;
@@ -141,7 +151,7 @@
             cbProducts.FormattingEnabled = true;
             cbProducts.Location = new Point(321, 96);
             cbProducts.Name = "cbProducts";
-            cbProducts.Size = new Size(316, 38);
+            cbProducts.Size = new Size(579, 38);
             cbProducts.TabIndex = 3;
             // 
             // lblProd
@@ -160,7 +170,7 @@
             cbCustomers.FormattingEnabled = true;
             cbCustomers.Location = new Point(321, 43);
             cbCustomers.Name = "cbCustomers";
-            cbCustomers.Size = new Size(316, 38);
+            cbCustomers.Size = new Size(579, 38);
             cbCustomers.TabIndex = 1;
             // 
             // lblCust
@@ -173,22 +183,12 @@
             lblCust.TabIndex = 0;
             lblCust.Text = "Chọn Khách hàng cần tư vấn:";
             // 
-            // txtEvaluate
-            // 
-            txtEvaluate.Location = new Point(24, 129);
-            txtEvaluate.Multiline = true;
-            txtEvaluate.Name = "txtEvaluate";
-            txtEvaluate.ReadOnly = true;
-            txtEvaluate.ScrollBars = ScrollBars.Vertical;
-            txtEvaluate.Size = new Size(420, 485);
-            txtEvaluate.TabIndex = 1;
-            // 
             // frmAIRecommendation
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(1131, 699);
+            ClientSize = new Size(1431, 774);
             Controls.Add(gbDuDoan);
             Controls.Add(gbHuanLuyen);
             Controls.Add(pnlHeader);

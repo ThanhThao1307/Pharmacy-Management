@@ -1,6 +1,6 @@
 namespace Pharmacy_Nhom1
 {
-    partial class frmReportInventory
+    partial class frmReportRevenue
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -18,6 +18,10 @@ namespace Pharmacy_Nhom1
         private void InitializeComponent()
         {
             pnlHeader = new Panel();
+            lblFromDate = new Label();
+            dtpFromDate = new DateTimePicker();
+            lblToDate = new Label();
+            dtpToDate = new DateTimePicker();
             lblCategory = new Label();
             cbCategories = new ComboBox();
             btXemBaoCao = new Button();
@@ -30,6 +34,10 @@ namespace Pharmacy_Nhom1
             // pnlHeader
             // 
             pnlHeader.BackColor = Color.SteelBlue;
+            pnlHeader.Controls.Add(lblFromDate);
+            pnlHeader.Controls.Add(dtpFromDate);
+            pnlHeader.Controls.Add(lblToDate);
+            pnlHeader.Controls.Add(dtpToDate);
             pnlHeader.Controls.Add(lblCategory);
             pnlHeader.Controls.Add(cbCategories);
             pnlHeader.Controls.Add(btXemBaoCao);
@@ -41,27 +49,68 @@ namespace Pharmacy_Nhom1
             pnlHeader.Size = new Size(1100, 54);
             pnlHeader.TabIndex = 0;
             // 
+            // lblFromDate
+            // 
+            lblFromDate.AutoSize = true;
+            lblFromDate.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblFromDate.ForeColor = Color.FloralWhite;
+            lblFromDate.Location = new Point(20, 14);
+            lblFromDate.Name = "lblFromDate";
+            lblFromDate.Size = new Size(90, 28);
+            lblFromDate.TabIndex = 1;
+            lblFromDate.Text = "Từ ngày:";
+            // 
+            // dtpFromDate
+            // 
+            dtpFromDate.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpFromDate.Format = DateTimePickerFormat.Short;
+            dtpFromDate.Location = new Point(116, 9);
+            dtpFromDate.Name = "dtpFromDate";
+            dtpFromDate.Size = new Size(140, 34);
+            dtpFromDate.TabIndex = 2;
+            dtpFromDate.ValueChanged += dtpFromDate_ValueChanged;
+            // 
+            // lblToDate
+            // 
+            lblToDate.AutoSize = true;
+            lblToDate.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblToDate.ForeColor = Color.FloralWhite;
+            lblToDate.Location = new Point(274, 14);
+            lblToDate.Name = "lblToDate";
+            lblToDate.Size = new Size(104, 28);
+            lblToDate.TabIndex = 3;
+            lblToDate.Text = "Đến ngày:";
+            // 
+            // dtpToDate
+            // 
+            dtpToDate.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpToDate.Format = DateTimePickerFormat.Short;
+            dtpToDate.Location = new Point(384, 9);
+            dtpToDate.Name = "dtpToDate";
+            dtpToDate.Size = new Size(140, 34);
+            dtpToDate.TabIndex = 4;
+            dtpToDate.ValueChanged += dtpToDate_ValueChanged;
+            // 
             // lblCategory
             // 
             lblCategory.AutoSize = true;
-            lblCategory.BackColor = Color.SteelBlue;
             lblCategory.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblCategory.ForeColor = Color.FloralWhite;
-            lblCategory.Location = new Point(47, 15);
+            lblCategory.Location = new Point(543, 14);
             lblCategory.Name = "lblCategory";
-            lblCategory.Size = new Size(193, 28);
-            lblCategory.TabIndex = 1;
-            lblCategory.Text = "Lọc theo danh mục:";
+            lblCategory.Size = new Size(144, 28);
+            lblCategory.TabIndex = 5;
+            lblCategory.Text = "📂 Danh mục:";
             // 
             // cbCategories
             // 
             cbCategories.DropDownStyle = ComboBoxStyle.DropDownList;
             cbCategories.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbCategories.FormattingEnabled = true;
-            cbCategories.Location = new Point(260, 11);
+            cbCategories.Location = new Point(693, 11);
             cbCategories.Name = "cbCategories";
-            cbCategories.Size = new Size(502, 36);
-            cbCategories.TabIndex = 2;
+            cbCategories.Size = new Size(207, 36);
+            cbCategories.TabIndex = 6;
             cbCategories.SelectedIndexChanged += cbCategories_SelectedIndexChanged;
             // 
             // btXemBaoCao
@@ -71,11 +120,11 @@ namespace Pharmacy_Nhom1
             btXemBaoCao.FlatStyle = FlatStyle.Flat;
             btXemBaoCao.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btXemBaoCao.ForeColor = Color.White;
-            btXemBaoCao.Location = new Point(817, 10);
+            btXemBaoCao.Location = new Point(915, 10);
             btXemBaoCao.Name = "btXemBaoCao";
-            btXemBaoCao.Size = new Size(195, 36);
-            btXemBaoCao.TabIndex = 3;
-            btXemBaoCao.Text = "🔍 Xem Báo Cáo";
+            btXemBaoCao.Size = new Size(173, 36);
+            btXemBaoCao.TabIndex = 7;
+            btXemBaoCao.Text = "🔍 Lọc Dữ Liệu";
             btXemBaoCao.UseVisualStyleBackColor = false;
             btXemBaoCao.Click += btXemBaoCao_Click;
             // 
@@ -99,17 +148,17 @@ namespace Pharmacy_Nhom1
             reportViewer1.TabIndex = 0;
             reportViewer1.ZoomMode = Microsoft.Reporting.WinForms.ZoomMode.PageWidth;
             // 
-            // frmReportInventory
+            // frmReportRevenue
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1100, 700);
             Controls.Add(pnlContent);
             Controls.Add(pnlHeader);
-            Name = "frmReportInventory";
-            Text = "BÁO CÁO TỒN KHO";
+            Name = "frmReportRevenue";
+            Text = "BÁO CÁO DOANH THU & PHÂN TÍCH ĐỒ THỊ";
             WindowState = FormWindowState.Maximized;
-            Load += frmReportInventory_Load;
+            Load += frmReportRevenue_Load;
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlContent.ResumeLayout(false);
@@ -119,6 +168,10 @@ namespace Pharmacy_Nhom1
         #endregion
 
         private System.Windows.Forms.Panel pnlHeader;
+        private System.Windows.Forms.Label lblFromDate;
+        private System.Windows.Forms.DateTimePicker dtpFromDate;
+        private System.Windows.Forms.Label lblToDate;
+        private System.Windows.Forms.DateTimePicker dtpToDate;
         private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.ComboBox cbCategories;
         private System.Windows.Forms.Button btXemBaoCao;

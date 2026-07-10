@@ -282,6 +282,7 @@ namespace Pharmacy_Nhom1
             Name = "frmMain";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "HỆ THỐNG QUẢN LÝ NHÀ THUỐC";
+            WindowState = System.Windows.Forms.FormWindowState.Maximized;
             Load += frmMain_Load;
             msMain.ResumeLayout(false);
             msMain.PerformLayout();

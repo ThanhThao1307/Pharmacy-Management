@@ -55,7 +55,7 @@ namespace Pharmacy_Nhom1
 
         private void btInvoices_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmProcessOrderDetails());
+            OpenChildForm(new frmManageOrder());
         }
 
         private void btCustomers_Click(object sender, EventArgs e)
@@ -101,7 +101,7 @@ namespace Pharmacy_Nhom1
 
         private void btBaoCao_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmReportInventory());
+            OpenChildForm(new frmReportCenter());
         }
 
         private void btAI_Click(object sender, EventArgs e)

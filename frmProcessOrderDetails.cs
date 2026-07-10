@@ -17,9 +17,16 @@ namespace Pharmacy_Nhom1
         private long mOrderID;
         private long mOrderDetailID;
 
+        private long _initialOrderId = 0;
+
         public frmProcessOrderDetails()
         {
             InitializeComponent();
+        }
+
+        public frmProcessOrderDetails(long initialOrderId) : this()
+        {
+            _initialOrderId = initialOrderId;
         }
 
         private void frmProcessOrderDetails_Load(object sender, EventArgs e)
@@ -38,6 +45,12 @@ namespace Pharmacy_Nhom1
             cbCustomer.DataSource = db.Customers.Select(c => new { c.CustomerId, Name = c.FullName }).ToList();
             cbCustomer.Text = null;
             cbCustomer.Enabled = false;
+
+            if (_initialOrderId > 0)
+            {
+                cbOrders.SelectedValue = _initialOrderId;
+                cbOrders_SelectionChangeCommitted(cbOrders, EventArgs.Empty);
+            }
         }
 
         private void LoadCbOrders()
@@ -135,9 +148,11 @@ namespace Pharmacy_Nhom1
                     OrderDetail orderdetail = db.OrderDetails.Single(o => o.OrderDetailId == detailID);
                     if (MessageBox.Show("Bạn muốn xóa chi tiết số " + detailID, "Xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
+                        // Hoàn trả lại số lượng tồn kho vào đúng lô hàng đã xuất
                         var batch = db.ImportDetails.Find(orderdetail.ImportDetailId);
                         if (batch != null) batch.CurrentQuantity += (orderdetail.Quantity * orderdetail.ConversionRate);
 
+                        // Xóa chi tiết hóa đơn và cập nhật tổng tiền
                         db.OrderDetails.Remove(orderdetail);
                         UpdateOrderTotal();
                         db.SaveChanges();
@@ -216,6 +231,7 @@ namespace Pharmacy_Nhom1
             {
                 long productID = Convert.ToInt64(cbProducts.SelectedValue);
 
+                // Kiểm tra ràng buộc thuốc kê đơn GPP và toa thuốc của đơn hàng
                 var prodCheck = db.Products.Find(productID);
                 var orderCheck = db.Orders.Find(mOrderID);
                 if (prodCheck != null && prodCheck.PrescriptionRequired && orderCheck != null && orderCheck.PrescriptionFileId == null)
@@ -239,6 +255,7 @@ namespace Pharmacy_Nhom1
                     return;
                 }
 
+                // Lấy danh sách các lô nhập còn hạn sử dụng, ưu tiên xuất lô cận hạn trước (FEFO)
                 var validBatches = db.ImportDetails
                     .Where(id => id.ProductId == productID && id.CurrentQuantity > 0 && id.ExpiryDate >= DateTime.Today)
                     .OrderBy(id => id.ExpiryDate)
@@ -251,6 +268,7 @@ namespace Pharmacy_Nhom1
                     return;
                 }
 
+                // Phân bổ số lượng xuất bán trừ dần theo thứ tự lô hàng
                 int remainingQty = qty;
                 foreach (var batch in validBatches)
                 {
@@ -273,6 +291,7 @@ namespace Pharmacy_Nhom1
                     remainingQty -= takeQty;
                 }
 
+                // Cập nhật lại tổng tiền hóa đơn và lưu thay đổi
                 UpdateOrderTotal();
                 db.SaveChanges();
 
@@ -338,12 +357,14 @@ namespace Pharmacy_Nhom1
                     return;
                 }
 
+                // Hoàn trả lại số lượng của chi tiết cũ vào lô hàng tương ứng trước khi tính toán lại
                 var oldBatch = db.ImportDetails.Find(orderDetail.ImportDetailId);
                 if (oldBatch != null)
                 {
                     oldBatch.CurrentQuantity += (orderDetail.Quantity * orderDetail.ConversionRate);
                 }
 
+                // Lấy các lô hàng hợp lệ và kiểm tra khả năng đáp ứng số lượng mới
                 var validBatches = db.ImportDetails
                     .Where(id => id.ProductId == newProductID && id.CurrentQuantity > 0 && id.ExpiryDate >= DateTime.Today)
                     .OrderBy(id => id.ExpiryDate)
@@ -359,6 +380,7 @@ namespace Pharmacy_Nhom1
 
                 db.OrderDetails.Remove(orderDetail);
 
+                // Phân bổ số lượng mới theo thứ tự lô ưu tiên hạn sử dụng gần nhất (FEFO)
                 int remainingQty = newQty;
                 foreach (var batch in validBatches)
                 {
@@ -381,6 +403,7 @@ namespace Pharmacy_Nhom1
                     remainingQty -= takeQty;
                 }
 
+                // Cập nhật lại tổng tiền hóa đơn sau khi chỉnh sửa
                 UpdateOrderTotal();
                 db.SaveChanges();
 

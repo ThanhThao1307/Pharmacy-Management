@@ -77,6 +77,7 @@
             // 
             lblFormTitle.AutoSize = true;
             lblFormTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblFormTitle.ForeColor = Color.White;
             lblFormTitle.Location = new Point(26, 15);
             lblFormTitle.Name = "lblFormTitle";
             lblFormTitle.Size = new Size(322, 32);

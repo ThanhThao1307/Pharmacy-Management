@@ -115,6 +115,7 @@ namespace Pharmacy_Nhom1
             string priceText = txtPrice.Text?.Trim() ?? "";
             string normalPriceText = txtNormalPrice.Text?.Trim() ?? "";
 
+            // Kiểm tra tính hợp lệ của thông tin cơ bản và giá bán
             if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(baseUnitName))
             {
                 MessageBox.Show("Vui lòng điền đầy đủ các thông tin cốt lõi bắt buộc của thuốc!", "Cảnh báo nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -141,6 +142,7 @@ namespace Pharmacy_Nhom1
                 }
             }
 
+            // Kiểm tra ràng buộc cho các đơn vị tính phụ và tỷ lệ quy đổi
             foreach (var item in _uiUnitsList)
             {
                 if (string.IsNullOrEmpty(item.UnitName))
@@ -170,6 +172,7 @@ namespace Pharmacy_Nhom1
             {
                 using (var db = new PharmacyDbContext())
                 {
+                    // Thêm mới hoặc cập nhật thông tin sản phẩm trong cơ sở dữ liệu
                     Product? productToSave;
                     if (_isEditMode)
                     {
@@ -195,6 +198,7 @@ namespace Pharmacy_Nhom1
                     productToSave.Status = chkStatus.Checked;
                     productToSave.Description = rtxtDescription.Text.Trim();
 
+                    // Cập nhật đơn vị tính cơ bản (hệ số quy đổi = 1)
                     var dbBaseUnit = productToSave.ProductUnits.FirstOrDefault(u => u.ConversionRate == 1);
                     if (dbBaseUnit == null)
                     {
@@ -204,6 +208,7 @@ namespace Pharmacy_Nhom1
                     dbBaseUnit.UnitName = baseUnitName;
                     dbBaseUnit.Price = basePriceValue;
 
+                    // Đồng bộ danh sách đơn vị tính phụ (thêm mới, sửa, xóa các đơn vị không còn sử dụng)
                     var dbSubUnits = productToSave.ProductUnits.Where(u => u.ConversionRate > 1).ToList();
                     foreach (var oldUnit in dbSubUnits)
                     {
@@ -239,6 +244,7 @@ namespace Pharmacy_Nhom1
 
                     db.SaveChanges();
 
+                    // Xử lý sao chép file hình ảnh sản phẩm theo ID thuốc vào thư mục Images
                     string selectedImagePath = txtImageFile.Text.Trim();
                     if (!string.IsNullOrEmpty(selectedImagePath) && Path.IsPathRooted(selectedImagePath) && File.Exists(selectedImagePath))
                     {

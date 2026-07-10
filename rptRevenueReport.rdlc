@@ -2,24 +2,28 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="dsProductInventory">
+    <DataSource Name="dsRevenueReport">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>ec44b121-269a-4c77-86f1-32c740332351</rd:DataSourceID>
+      <rd:DataSourceID>c1234567-89ab-cdef-0123-456789abcdef</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="dsProductInventory">
+    <DataSet Name="dsRevenueReport">
       <Query>
-        <DataSourceName>dsProductInventory</DataSourceName>
+        <DataSourceName>dsRevenueReport</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="ProductId">
-          <DataField>ProductId</DataField>
+        <Field Name="OrderId">
+          <DataField>OrderId</DataField>
           <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="OrderDate">
+          <DataField>OrderDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ProductCode">
           <DataField>ProductCode</DataField>
@@ -29,18 +33,6 @@
           <DataField>ProductName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Unit">
-          <DataField>Unit</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Price">
-          <DataField>Price</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="CategoryId">
-          <DataField>CategoryId</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="CategoryName">
           <DataField>CategoryName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -49,14 +41,22 @@
           <DataField>Quantity</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Price">
+          <DataField>Price</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="TotalAmount">
+          <DataField>TotalAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>dsProductInventory</rd:DataSetName>
-        <rd:SchemaPath>D:\Users\ASUS EXPERTBOOK\source\repos\Pharmacy_Nhom1\Pharmacy_Nhom1\Pharmacy_Nhom1\dsProductInventory.xsd</rd:SchemaPath>
-        <rd:TableName>View_ProductInventory</rd:TableName>
+        <rd:DataSetName>dsRevenueReport</rd:DataSetName>
+        <rd:SchemaPath>D:\Users\ASUS EXPERTBOOK\source\repos\Pharmacy_Nhom1\Pharmacy_Nhom1\Pharmacy_Nhom1\dsRevenueReport.xsd</rd:SchemaPath>
+        <rd:TableName>View_RevenueReport</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>View_ProductInventoryTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>View_RevenueReportTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
@@ -64,7 +64,121 @@
     <ReportSection>
       <Body>
         <ReportItems>
-          <Tablix Name="Tablix1">
+          <!-- Chart (Đồ thị doanh thu Mục 19.10) -->
+          <Chart Name="ChartRevenue">
+            <ChartCategoryHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Group Name="ChartGroupCategory">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!CategoryName.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <Label>=Fields!CategoryName.Value</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartCategoryHierarchy>
+            <ChartSeriesHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Label>Doanh thu (VNĐ)</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartSeriesHierarchy>
+            <ChartData>
+              <ChartSeriesCollection>
+                <ChartSeries Name="SeriesRevenue">
+                  <ChartDataPoints>
+                    <ChartDataPoint>
+                      <ChartDataPointValues>
+                        <Y>=Sum(Fields!TotalAmount.Value)</Y>
+                      </ChartDataPointValues>
+                      <ChartDataLabel>
+                        <Style>
+                          <FontFamily>Segoe UI</FontFamily>
+                          <FontSize>8.5pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                          <Format>#,##0 VNĐ</Format>
+                        </Style>
+                        <UseValueAsLabel>true</UseValueAsLabel>
+                        <Visible>true</Visible>
+                      </ChartDataLabel>
+                      <Style>
+                        <Color>#2B4C7E</Color>
+                      </Style>
+                    </ChartDataPoint>
+                  </ChartDataPoints>
+                  <Type>Column</Type>
+                  <Style />
+                </ChartSeries>
+              </ChartSeriesCollection>
+            </ChartData>
+            <ChartAreas>
+              <ChartArea Name="Default">
+                <ChartCategoryAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Danh mục thuốc</Caption>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </ChartAxisTitle>
+                  </ChartAxis>
+                </ChartCategoryAxes>
+                <ChartValueAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <FontFamily>Segoe UI</FontFamily>
+                      <FontSize>8.5pt</FontSize>
+                      <Format>#,##0</Format>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Doanh thu (VNĐ)</Caption>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>9.5pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </ChartAxisTitle>
+                  </ChartAxis>
+                </ChartValueAxes>
+                <Style>
+                  <BackgroundColor>#F8FAFC</BackgroundColor>
+                </Style>
+              </ChartArea>
+            </ChartAreas>
+            <ChartTitles>
+              <ChartTitle Name="Default">
+                <Caption>BIỂU ĐỒ DOANH THU THEO DANH MỤC THUỐC</Caption>
+                <Style>
+                  <FontFamily>Segoe UI</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Color>#1C3B5E</Color>
+                </Style>
+              </ChartTitle>
+            </ChartTitles>
+            <Palette>Pacific</Palette>
+            <Top>0.1in</Top>
+            <Left>0in</Left>
+            <Height>2.3in</Height>
+            <Width>7.0in</Width>
+            <Style>
+              <Border>
+                <Color>#B0C4DE</Color>
+                <Style>Solid</Style>
+              </Border>
+              <BackgroundColor>#FFFFFF</BackgroundColor>
+            </Style>
+          </Chart>
+          <!-- Tablix (Bảng chi tiết doanh thu Mục 19.5, 19.8) -->
+          <Tablix Name="TablixRevenue">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
@@ -74,26 +188,23 @@
                   <Width>0.8in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.7in</Width>
+                  <Width>1.8in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6in</Width>
+                  <Width>1.0in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.8in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.9in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.1in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.8in</Width>
+                  <Width>1.2in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
-                <!-- 1. Header Row of the Tablix -->
+                <!-- 1. Header Row -->
                 <TablixRow>
                   <Height>0.3in</Height>
                   <TablixCells>
@@ -210,14 +321,51 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="txtHeaderUnit">
+                        <Textbox Name="txtHeaderDate">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>ĐVT</Value>
+                                  <Value>Ngày Bán</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>10pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>#4A708B</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>4pt</PaddingTop>
+                            <PaddingBottom>4pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="txtHeaderQty">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Số Lượng</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>10pt</FontSize>
@@ -284,51 +432,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="txtHeaderQty">
+                        <Textbox Name="txtHeaderAmount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Tồn Kho</Value>
-                                  <Style>
-                                    <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Color>#4A708B</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>4pt</PaddingTop>
-                            <PaddingBottom>4pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="txtHeaderValue">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Giá Trị Tồn</Value>
+                                  <Value>Doanh Thu</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>10pt</FontSize>
@@ -356,52 +467,15 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="txtHeaderStatus">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Trạng Thái</Value>
-                                  <Style>
-                                    <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Color>#4A708B</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>4pt</PaddingTop>
-                            <PaddingBottom>4pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
-                <!-- 2. Group Header Row (Parent Group by CategoryName) -->
+                <!-- 2. Group Header Row -->
                 <TablixRow>
                   <Height>0.28in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <ColSpan>8</ColSpan>
+                        <ColSpan>7</ColSpan>
                         <Textbox Name="txtGroupHeader">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -409,7 +483,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="📁 DANH MỤC: " &amp; UCase(Fields!CategoryName.Value) &amp; " (" &amp; Count(Fields!ProductCode.Value) &amp; " mặt hàng)"</Value>
+                                  <Value>="📁 DANH MỤC: " &amp; UCase(Fields!CategoryName.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>10pt</FontSize>
@@ -437,7 +511,6 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
@@ -554,17 +627,52 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Unit">
+                        <Textbox Name="OrderDate">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Unit.Value</Value>
+                                  <Value>=Fields!OrderDate.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9.5pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>#D3D3D3</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>3pt</PaddingTop>
+                            <PaddingBottom>3pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Quantity">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Quantity.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9.5pt</FontSize>
+                                    <Format>#,##0</Format>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -623,49 +731,14 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Quantity">
+                        <Textbox Name="TotalAmount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Quantity.Value</Value>
-                                  <Style>
-                                    <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>9.5pt</FontSize>
-                                    <Format>#,##0</Format>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Color>#D3D3D3</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>3pt</PaddingTop>
-                            <PaddingBottom>3pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="txtDetailValue">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!Price.Value * Fields!Quantity.Value</Value>
+                                  <Value>=Fields!TotalAmount.Value</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9.5pt</FontSize>
@@ -692,51 +765,15 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="txtDetailStatus">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=IIf(Fields!Quantity.Value &gt; 0, "Còn hàng", "Hết kho")</Value>
-                                  <Style>
-                                    <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                    <Color>=IIf(Fields!Quantity.Value &gt; 0, "#2E8B57", "#DC143C")</Color>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Color>#D3D3D3</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>3pt</PaddingTop>
-                            <PaddingBottom>3pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
-                <!-- 4. Group Footer Row (Sum per Category) -->
+                <!-- 4. Group Footer Row -->
                 <TablixRow>
                   <Height>0.26in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <ColSpan>5</ColSpan>
+                        <ColSpan>4</ColSpan>
                         <Textbox Name="txtGroupFooterLabel">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -772,7 +809,6 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
@@ -816,14 +852,38 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="txtGroupValueSum">
+                        <Textbox Name="txtGroupPriceEmpty">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!Price.Value * Fields!Quantity.Value)</Value>
+                                  <Value />
+                                </TextRun>
+                              </TextRuns>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>#B0C4DE</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#F5F8FC</BackgroundColor>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="txtGroupAmountSum">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!TotalAmount.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9.5pt</FontSize>
@@ -852,32 +912,6 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="txtGroupEmpty">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Color>#B0C4DE</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <BackgroundColor>#F5F8FC</BackgroundColor>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <!-- 5. Table Footer Row (Grand Total) -->
@@ -886,7 +920,7 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <ColSpan>5</ColSpan>
+                        <ColSpan>4</ColSpan>
                         <Textbox Name="txtTotalLabel">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -894,7 +928,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>TỔNG CỘNG TOÀN NHÀ THUỐC:</Value>
+                                  <Value>TỔNG CỘNG DOANH THU TOÀN BỘ:</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>10.5pt</FontSize>
@@ -922,7 +956,6 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell />
                     <TablixCell />
                     <TablixCell />
                     <TablixCell />
@@ -966,14 +999,38 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="txtTotalValue">
+                        <Textbox Name="txtTotalPriceEmpty">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!Price.Value * Fields!Quantity.Value)</Value>
+                                  <Value />
+                                </TextRun>
+                              </TextRuns>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Color>#D4AF37</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#FFF8DC</BackgroundColor>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="txtTotalAmount">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!TotalAmount.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>10.5pt</FontSize>
@@ -1002,39 +1059,12 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="txtTotalEmpty">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <Style>
-                            <Border>
-                              <Color>#D4AF37</Color>
-                              <Style>Solid</Style>
-                            </Border>
-                            <BackgroundColor>#FFF8DC</BackgroundColor>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
-                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
@@ -1073,8 +1103,8 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>dsProductInventory</DataSetName>
-            <Top>0.1in</Top>
+            <DataSetName>dsRevenueReport</DataSetName>
+            <Top>2.5in</Top>
             <Left>0in</Left>
             <Height>1.14in</Height>
             <Width>7.0in</Width>
@@ -1085,7 +1115,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>1.4in</Height>
+        <Height>3.8in</Height>
         <Style />
       </Body>
       <Width>7.0in</Width>
@@ -1118,7 +1148,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Phân hệ: Kho Dược &amp; Tồn Kho</Value>
+                      <Value>Phân hệ: Thống Kê &amp; Báo Cáo Doanh Thu</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>8.5pt</FontSize>
@@ -1180,10 +1210,10 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>BÁO CÁO TỒN KHO THUỐC &amp; GIÁ TRỊ TÀI SẢN</Value>
+                      <Value>BÁO CÁO DOANH THU BÁN HÀNG &amp; PHÂN TÍCH ĐỒ THỊ</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
-                        <FontSize>15pt</FontSize>
+                        <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                         <Color>#1C3B5E</Color>
                       </Style>
@@ -1330,5 +1360,5 @@
     </ReportSection>
   </ReportSections>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
-  <rd:ReportID>88a1b183-b778-430b-9c2b-e770fcbc112a</rd:ReportID>
+  <rd:ReportID>d1111111-2222-3333-4444-555555555555</rd:ReportID>
 </Report>

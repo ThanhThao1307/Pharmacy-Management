@@ -8,16 +8,23 @@ using Pharmacy_Nhom1.Models;
 
 namespace Pharmacy_Nhom1
 {
-    public partial class frmReportInventory : Form
+    public partial class frmReportRevenue : Form
     {
 
-        public frmReportInventory()
+        public frmReportRevenue()
         {
             InitializeComponent();
         }
 
-        private void frmReportInventory_Load(object sender, EventArgs e)
+        private void frmReportRevenue_Load(object sender, EventArgs e)
         {
+            dtpFromDate.ValueChanged -= dtpFromDate_ValueChanged;
+            dtpToDate.ValueChanged -= dtpToDate_ValueChanged;
+            dtpFromDate.Value = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            dtpToDate.Value = DateTime.Today;
+            dtpFromDate.ValueChanged += dtpFromDate_ValueChanged;
+            dtpToDate.ValueChanged += dtpToDate_ValueChanged;
+
             try
             {
                 using (var db = new PharmacyDbContext())
@@ -43,6 +50,16 @@ namespace Pharmacy_Nhom1
             }
         }
 
+        private void dtpFromDate_ValueChanged(object? sender, EventArgs e)
+        {
+            LoadReport();
+        }
+
+        private void dtpToDate_ValueChanged(object? sender, EventArgs e)
+        {
+            LoadReport();
+        }
+
         private void cbCategories_SelectedIndexChanged(object? sender, EventArgs e)
         {
             if (cbCategories.SelectedValue is int)
@@ -62,41 +79,48 @@ namespace Pharmacy_Nhom1
             {
                 Cursor.Current = Cursors.WaitCursor;
                 int selectedCategoryId = cbCategories.SelectedValue is int id ? id : 0;
+                DateTime fromDate = dtpFromDate.Value.Date;
+                DateTime toDate = dtpToDate.Value.Date.AddDays(1).AddTicks(-1);
 
                 using (var db = new PharmacyDbContext())
                 {
-                    var data = db.Products
-                        .Include(p => p.Category)
-                        .Include(p => p.ImportDetails)
-                        .Where(p => selectedCategoryId == 0 || p.CategoryId == selectedCategoryId)
+                    var data = db.OrderDetails
+                        .Include(od => od.Order)
+                        .Include(od => od.ImportDetail)
+                            .ThenInclude(id => id.Product)
+                                .ThenInclude(p => p.Category)
+                        .Where(od => od.Order.OrderDate >= fromDate 
+                                  && od.Order.OrderDate <= toDate 
+                                  && od.Order.Status == false
+                                  && (selectedCategoryId == 0 || od.ImportDetail.Product.CategoryId == selectedCategoryId))
                         .AsEnumerable()
-                        .Select(p => new
+                        .Select(od => new
                         {
-                            p.ProductId,
-                            p.ProductCode,
-                            p.ProductName,
-                            p.Unit,
-                            p.Price,
-                            p.CategoryId,
-                            CategoryName = p.Category.CategoryName,
-                            Quantity = p.TotalStock
+                            OrderId = od.OrderId,
+                            OrderDate = od.Order.OrderDate.ToString("dd/MM/yyyy"),
+                            ProductCode = od.ImportDetail.Product.ProductCode,
+                            ProductName = od.ImportDetail.Product.ProductName,
+                            CategoryName = od.ImportDetail.Product.Category.CategoryName,
+                            Quantity = od.Quantity,
+                            Price = od.Price,
+                            TotalAmount = od.Amount
                         })
                         .ToList();
 
                     reportViewer1.Reset();
-                    string rptName = "rptProductInventory.rdlc";
+                    string rptName = "rptRevenueReport.rdlc";
                     string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, rptName);
                     reportViewer1.LocalReport.ReportPath = File.Exists(fullPath) ? fullPath : rptName;
                     reportViewer1.LocalReport.DataSources.Clear();
                     reportViewer1.LocalReport.DataSources.Add(
-                        new ReportDataSource("dsProductInventory", data)
+                        new ReportDataSource("dsRevenueReport", data)
                     );
                     reportViewer1.RefreshReport();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi tải báo cáo: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi lập báo cáo doanh thu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

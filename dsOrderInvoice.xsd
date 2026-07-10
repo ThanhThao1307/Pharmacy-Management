@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsOrderInvoice" targetNamespace="http://tempuri.org/dsOrderInvoice.xsd" xmlns:mstns="http://tempuri.org/dsOrderInvoice.xsd" xmlns="http://tempuri.org/dsOrderInvoice.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:element name="dsOrderInvoice" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsOrderInvoice" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="dsOrderInvoice">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="View_InvoiceHeader" msprop:Generator_RowClassName="View_InvoiceHeaderRow" msprop:Generator_TablePropName="View_InvoiceHeader" msprop:Generator_UserTableName="View_InvoiceHeader" msprop:Generator_TableClassName="View_InvoiceHeaderDataTable" msprop:Generator_TableVarName="tableView_InvoiceHeader">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="OrderCode" msprop:Generator_UserColumnName="OrderCode" type="xs:string" />
+              <xs:element name="OrderDate" msprop:Generator_UserColumnName="OrderDate" type="xs:string" />
+              <xs:element name="CustomerName" msprop:Generator_UserColumnName="CustomerName" type="xs:string" />
+              <xs:element name="CustomerPhone" msprop:Generator_UserColumnName="CustomerPhone" type="xs:string" />
+              <xs:element name="StaffName" msprop:Generator_UserColumnName="StaffName" type="xs:string" />
+              <xs:element name="TotalAmount" msprop:Generator_UserColumnName="TotalAmount" type="xs:decimal" />
+              <xs:element name="Discount" msprop:Generator_UserColumnName="Discount" type="xs:decimal" />
+              <xs:element name="NetAmount" msprop:Generator_UserColumnName="NetAmount" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="View_InvoiceDetails" msprop:Generator_RowClassName="View_InvoiceDetailsRow" msprop:Generator_TablePropName="View_InvoiceDetails" msprop:Generator_UserTableName="View_InvoiceDetails" msprop:Generator_TableClassName="View_InvoiceDetailsDataTable" msprop:Generator_TableVarName="tableView_InvoiceDetails">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="STT" msprop:Generator_UserColumnName="STT" type="xs:int" />
+              <xs:element name="ProductName" msprop:Generator_UserColumnName="ProductName" type="xs:string" />
+              <xs:element name="SoldUnit" msprop:Generator_UserColumnName="SoldUnit" type="xs:string" />
+              <xs:element name="Quantity" msprop:Generator_UserColumnName="Quantity" type="xs:int" />
+              <xs:element name="Price" msprop:Generator_UserColumnName="Price" type="xs:decimal" />
+              <xs:element name="Amount" msprop:Generator_UserColumnName="Amount" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

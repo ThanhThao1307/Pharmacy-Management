@@ -1,6 +1,6 @@
 namespace Pharmacy_Nhom1
 {
-    partial class frmReportInventory
+    partial class frmReportInvoice
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -18,9 +18,9 @@ namespace Pharmacy_Nhom1
         private void InitializeComponent()
         {
             pnlHeader = new Panel();
-            lblCategory = new Label();
-            cbCategories = new ComboBox();
-            btXemBaoCao = new Button();
+            lblOrder = new Label();
+            cbOrders = new ComboBox();
+            btXemIn = new Button();
             pnlContent = new Panel();
             reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             pnlHeader.SuspendLayout();
@@ -30,9 +30,9 @@ namespace Pharmacy_Nhom1
             // pnlHeader
             // 
             pnlHeader.BackColor = Color.SteelBlue;
-            pnlHeader.Controls.Add(lblCategory);
-            pnlHeader.Controls.Add(cbCategories);
-            pnlHeader.Controls.Add(btXemBaoCao);
+            pnlHeader.Controls.Add(lblOrder);
+            pnlHeader.Controls.Add(cbOrders);
+            pnlHeader.Controls.Add(btXemIn);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             pnlHeader.ForeColor = Color.FromArgb(24, 43, 73);
@@ -41,43 +41,42 @@ namespace Pharmacy_Nhom1
             pnlHeader.Size = new Size(1100, 54);
             pnlHeader.TabIndex = 0;
             // 
-            // lblCategory
+            // lblOrder
             // 
-            lblCategory.AutoSize = true;
-            lblCategory.BackColor = Color.SteelBlue;
-            lblCategory.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCategory.ForeColor = Color.FloralWhite;
-            lblCategory.Location = new Point(47, 15);
-            lblCategory.Name = "lblCategory";
-            lblCategory.Size = new Size(193, 28);
-            lblCategory.TabIndex = 1;
-            lblCategory.Text = "Lọc theo danh mục:";
+            lblOrder.AutoSize = true;
+            lblOrder.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOrder.ForeColor = Color.FloralWhite;
+            lblOrder.Location = new Point(20, 14);
+            lblOrder.Name = "lblOrder";
+            lblOrder.Size = new Size(264, 28);
+            lblOrder.TabIndex = 1;
+            lblOrder.Text = "Chọn Hóa Đơn In / Tra Cứu:";
             // 
-            // cbCategories
+            // cbOrders
             // 
-            cbCategories.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbCategories.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cbCategories.FormattingEnabled = true;
-            cbCategories.Location = new Point(260, 11);
-            cbCategories.Name = "cbCategories";
-            cbCategories.Size = new Size(502, 36);
-            cbCategories.TabIndex = 2;
-            cbCategories.SelectedIndexChanged += cbCategories_SelectedIndexChanged;
+            cbOrders.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbOrders.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbOrders.FormattingEnabled = true;
+            cbOrders.Location = new Point(290, 11);
+            cbOrders.Name = "cbOrders";
+            cbOrders.Size = new Size(524, 36);
+            cbOrders.TabIndex = 2;
+            cbOrders.SelectedIndexChanged += cbOrders_SelectedIndexChanged;
             // 
-            // btXemBaoCao
+            // btXemIn
             // 
-            btXemBaoCao.BackColor = Color.MidnightBlue;
-            btXemBaoCao.FlatAppearance.BorderSize = 0;
-            btXemBaoCao.FlatStyle = FlatStyle.Flat;
-            btXemBaoCao.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btXemBaoCao.ForeColor = Color.White;
-            btXemBaoCao.Location = new Point(817, 10);
-            btXemBaoCao.Name = "btXemBaoCao";
-            btXemBaoCao.Size = new Size(195, 36);
-            btXemBaoCao.TabIndex = 3;
-            btXemBaoCao.Text = "🔍 Xem Báo Cáo";
-            btXemBaoCao.UseVisualStyleBackColor = false;
-            btXemBaoCao.Click += btXemBaoCao_Click;
+            btXemIn.BackColor = Color.MidnightBlue;
+            btXemIn.FlatAppearance.BorderSize = 0;
+            btXemIn.FlatStyle = FlatStyle.Flat;
+            btXemIn.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btXemIn.ForeColor = Color.White;
+            btXemIn.Location = new Point(832, 10);
+            btXemIn.Name = "btXemIn";
+            btXemIn.Size = new Size(227, 36);
+            btXemIn.TabIndex = 3;
+            btXemIn.Text = "🖨️ Xem / In Hóa Đơn";
+            btXemIn.UseVisualStyleBackColor = false;
+            btXemIn.Click += btXemIn_Click;
             // 
             // pnlContent
             // 
@@ -99,17 +98,17 @@ namespace Pharmacy_Nhom1
             reportViewer1.TabIndex = 0;
             reportViewer1.ZoomMode = Microsoft.Reporting.WinForms.ZoomMode.PageWidth;
             // 
-            // frmReportInventory
+            // frmReportInvoice
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1100, 700);
             Controls.Add(pnlContent);
             Controls.Add(pnlHeader);
-            Name = "frmReportInventory";
-            Text = "BÁO CÁO TỒN KHO";
+            Name = "frmReportInvoice";
+            Text = "PHIẾU HÓA ĐƠN BÁN HÀNG - IN ẤN";
             WindowState = FormWindowState.Maximized;
-            Load += frmReportInventory_Load;
+            Load += frmReportInvoice_Load;
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlContent.ResumeLayout(false);
@@ -119,9 +118,9 @@ namespace Pharmacy_Nhom1
         #endregion
 
         private System.Windows.Forms.Panel pnlHeader;
-        private System.Windows.Forms.Label lblCategory;
-        private System.Windows.Forms.ComboBox cbCategories;
-        private System.Windows.Forms.Button btXemBaoCao;
+        private System.Windows.Forms.Label lblOrder;
+        private System.Windows.Forms.ComboBox cbOrders;
+        private System.Windows.Forms.Button btXemIn;
         private System.Windows.Forms.Panel pnlContent;
         private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
     }

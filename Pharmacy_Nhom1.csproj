@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -34,6 +34,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>dsProductInventory.xsd</DependentUpon>
     </Compile>
+    <Compile Update="dsRevenueReport.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>dsRevenueReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="dsOrderInvoice.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>dsOrderInvoice.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +51,21 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>dsProductInventory.Designer.cs</LastGenOutput>
     </None>
+    <None Update="dsRevenueReport.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsRevenueReport.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="dsOrderInvoice.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsOrderInvoice.Designer.cs</LastGenOutput>
+    </None>
     <None Update="rptProductInventory.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="rptRevenueReport.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="rptOrderInvoice.rdlc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

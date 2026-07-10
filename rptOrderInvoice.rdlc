@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="dsOrderInvoice">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>e2222222-3333-4444-5555-666666666666</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsInvoiceHeader">
+      <Query>
+        <DataSourceName>dsOrderInvoice</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="OrderCode"><DataField>OrderCode</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="OrderDate"><DataField>OrderDate</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="CustomerName"><DataField>CustomerName</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="CustomerPhone"><DataField>CustomerPhone</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="StaffName"><DataField>StaffName</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="TotalAmount"><DataField>TotalAmount</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="Discount"><DataField>Discount</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="NetAmount"><DataField>NetAmount</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>dsOrderInvoice</rd:DataSetName>
+        <rd:TableName>View_InvoiceHeader</rd:TableName>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="dsInvoiceDetails">
+      <Query>
+        <DataSourceName>dsOrderInvoice</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="STT"><DataField>STT</DataField><rd:TypeName>System.Int32</rd:TypeName></Field>
+        <Field Name="ProductName"><DataField>ProductName</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="SoldUnit"><DataField>SoldUnit</DataField><rd:TypeName>System.String</rd:TypeName></Field>
+        <Field Name="Quantity"><DataField>Quantity</DataField><rd:TypeName>System.Int32</rd:TypeName></Field>
+        <Field Name="Price"><DataField>Price</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+        <Field Name="Amount"><DataField>Amount</DataField><rd:TypeName>System.Decimal</rd:TypeName></Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>dsOrderInvoice</rd:DataSetName>
+        <rd:TableName>View_InvoiceDetails</rd:TableName>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <!-- Card Info (Mục 19.9 Thiết kế dạng phiếu) -->
+          <Textbox Name="txtOrderCode">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Mã HĐ: " &amp; First(Fields!OrderCode.Value, "dsInvoiceHeader")</Value>
+                    <Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight><Color>#1C3B5E</Color></Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.1in</Top>
+            <Left>0.05in</Left>
+            <Height>0.25in</Height>
+            <Width>3.45in</Width>
+          </Textbox>
+          <Textbox Name="txtOrderDate">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Ngày lập: " &amp; First(Fields!OrderDate.Value, "dsInvoiceHeader")</Value>
+                    <Style><FontFamily>Segoe UI</FontFamily><FontSize>9.5pt</FontSize><FontStyle>Italic</FontStyle><Color>#444444</Color></Style>
+                  </TextRun>
+                </TextRuns>
+                <Style><TextAlign>Right</TextAlign></Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.1in</Top>
+            <Left>3.50in</Left>
+            <Height>0.25in</Height>
+            <Width>3.45in</Width>
+          </Textbox>
+          <Textbox Name="txtCustomer">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Khách hàng: " &amp; First(Fields!CustomerName.Value, "dsInvoiceHeader") &amp; "  -  SĐT: " &amp; First(Fields!CustomerPhone.Value, "dsInvoiceHeader")</Value>
+                    <Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize></Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.4in</Top>
+            <Left>0.05in</Left>
+            <Height>0.25in</Height>
+            <Width>6.9in</Width>
+          </Textbox>
+          <Textbox Name="txtStaff">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Dược sĩ tư vấn &amp; bán hàng: " &amp; First(Fields!StaffName.Value, "dsInvoiceHeader")</Value>
+                    <Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize></Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.7in</Top>
+            <Left>0.05in</Left>
+            <Height>0.25in</Height>
+            <Width>6.9in</Width>
+          </Textbox>
+          <!-- Bảng thuốc đã mua -->
+          <Tablix Name="TablixInvoice">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn><Width>0.5in</Width></TablixColumn>
+                <TablixColumn><Width>2.5in</Width></TablixColumn>
+                <TablixColumn><Width>0.8in</Width></TablixColumn>
+                <TablixColumn><Width>0.8in</Width></TablixColumn>
+                <TablixColumn><Width>1.1in</Width></TablixColumn>
+                <TablixColumn><Width>1.2in</Width></TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.28in</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="thSTT"><Paragraphs><Paragraph><TextRuns><TextRun><Value>STT</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight><Color>White</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><Style><BackgroundColor>#2B4C7E</BackgroundColor><Border><Color>#4A708B</Color><Style>Solid</Style></Border></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="thName"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Tên Dược Phẩm / Thuốc</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight><Color>White</Color></Style></TextRun></TextRuns><Style><TextAlign>Left</TextAlign></Style></Paragraph></Paragraphs><Style><BackgroundColor>#2B4C7E</BackgroundColor><Border><Color>#4A708B</Color><Style>Solid</Style></Border><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="thUnit"><Paragraphs><Paragraph><TextRuns><TextRun><Value>ĐVT</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight><Color>White</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><Style><BackgroundColor>#2B4C7E</BackgroundColor><Border><Color>#4A708B</Color><Style>Solid</Style></Border></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="thQty"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Số Lượng</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight><Color>White</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><Style><BackgroundColor>#2B4C7E</BackgroundColor><Border><Color>#4A708B</Color><Style>Solid</Style></Border></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="thPrice"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Đơn Giá</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight><Color>White</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><Style><BackgroundColor>#2B4C7E</BackgroundColor><Border><Color>#4A708B</Color><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="thAmount"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Thành Tiền</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight><Color>White</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><Style><BackgroundColor>#2B4C7E</BackgroundColor><Border><Color>#4A708B</Color><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.26in</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="tdSTT"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!STT.Value</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>9.5pt</FontSize></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><Style><Border><Color>#D3D3D3</Color><Style>Solid</Style></Border></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="tdName"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!ProductName.Value</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>9.5pt</FontSize></Style></TextRun></TextRuns><Style><TextAlign>Left</TextAlign></Style></Paragraph></Paragraphs><Style><Border><Color>#D3D3D3</Color><Style>Solid</Style></Border><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="tdUnit"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!SoldUnit.Value</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>9.5pt</FontSize></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><Style><Border><Color>#D3D3D3</Color><Style>Solid</Style></Border></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="tdQty"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Quantity.Value</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>9.5pt</FontSize><Format>#,##0</Format></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><Style><Border><Color>#D3D3D3</Color><Style>Solid</Style></Border></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="tdPrice"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Price.Value</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>9.5pt</FontSize><Format>#,##0 VNĐ</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><Style><Border><Color>#D3D3D3</Color><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="tdAmount"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Amount.Value</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>9.5pt</FontSize><FontWeight>SemiBold</FontWeight><Format>#,##0 VNĐ</Format></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph></Paragraphs><Style><Border><Color>#D3D3D3</Color><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy><TablixMembers><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /></TablixMembers></TablixColumnHierarchy>
+            <TablixRowHierarchy><TablixMembers><TablixMember><KeepWithGroup>After</KeepWithGroup></TablixMember><TablixMember><Group Name="Details" /></TablixMember></TablixMembers></TablixRowHierarchy>
+            <DataSetName>dsInvoiceDetails</DataSetName>
+            <Top>1.1in</Top>
+            <Left>0.05in</Left>
+            <Height>0.54in</Height>
+            <Width>6.9in</Width>
+          </Tablix>
+          <!-- Tổng kết hóa đơn -->
+          <Textbox Name="txtSumLabel">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>Tổng Tiền Thuốc:</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>Giảm Giá:</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>THÀNH TIỀN THANH TOÁN:</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight><Color>#8B0000</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+            </Paragraphs>
+            <Top>1.8in</Top>
+            <Left>3.0in</Left>
+            <Height>0.8in</Height>
+            <Width>2.6in</Width>
+          </Textbox>
+          <Textbox Name="txtSumValues">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>=Format(First(Fields!TotalAmount.Value, "dsInvoiceHeader"), "#,##0 VNĐ")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>=Format(First(Fields!Discount.Value, "dsInvoiceHeader"), "#,##0 VNĐ")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>=Format(First(Fields!NetAmount.Value, "dsInvoiceHeader"), "#,##0 VNĐ")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight><Color>#8B0000</Color></Style></TextRun></TextRuns><Style><TextAlign>Right</TextAlign></Style></Paragraph>
+            </Paragraphs>
+            <Top>1.8in</Top>
+            <Left>5.6in</Left>
+            <Height>0.8in</Height>
+            <Width>1.35in</Width>
+          </Textbox>
+          <!-- Chữ ký -->
+          <Textbox Name="txtSignClient">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>Khách hàng mua</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>(Ký, ghi rõ họ tên)</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8.5pt</FontSize><FontStyle>Italic</FontStyle></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph>
+            </Paragraphs>
+            <Top>2.8in</Top>
+            <Left>0.5in</Left>
+            <Height>0.7in</Height>
+            <Width>2.5in</Width>
+          </Textbox>
+          <Textbox Name="txtSignStaff">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph><TextRuns><TextRun><Value>Dược sĩ tư vấn</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>10pt</FontSize><FontWeight>Bold</FontWeight><Color>#2B4C7E</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph>
+              <Paragraph><TextRuns><TextRun><Value>(Ký, ghi rõ họ tên)</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8.5pt</FontSize><FontStyle>Italic</FontStyle></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph>
+            </Paragraphs>
+            <Top>2.8in</Top>
+            <Left>4.2in</Left>
+            <Height>0.7in</Height>
+            <Width>2.5in</Width>
+          </Textbox>
+        </ReportItems>
+        <Height>3.8in</Height>
+      </Body>
+      <Width>7.0in</Width>
+      <Page>
+        <PageHeader>
+          <Height>1.1in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="txtStore">
+              <CanGrow>true</CanGrow>
+              <Paragraphs>
+                <Paragraph><TextRuns><TextRun><Value>HỆ THỐNG NHÀ THUỐC ĐẠT CHUẨN GPP NHÓM 1</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>11pt</FontSize><FontWeight>Bold</FontWeight><Color>#2B4C7E</Color></Style></TextRun></TextRuns></Paragraph>
+                <Paragraph><TextRuns><TextRun><Value>Địa chỉ: Học viện Hàng không Việt Nam (HVHK) - TPHCM</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8.5pt</FontSize></Style></TextRun></TextRuns></Paragraph>
+                <Paragraph><TextRuns><TextRun><Value>Hotline tư vấn dược: 1900 xxxx  -  Thời gian in: </Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8.5pt</FontSize></Style></TextRun><TextRun><Value>=Format(Globals!ExecutionTime, "dd/MM/yyyy HH:mm")</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8.5pt</FontSize><FontStyle>Italic</FontStyle></Style></TextRun></TextRuns></Paragraph>
+              </Paragraphs>
+              <Top>0.05in</Top>
+              <Left>0.05in</Left>
+              <Height>0.5in</Height>
+              <Width>6.9in</Width>
+            </Textbox>
+            <Textbox Name="txtTitle">
+              <CanGrow>true</CanGrow>
+              <Paragraphs>
+                <Paragraph><TextRuns><TextRun><Value>PHIẾU HÓA ĐƠN BÁN THUỐC</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>15pt</FontSize><FontWeight>Bold</FontWeight><Color>#1C3B5E</Color></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph>
+              </Paragraphs>
+              <Top>0.6in</Top>
+              <Left>0.05in</Left>
+              <Height>0.35in</Height>
+              <Width>6.9in</Width>
+            </Textbox>
+            <Line Name="Line1"><Top>1.0in</Top><Left>0.05in</Left><Height>0in</Height><Width>6.9in</Width><Style><Border><Color>#2B4C7E</Color><Style>Solid</Style><Width>2pt</Width></Border></Style></Line>
+          </ReportItems>
+        </PageHeader>
+        <PageFooter>
+          <Height>0.6in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Line Name="Line2"><Top>0.05in</Top><Left>0.05in</Left><Height>0in</Height><Width>6.9in</Width><Style><Border><Color>#B0C4DE</Color><Style>Solid</Style><Width>1pt</Width></Border></Style></Line>
+            <Textbox Name="txtFooter"><CanGrow>true</CanGrow><Paragraphs><Paragraph><TextRuns><TextRun><Value>Cảm ơn Quý khách &amp; Chúc Quý khách sức khỏe! (Trang </Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8.5pt</FontSize><FontStyle>Italic</FontStyle></Style></TextRun><TextRun><Value>=Globals!PageNumber &amp; "/" &amp; Globals!TotalPages &amp; ")"</Value><Style><FontFamily>Segoe UI</FontFamily><FontSize>8.5pt</FontSize><FontStyle>Italic</FontStyle></Style></TextRun></TextRuns><Style><TextAlign>Center</TextAlign></Style></Paragraph></Paragraphs><Top>0.15in</Top><Left>0.05in</Left><Height>0.3in</Height><Width>6.9in</Width></Textbox>
+          </ReportItems>
+        </PageFooter>
+        <PageHeight>11.69in</PageHeight>
+        <PageWidth>8.27in</PageWidth>
+        <LeftMargin>0.5in</LeftMargin>
+        <RightMargin>0.5in</RightMargin>
+        <TopMargin>0.5in</TopMargin>
+        <BottomMargin>0.5in</BottomMargin>
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>f3333333-4444-5555-6666-777777777777</rd:ReportID>
+</Report>
