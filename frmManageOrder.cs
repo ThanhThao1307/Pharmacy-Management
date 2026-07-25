@@ -52,13 +52,13 @@ namespace Pharmacy_Nhom1
                         int.TryParse(cbMonth.SelectedItem.ToString(), out month);
                     }
 
-                    // Khởi tạo truy vấn danh sách hóa đơn kèm thông tin Khách hàng và Nhân viên
+                    // Lấy danh sách hóa đơn
                     var query = db.Orders
                         .Include(o => o.Customer)
                         .Include(o => o.User)
                         .AsQueryable();
 
-                    // Lọc hóa đơn theo ngày chọn hoặc theo điều kiện Tháng/Năm
+                    // Lọc hóa đơn theo thời gian
                     if (filterByDate)
                     {
                         DateTime targetDate = dtpOrderDate.Value.Date;
@@ -75,6 +75,14 @@ namespace Pharmacy_Nhom1
                         {
                             query = query.Where(o => o.OrderDate.Month == month);
                         }
+                    }
+
+                    string keyword = txtSearch.Text?.Trim().ToLower() ?? "";
+                    if (!string.IsNullOrEmpty(keyword))
+                    {
+                        query = query.Where(o => o.OrderCode.ToLower().Contains(keyword) ||
+                                                 (o.Customer != null && (o.Customer.FullName.ToLower().Contains(keyword) || o.Customer.Phone.Contains(keyword))) ||
+                                                 (o.User != null && o.User.FullName.ToLower().Contains(keyword)));
                     }
 
                     var list = query.OrderByDescending(o => o.OrderDate).Select(o => new OrderViewModel
@@ -100,6 +108,11 @@ namespace Pharmacy_Nhom1
             }
         }
 
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData(false);
+        }
+
         private void cbYear_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadData(false);
@@ -117,11 +130,18 @@ namespace Pharmacy_Nhom1
 
         private void btNew_Click(object sender, EventArgs e)
         {
-            using (var frm = new frmNewOrder())
+            if (this.MdiParent is frmMain mainForm)
             {
-                if (frm.ShowDialog() == DialogResult.OK)
+                mainForm.OpenChildForm(new frmNewOrder());
+            }
+            else
+            {
+                using (var frm = new frmNewOrder())
                 {
-                    LoadData();
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadData();
+                    }
                 }
             }
         }
@@ -135,30 +155,34 @@ namespace Pharmacy_Nhom1
                 long orderId = currentItem.OrderId;
                 string colName = dgvOrders.Columns[e.ColumnIndex].Name;
 
-                if (colName == "colEdit")
+                if (colName == "colDetail" || colName == "colEdit")
                 {
-                    using (var frm = new frmEditOrder(orderId))
+                    if (this.MdiParent is frmMain mainForm)
                     {
-                        if (frm.ShowDialog() == DialogResult.OK)
+                        mainForm.OpenChildForm(new frmProcessOrderDetails(orderId));
+                    }
+                    else
+                    {
+                        using (var frm = new frmProcessOrderDetails(orderId))
                         {
+                            frm.ShowDialog();
                             LoadData();
                         }
                     }
                 }
-                else if (colName == "colDetail")
-                {
-                    using (var frm = new frmProcessOrderDetails(orderId))
-                    {
-                        frm.ShowDialog();
-                        LoadData();
-                    }
-                }
                 else if (colName == "colPrint")
                 {
-                    using (var frm = new frmReportInvoice(orderId))
+                    if (this.MdiParent is frmMain mainForm)
                     {
-                        frm.StartPosition = FormStartPosition.CenterScreen;
-                        frm.ShowDialog();
+                        mainForm.OpenChildForm(new frmReportInvoice(orderId));
+                    }
+                    else
+                    {
+                        using (var frm = new frmReportInvoice(orderId))
+                        {
+                            frm.StartPosition = FormStartPosition.CenterScreen;
+                            frm.ShowDialog();
+                        }
                     }
                 }
                 else if (colName == "colDelete")
@@ -184,7 +208,7 @@ namespace Pharmacy_Nhom1
                         return;
                     }
 
-                    // Hoàn trả lại số lượng đã bán vào tồn kho của các lô hàng tương ứng
+                    // Hoàn trả tồn kho
                     foreach (var detail in order.OrderDetails)
                     {
                         var batch = db.ImportDetails.Find(detail.ImportDetailId);
@@ -194,10 +218,34 @@ namespace Pharmacy_Nhom1
                         }
                     }
 
-                    // Xóa danh sách chi tiết hóa đơn và bản ghi hóa đơn
+                    // Xóa hóa đơn
+                    long? customerId = order.CustomerId;
                     db.OrderDetails.RemoveRange(order.OrderDetails);
                     db.Orders.Remove(order);
                     db.SaveChanges();
+                    
+                    if (customerId.HasValue)
+                    {
+                        var customer = db.Customers.Find(customerId.Value);
+                        if (customer != null)
+                        {
+                            decimal realTotalSpent = db.Orders
+                                .Where(o => o.CustomerId == customerId.Value && o.Status == false)
+                                .Sum(o => (decimal?)o.NetAmount) ?? 0;
+
+                            customer.TotalSpent = realTotalSpent;
+                            customer.LoyaltyPoints = (int)(realTotalSpent / 10000);
+
+                            if (customer.TotalSpent >= 10000000)
+                                customer.CustomerGroup = "Vip";
+                            else if (customer.TotalSpent >= 3000000)
+                                customer.CustomerGroup = "Thân thiết";
+                            else
+                                customer.CustomerGroup = "Thường";
+                                
+                            db.SaveChanges();
+                        }
+                    }
 
                     MessageBox.Show("Xóa hóa đơn thành công và đã hoàn lại tồn kho!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadData();

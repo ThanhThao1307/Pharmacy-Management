@@ -15,12 +15,15 @@ namespace Pharmacy_Nhom1
             if (Utility.CurrentUser != null)
             {
                 lblWelcomeStatus.Text = $"Chào mừng: {Utility.CurrentUser.FullName} | Quyền: {Utility.CurrentUser.Role?.RoleName}";
-                if (tsmEmployee != null) tsmEmployee.Visible = Utility.IsAdmin;
+                
+                if (!Utility.IsAdmin)
+                {
+                    tsmUserManagement.Visible = false;
+                }
             }
             else
             {
                 lblWelcomeStatus.Text = "Chào mừng: Chưa đăng nhập";
-                if (tsmEmployee != null) tsmEmployee.Visible = false;
             }
             if (lblTitleBar != null)
             {
@@ -30,27 +33,22 @@ namespace Pharmacy_Nhom1
 
         private void btCategories_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmCategory());
+            OpenChildForm(new frmManageCategory());
         }
 
         private void btImports_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmImport());
+            OpenChildForm(new frmManageImport());
         }
 
         private void btSuppliers_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmSupplier());
-        }
-
-        private void btEmployees_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new frmUserManagement());
+            OpenChildForm(new frmManageSupplier());
         }
 
         private void btProducts_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmProduct());
+            OpenChildForm(new frmManageProduct());
         }
 
         private void btInvoices_Click(object sender, EventArgs e)
@@ -58,9 +56,24 @@ namespace Pharmacy_Nhom1
             OpenChildForm(new frmManageOrder());
         }
 
+        private void btPrescriptions_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new frmManagePrescription());
+        }
+
         private void btCustomers_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmCustomer());
+            OpenChildForm(new frmManageCustomer());
+        }
+
+        private void btUserManagement_Click(object sender, EventArgs e)
+        {
+            if (!Utility.IsAdmin)
+            {
+                MessageBox.Show("Bạn không có quyền truy cập chức năng này!", "Từ chối truy cập", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            OpenChildForm(new frmUserManagement());
         }
 
         private void btLogout_Click(object sender, EventArgs e)
@@ -68,7 +81,15 @@ namespace Pharmacy_Nhom1
             if (MessageBox.Show("Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Utility.Logout();
-                this.Hide();
+                Application.Restart();
+                Environment.Exit(0);
+            }
+        }
+
+        private void btExit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có chắc chắn muốn thoát ứng dụng?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
                 Application.Exit();
             }
         }
@@ -79,17 +100,27 @@ namespace Pharmacy_Nhom1
             Application.Exit();
         }
 
-        private void OpenChildForm(Form childForm)
+        public void OpenChildForm(Form childForm)
         {
-            if (pnlContent == null) return;
+            // Ẩn panel trung gian
+            if (pnlContent != null)
+            {
+                pnlContent.Visible = false;
+            }
 
-            pnlContent.Controls.Clear();
-            childForm.TopLevel = false;
-            childForm.FormBorderStyle = FormBorderStyle.None;
-            childForm.Dock = DockStyle.Fill;
+            // Đóng các form con đang mở
+            foreach (Form frm in this.MdiChildren)
+            {
+                if (frm.GetType() == childForm.GetType())
+                {
+                    frm.Activate();
+                    return;
+                }
+                frm.Close();
+            }
 
-            pnlContent.Controls.Add(childForm);
-            pnlContent.Tag = childForm;
+            // Hiển thị form con MDI
+            childForm.MdiParent = this;
             childForm.Show();
 
             if (lblTitleBar != null)
@@ -109,12 +140,6 @@ namespace Pharmacy_Nhom1
             OpenChildForm(new frmAIRecommendation());
         }
 
-        private void btExit_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Bạn có chắc chắn muốn thoát khỏi chương trình?", "Xác nhận thoát", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                Application.Exit();
-            }
-        }
+
     }
 }

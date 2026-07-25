@@ -1,4 +1,4 @@
-﻿namespace Pharmacy_Nhom1
+namespace Pharmacy_Nhom1
 {
     partial class frmAIRecommendation
     {
@@ -30,18 +30,12 @@
         {
             pnlHeader = new Panel();
             lblTitle = new Label();
-            gbHuanLuyen = new GroupBox();
-            txtEvaluate = new TextBox();
-            btTrain = new Button();
             gbDuDoan = new GroupBox();
-            lblResult = new Label();
+            txtResult = new TextBox();
             btPredict = new Button();
             cbProducts = new ComboBox();
             lblProd = new Label();
-            cbCustomers = new ComboBox();
-            lblCust = new Label();
             pnlHeader.SuspendLayout();
-            gbHuanLuyen.SuspendLayout();
             gbDuDoan.SuspendLayout();
             SuspendLayout();
             // 
@@ -52,155 +46,104 @@
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(1431, 67);
+            pnlHeader.Size = new Size(1258, 60);
             pnlHeader.TabIndex = 0;
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
             lblTitle.BackColor = Color.SteelBlue;
-            lblTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(24, 17);
+            lblTitle.Location = new Point(26, 9);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(559, 32);
+            lblTitle.Size = new Size(821, 38);
             lblTitle.TabIndex = 1;
-            lblTitle.Text = "HỆ THỐNG AI GỢI Ý THUỐC CHO KHÁCH HÀNG";
-            // 
-            // gbHuanLuyen
-            // 
-            gbHuanLuyen.Controls.Add(txtEvaluate);
-            gbHuanLuyen.Controls.Add(btTrain);
-            gbHuanLuyen.Dock = DockStyle.Left;
-            gbHuanLuyen.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            gbHuanLuyen.Location = new Point(0, 67);
-            gbHuanLuyen.Name = "gbHuanLuyen";
-            gbHuanLuyen.Size = new Size(470, 707);
-            gbHuanLuyen.TabIndex = 1;
-            gbHuanLuyen.TabStop = false;
-            gbHuanLuyen.Text = "1. Huấn luyện Mô hình AI từ CSDL";
-            // 
-            // txtEvaluate
-            // 
-            txtEvaluate.Location = new Point(24, 129);
-            txtEvaluate.Multiline = true;
-            txtEvaluate.Name = "txtEvaluate";
-            txtEvaluate.ReadOnly = true;
-            txtEvaluate.ScrollBars = ScrollBars.Vertical;
-            txtEvaluate.Size = new Size(420, 566);
-            txtEvaluate.TabIndex = 1;
-            // 
-            // btTrain
-            // 
-            btTrain.BackColor = Color.Teal;
-            btTrain.Cursor = Cursors.Hand;
-            btTrain.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btTrain.ForeColor = Color.MistyRose;
-            btTrain.Location = new Point(24, 53);
-            btTrain.Name = "btTrain";
-            btTrain.Size = new Size(420, 55);
-            btTrain.TabIndex = 0;
-            btTrain.Text = "🚀 Huấn luyện & Xây dựng Mô hình";
-            btTrain.UseVisualStyleBackColor = false;
-            btTrain.Click += btTrain_Click;
+            lblTitle.Text = "HỆ THỐNG AI DỰ ĐOÁN NHU CẦU && SUY ĐOÁN MÙA BỆNH";
             // 
             // gbDuDoan
             // 
-            gbDuDoan.Controls.Add(lblResult);
+            gbDuDoan.Controls.Add(txtResult);
             gbDuDoan.Controls.Add(btPredict);
             gbDuDoan.Controls.Add(cbProducts);
             gbDuDoan.Controls.Add(lblProd);
-            gbDuDoan.Controls.Add(cbCustomers);
-            gbDuDoan.Controls.Add(lblCust);
             gbDuDoan.Dock = DockStyle.Fill;
-            gbDuDoan.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            gbDuDoan.Location = new Point(470, 67);
+            gbDuDoan.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            gbDuDoan.Location = new Point(0, 60);
             gbDuDoan.Name = "gbDuDoan";
-            gbDuDoan.Size = new Size(961, 707);
+            gbDuDoan.Size = new Size(1258, 556);
             gbDuDoan.TabIndex = 2;
             gbDuDoan.TabStop = false;
-            gbDuDoan.Text = "2. Phân tích xu hướng & Tư vấn mua thuốc";
+            gbDuDoan.Text = "Phân tích dự đoán nhu cầu tiêu thụ, Suy đoán mùa bệnh && Kế hoạch chuẩn bị kho (GPP)";
             // 
-            // lblResult
+            // txtResult
             // 
-            lblResult.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblResult.ForeColor = Color.Crimson;
-            lblResult.Location = new Point(20, 218);
-            lblResult.Name = "lblResult";
-            lblResult.Size = new Size(880, 396);
-            lblResult.TabIndex = 5;
-            lblResult.Text = " 💡 Kết quả dự đoán và lời khuyên tư vấn của AI sẽ hiển thị tại đây...";
+            txtResult.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            txtResult.BackColor = Color.White;
+            txtResult.Font = new Font("Segoe UI", 10.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtResult.ForeColor = Color.DarkSlateGray;
+            txtResult.Location = new Point(24, 160);
+            txtResult.Multiline = true;
+            txtResult.Name = "txtResult";
+            txtResult.ReadOnly = true;
+            txtResult.ScrollBars = ScrollBars.Vertical;
+            txtResult.Size = new Size(1207, 369);
+            txtResult.TabIndex = 6;
+            txtResult.Text = "Nhấn nút [Phân tích & Dự đoán Nhu cầu tiêu thụ / Mùa bệnh] để hệ thống phân tích dữ liệu bán ra, dự đoán số lượng cần chuẩn bị kho và suy đoán mùa bệnh...";
             // 
             // btPredict
             // 
+            btPredict.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             btPredict.BackColor = Color.DarkSlateGray;
             btPredict.Cursor = Cursors.Hand;
-            btPredict.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btPredict.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btPredict.ForeColor = Color.White;
-            btPredict.Location = new Point(20, 152);
+            btPredict.Location = new Point(24, 95);
             btPredict.Name = "btPredict";
-            btPredict.Size = new Size(880, 50);
+            btPredict.Size = new Size(1207, 48);
             btPredict.TabIndex = 4;
-            btPredict.Text = "🔍 Phân tích & Dự đoán xu hướng mua";
+            btPredict.Text = "Phân tích && Dự đoán Nhu cầu tiêu thụ / Mùa bệnh";
             btPredict.UseVisualStyleBackColor = false;
             btPredict.Click += btPredict_Click;
             // 
             // cbProducts
             // 
+            cbProducts.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cbProducts.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbProducts.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cbProducts.FormattingEnabled = true;
-            cbProducts.Location = new Point(321, 96);
+            cbProducts.Location = new Point(323, 43);
             cbProducts.Name = "cbProducts";
-            cbProducts.Size = new Size(579, 38);
+            cbProducts.Size = new Size(908, 36);
             cbProducts.TabIndex = 3;
             // 
             // lblProd
             // 
             lblProd.AutoSize = true;
-            lblProd.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblProd.Location = new Point(20, 100);
+            lblProd.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblProd.Location = new Point(24, 43);
             lblProd.Name = "lblProd";
-            lblProd.Size = new Size(295, 28);
+            lblProd.Size = new Size(293, 32);
             lblProd.TabIndex = 2;
-            lblProd.Text = "Chọn sản phẩm Thuốc phân tích:";
-            // 
-            // cbCustomers
-            // 
-            cbCustomers.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbCustomers.FormattingEnabled = true;
-            cbCustomers.Location = new Point(321, 43);
-            cbCustomers.Name = "cbCustomers";
-            cbCustomers.Size = new Size(579, 38);
-            cbCustomers.TabIndex = 1;
-            // 
-            // lblCust
-            // 
-            lblCust.AutoSize = true;
-            lblCust.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblCust.Location = new Point(20, 43);
-            lblCust.Name = "lblCust";
-            lblCust.Size = new Size(264, 28);
-            lblCust.TabIndex = 0;
-            lblCust.Text = "Chọn Khách hàng cần tư vấn:";
+            lblProd.Text = "Sản phẩm thuốc lựa chọn:";
             // 
             // frmAIRecommendation
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(1431, 774);
+            ClientSize = new Size(1258, 616);
             Controls.Add(gbDuDoan);
-            Controls.Add(gbHuanLuyen);
             Controls.Add(pnlHeader);
             Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.Sizable;
             Name = "frmAIRecommendation";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "HỆ THỐNG AI GỢI Ý & ĐỀ XUẤT THUỐC";
+            Text = "HỆ THỐNG AI DỰ ĐOÁN NHU CẦU & ĐỀ XUẤT THUỐC";
+            WindowState = FormWindowState.Maximized;
             Load += frmAIRecommendation_Load;
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
-            gbHuanLuyen.ResumeLayout(false);
-            gbHuanLuyen.PerformLayout();
             gbDuDoan.ResumeLayout(false);
             gbDuDoan.PerformLayout();
             ResumeLayout(false);
@@ -210,15 +153,10 @@
 
         private Panel pnlHeader;
         private Label lblTitle;
-        private GroupBox gbHuanLuyen;
-        private Button btTrain;
         private GroupBox gbDuDoan;
         private Label lblProd;
-        private ComboBox cbCustomers;
-        private Label lblCust;
         private Button btPredict;
         private ComboBox cbProducts;
-        private Label lblResult;
-        private TextBox txtEvaluate;
+        private TextBox txtResult;
     }
 }

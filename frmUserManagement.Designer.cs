@@ -40,9 +40,9 @@ namespace Pharmacy_Nhom1
             txtFullName = new TextBox();
             txtEmail = new TextBox();
             cboRoles = new ComboBox();
+            btnAddNew = new Button();
             btnSave = new Button();
             btnDelete = new Button();
-            btnReset = new Button();
             dgvUsersList = new DataGridView();
             colUserId = new DataGridViewTextBoxColumn();
             colUsername = new DataGridViewTextBoxColumn();
@@ -61,62 +61,67 @@ namespace Pharmacy_Nhom1
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(880, 55);
+            pnlHeader.Size = new Size(1258, 60);
             pnlHeader.TabIndex = 14;
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(15, 15);
+            lblTitle.Location = new Point(26, 9);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(416, 32);
+            lblTitle.Size = new Size(484, 38);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "QUẢN LÝ NHÂN SỰ VÀ TÀI KHOẢN";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(21, 68);
+            label1.Font = new Font("Segoe UI", 12F);
+            label1.Location = new Point(26, 83);
             label1.Name = "label1";
-            label1.Size = new Size(144, 28);
+            label1.Size = new Size(179, 32);
             label1.TabIndex = 0;
             label1.Text = "Tên đăng nhập:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(21, 107);
+            label2.Font = new Font("Segoe UI", 12F);
+            label2.Location = new Point(26, 132);
             label2.Name = "label2";
-            label2.Size = new Size(75, 28);
+            label2.Size = new Size(92, 32);
             label2.TabIndex = 1;
             label2.Text = "Họ tên:";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(23, 151);
+            label3.Font = new Font("Segoe UI", 12F);
+            label3.Location = new Point(26, 182);
             label3.Name = "label3";
-            label3.Size = new Size(73, 28);
+            label3.Size = new Size(87, 32);
             label3.TabIndex = 2;
             label3.Text = "Vai trò:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(467, 68);
+            label4.Font = new Font("Segoe UI", 12F);
+            label4.Location = new Point(667, 83);
             label4.Name = "label4";
-            label4.Size = new Size(97, 28);
+            label4.Size = new Size(116, 32);
             label4.TabIndex = 3;
             label4.Text = "Password:";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(467, 107);
+            label5.Font = new Font("Segoe UI", 12F);
+            label5.Location = new Point(667, 132);
             label5.Name = "label5";
-            label5.Size = new Size(63, 28);
+            label5.Size = new Size(76, 32);
             label5.TabIndex = 4;
             label5.Text = "Email:";
             label5.Visible = false;
@@ -124,37 +129,37 @@ namespace Pharmacy_Nhom1
             // txtUsername
             // 
             txtUsername.BorderStyle = BorderStyle.FixedSingle;
-            txtUsername.Location = new Point(171, 62);
+            txtUsername.Location = new Point(211, 84);
             txtUsername.MaxLength = 100;
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(270, 34);
+            txtUsername.Size = new Size(415, 34);
             txtUsername.TabIndex = 5;
             // 
             // txtPassword
             // 
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
-            txtPassword.Location = new Point(580, 62);
+            txtPassword.Location = new Point(789, 84);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(252, 34);
+            txtPassword.Size = new Size(442, 34);
             txtPassword.TabIndex = 6;
             txtPassword.UseSystemPasswordChar = true;
             // 
             // txtFullName
             // 
             txtFullName.BorderStyle = BorderStyle.FixedSingle;
-            txtFullName.Location = new Point(171, 101);
+            txtFullName.Location = new Point(211, 133);
             txtFullName.MaxLength = 100;
             txtFullName.Name = "txtFullName";
-            txtFullName.Size = new Size(270, 34);
+            txtFullName.Size = new Size(415, 34);
             txtFullName.TabIndex = 7;
             // 
             // txtEmail
             // 
             txtEmail.BorderStyle = BorderStyle.FixedSingle;
-            txtEmail.Location = new Point(580, 101);
+            txtEmail.Location = new Point(789, 133);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "employee@pharmacy.com";
-            txtEmail.Size = new Size(252, 34);
+            txtEmail.Size = new Size(442, 34);
             txtEmail.TabIndex = 8;
             txtEmail.Visible = false;
             // 
@@ -162,60 +167,71 @@ namespace Pharmacy_Nhom1
             // 
             cboRoles.DropDownStyle = ComboBoxStyle.DropDownList;
             cboRoles.FormattingEnabled = true;
-            cboRoles.Location = new Point(171, 143);
+            cboRoles.Location = new Point(211, 182);
             cboRoles.Name = "cboRoles";
-            cboRoles.Size = new Size(270, 36);
+            cboRoles.Size = new Size(415, 36);
             cboRoles.TabIndex = 9;
+            // 
+            // btnAddNew
+            // 
+            btnAddNew.BackColor = Color.Tomato;
+            btnAddNew.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAddNew.ForeColor = Color.FloralWhite;
+            btnAddNew.Location = new Point(816, 177);
+            btnAddNew.Name = "btnAddNew";
+            btnAddNew.Size = new Size(167, 44);
+            btnAddNew.TabIndex = 10;
+            btnAddNew.Text = "➕ THÊM MỚI";
+            btnAddNew.UseVisualStyleBackColor = false;
+            btnAddNew.Click += btnAddNew_Click;
             // 
             // btnSave
             // 
-            btnSave.BackColor = Color.LightSalmon;
-            btnSave.Location = new Point(21, 217);
+            btnSave.BackColor = Color.MidnightBlue;
+            btnSave.FlatAppearance.BorderSize = 0;
+            btnSave.FlatStyle = FlatStyle.Flat;
+            btnSave.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSave.ForeColor = Color.FloralWhite;
+            btnSave.Location = new Point(1002, 182);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(144, 37);
+            btnSave.Size = new Size(105, 34);
             btnSave.TabIndex = 10;
-            btnSave.Text = "Lưu thông tin";
+            btnSave.Text = "💾 LƯU";
             btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
             // 
             // btnDelete
             // 
             btnDelete.BackColor = Color.Silver;
-            btnDelete.Location = new Point(699, 217);
+            btnDelete.FlatAppearance.BorderSize = 0;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDelete.Location = new Point(1126, 182);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(133, 37);
+            btnDelete.Size = new Size(105, 34);
             btnDelete.TabIndex = 11;
-            btnDelete.Text = "Xóa nhân sự";
+            btnDelete.Text = "❌ XÓA";
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += btnDelete_Click;
-            // 
-            // btnReset
-            // 
-            btnReset.BackColor = Color.Wheat;
-            btnReset.Location = new Point(389, 217);
-            btnReset.Name = "btnReset";
-            btnReset.Size = new Size(112, 37);
-            btnReset.TabIndex = 12;
-            btnReset.Text = "Làm mới";
-            btnReset.UseVisualStyleBackColor = false;
-            btnReset.Click += btnReset_Click;
             // 
             // dgvUsersList
             // 
             dgvUsersList.AllowUserToAddRows = false;
             dgvUsersList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvUsersList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvUsersList.BackgroundColor = Color.LightBlue;
             dgvUsersList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsersList.Columns.AddRange(new DataGridViewColumn[] { colUserId, colUsername, colFullName, colRoleName, colRoleId, colTrangThai });
-            dgvUsersList.Location = new Point(23, 277);
+            dgvUsersList.Location = new Point(23, 239);
             dgvUsersList.Name = "dgvUsersList";
             dgvUsersList.RowHeadersVisible = false;
             dgvUsersList.RowHeadersWidth = 62;
             dgvUsersList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvUsersList.Size = new Size(832, 215);
+            dgvUsersList.Size = new Size(1208, 365);
             dgvUsersList.TabIndex = 13;
             dgvUsersList.Tag = "";
             dgvUsersList.CellClick += dgvUsersList_CellClick;
+            dgvUsersList.CellEndEdit += dgvUsersList_CellEndEdit;
             // 
             // colUserId
             // 
@@ -232,7 +248,6 @@ namespace Pharmacy_Nhom1
             colUsername.HeaderText = "Tên đăng nhập";
             colUsername.MinimumWidth = 8;
             colUsername.Name = "colUsername";
-            colUsername.ReadOnly = true;
             // 
             // colFullName
             // 
@@ -240,7 +255,6 @@ namespace Pharmacy_Nhom1
             colFullName.HeaderText = "Họ và tên";
             colFullName.MinimumWidth = 8;
             colFullName.Name = "colFullName";
-            colFullName.ReadOnly = true;
             // 
             // colRoleName
             // 
@@ -272,9 +286,9 @@ namespace Pharmacy_Nhom1
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(880, 504);
+            ClientSize = new Size(1258, 616);
             Controls.Add(dgvUsersList);
-            Controls.Add(btnReset);
+            Controls.Add(btnAddNew);
             Controls.Add(btnDelete);
             Controls.Add(btnSave);
             Controls.Add(cboRoles);
@@ -289,6 +303,7 @@ namespace Pharmacy_Nhom1
             Controls.Add(label1);
             Controls.Add(pnlHeader);
             Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.Sizable;
             Name = "frmUserManagement";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "TRANG QUẢN LÝ NHÂN SỰ";
@@ -315,9 +330,9 @@ namespace Pharmacy_Nhom1
         private TextBox txtFullName;
         private TextBox txtEmail;
         private ComboBox cboRoles;
+        private Button btnAddNew;
         private Button btnSave;
         private Button btnDelete;
-        private Button btnReset;
         private DataGridView dgvUsersList;
         private DataGridViewTextBoxColumn colUserId;
         private DataGridViewTextBoxColumn colUsername;

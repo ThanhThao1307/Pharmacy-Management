@@ -93,7 +93,6 @@
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
-                <!-- 1. Header Row of the Tablix -->
                 <TablixRow>
                   <Height>0.3in</Height>
                   <TablixCells>
@@ -109,7 +108,6 @@
                                   <Value>STT</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
@@ -122,10 +120,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#4A708B</Color>
+                              <Color>#4a708b</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <BackgroundColor>#2b4c7e</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -146,7 +144,6 @@
                                   <Value>Mã Thuốc</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
@@ -159,10 +156,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#4A708B</Color>
+                              <Color>#4a708b</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <BackgroundColor>#2b4c7e</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -183,7 +180,6 @@
                                   <Value>Tên Thuốc &amp; Dược Phẩm</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
@@ -196,10 +192,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#4A708B</Color>
+                              <Color>#4a708b</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <BackgroundColor>#2b4c7e</BackgroundColor>
                             <PaddingLeft>4pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -220,7 +216,6 @@
                                   <Value>ĐVT</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
@@ -233,10 +228,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#4A708B</Color>
+                              <Color>#4a708b</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <BackgroundColor>#2b4c7e</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -257,7 +252,6 @@
                                   <Value>Đơn Giá</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
@@ -270,10 +264,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#4A708B</Color>
+                              <Color>#4a708b</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <BackgroundColor>#2b4c7e</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -294,7 +288,6 @@
                                   <Value>Tồn Kho</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
@@ -307,10 +300,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#4A708B</Color>
+                              <Color>#4a708b</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <BackgroundColor>#2b4c7e</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -331,7 +324,6 @@
                                   <Value>Giá Trị Tồn</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
@@ -344,10 +336,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#4A708B</Color>
+                              <Color>#4a708b</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <BackgroundColor>#2b4c7e</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -368,7 +360,6 @@
                                   <Value>Trạng Thái</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <Color>White</Color>
                                   </Style>
@@ -381,10 +372,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#4A708B</Color>
+                              <Color>#4a708b</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#2B4C7E</BackgroundColor>
+                            <BackgroundColor>#2b4c7e</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -395,13 +386,11 @@
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
-                <!-- 2. Group Header Row (Parent Group by CategoryName) -->
                 <TablixRow>
                   <Height>0.28in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <ColSpan>8</ColSpan>
                         <Textbox Name="txtGroupHeader">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -412,9 +401,8 @@
                                   <Value>="📁 DANH MỤC: " &amp; UCase(Fields!CategoryName.Value) &amp; " (" &amp; Count(Fields!ProductCode.Value) &amp; " mặt hàng)"</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
-                                    <FontSize>10pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>#1C3B5E</Color>
+                                    <Color>#1c3b5e</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -425,16 +413,17 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#B0C4DE</Color>
+                              <Color>#b0c4de</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#E6F0FA</BackgroundColor>
+                            <BackgroundColor>#e6f0fa</BackgroundColor>
                             <PaddingLeft>6pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
                             <PaddingBottom>4pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>8</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -446,7 +435,6 @@
                     <TablixCell />
                   </TablixCells>
                 </TablixRow>
-                <!-- 3. Details Row -->
                 <TablixRow>
                   <Height>0.26in</Height>
                   <TablixCells>
@@ -473,7 +461,7 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D3D3D3</Color>
+                              <Color>#d3d3d3</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -507,7 +495,7 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D3D3D3</Color>
+                              <Color>#d3d3d3</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -541,7 +529,7 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D3D3D3</Color>
+                              <Color>#d3d3d3</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>4pt</PaddingLeft>
@@ -575,7 +563,7 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D3D3D3</Color>
+                              <Color>#d3d3d3</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -610,7 +598,7 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D3D3D3</Color>
+                              <Color>#d3d3d3</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -645,7 +633,7 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D3D3D3</Color>
+                              <Color>#d3d3d3</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -681,7 +669,7 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D3D3D3</Color>
+                              <Color>#d3d3d3</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -717,7 +705,7 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D3D3D3</Color>
+                              <Color>#d3d3d3</Color>
                               <Style>Solid</Style>
                             </Border>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -730,13 +718,11 @@
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
-                <!-- 4. Group Footer Row (Sum per Category) -->
                 <TablixRow>
                   <Height>0.26in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <ColSpan>5</ColSpan>
                         <Textbox Name="txtGroupFooterLabel">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -749,7 +735,7 @@
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>#2B4C7E</Color>
+                                    <Color>#2b4c7e</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -760,16 +746,17 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#B0C4DE</Color>
+                              <Color>#b0c4de</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#F5F8FC</BackgroundColor>
+                            <BackgroundColor>#f5f8fc</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>6pt</PaddingRight>
                             <PaddingTop>3pt</PaddingTop>
                             <PaddingBottom>3pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>5</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -790,8 +777,8 @@
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>#2B4C7E</Color>
                                     <Format>#,##0</Format>
+                                    <Color>#2b4c7e</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -802,10 +789,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#B0C4DE</Color>
+                              <Color>#b0c4de</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#F5F8FC</BackgroundColor>
+                            <BackgroundColor>#f5f8fc</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>3pt</PaddingTop>
@@ -828,8 +815,8 @@
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>9.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>#2B4C7E</Color>
                                     <Format>#,##0 VNĐ</Format>
+                                    <Color>#2b4c7e</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -840,10 +827,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#B0C4DE</Color>
+                              <Color>#b0c4de</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#F5F8FC</BackgroundColor>
+                            <BackgroundColor>#f5f8fc</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
                             <PaddingTop>3pt</PaddingTop>
@@ -870,23 +857,21 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#B0C4DE</Color>
+                              <Color>#b0c4de</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#F5F8FC</BackgroundColor>
+                            <BackgroundColor>#f5f8fc</BackgroundColor>
                           </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
-                <!-- 5. Table Footer Row (Grand Total) -->
                 <TablixRow>
                   <Height>0.3in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <ColSpan>5</ColSpan>
                         <Textbox Name="txtTotalLabel">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -899,7 +884,7 @@
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>10.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>#8B0000</Color>
+                                    <Color>#8b0000</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -910,16 +895,17 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D4AF37</Color>
+                              <Color>#d4af37</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#FFF8DC</BackgroundColor>
+                            <BackgroundColor>#fff8dc</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>6pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
                             <PaddingBottom>4pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>5</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -940,8 +926,8 @@
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>10.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>#8B0000</Color>
                                     <Format>#,##0</Format>
+                                    <Color>#8b0000</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -952,10 +938,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D4AF37</Color>
+                              <Color>#d4af37</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#FFF8DC</BackgroundColor>
+                            <BackgroundColor>#fff8dc</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -978,8 +964,8 @@
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>10.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>#8B0000</Color>
                                     <Format>#,##0 VNĐ</Format>
+                                    <Color>#8b0000</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -990,10 +976,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D4AF37</Color>
+                              <Color>#d4af37</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#FFF8DC</BackgroundColor>
+                            <BackgroundColor>#fff8dc</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>4pt</PaddingRight>
                             <PaddingTop>4pt</PaddingTop>
@@ -1020,10 +1006,10 @@
                           </Paragraphs>
                           <Style>
                             <Border>
-                              <Color>#D4AF37</Color>
+                              <Color>#d4af37</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>#FFF8DC</BackgroundColor>
+                            <BackgroundColor>#fff8dc</BackgroundColor>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1075,9 +1061,8 @@
             </TablixRowHierarchy>
             <DataSetName>dsProductInventory</DataSetName>
             <Top>0.1in</Top>
-            <Left>0in</Left>
-            <Height>1.14in</Height>
-            <Width>7.0in</Width>
+            <Height>1.4in</Height>
+            <Width>7in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1085,10 +1070,10 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>1.4in</Height>
+        <Height>1.5in</Height>
         <Style />
       </Body>
-      <Width>7.0in</Width>
+      <Width>7in</Width>
       <Page>
         <PageHeader>
           <Height>1.1in</Height>
@@ -1105,9 +1090,8 @@
                       <Value>HỆ THỐNG QUẢN LÝ NHÀ THUỐC NHÓM 1</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
-                        <FontSize>10pt</FontSize>
                         <FontWeight>Bold</FontWeight>
-                        <Color>#2B4C7E</Color>
+                        <Color>#2b4c7e</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -1120,9 +1104,9 @@
                     <TextRun>
                       <Value>Phân hệ: Kho Dược &amp; Tồn Kho</Value>
                       <Style>
+                        <FontStyle>Italic</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>8.5pt</FontSize>
-                        <FontStyle>Italic</FontStyle>
                         <Color>#555555</Color>
                       </Style>
                     </TextRun>
@@ -1133,7 +1117,6 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.05in</Top>
-              <Left>0in</Left>
               <Height>0.35in</Height>
               <Width>3.5in</Width>
               <Style>
@@ -1151,9 +1134,9 @@
                     <TextRun>
                       <Value>="Thời điểm lập: " &amp; Format(Globals!ExecutionTime, "dd/MM/yyyy HH:mm:ss")</Value>
                       <Style>
+                        <FontStyle>Italic</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>9pt</FontSize>
-                        <FontStyle>Italic</FontStyle>
                         <Color>#555555</Color>
                       </Style>
                     </TextRun>
@@ -1164,9 +1147,10 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.05in</Top>
-              <Left>4.0in</Left>
+              <Left>4in</Left>
               <Height>0.25in</Height>
-              <Width>3.0in</Width>
+              <Width>3in</Width>
+              <ZIndex>1</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1185,7 +1169,7 @@
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>15pt</FontSize>
                         <FontWeight>Bold</FontWeight>
-                        <Color>#1C3B5E</Color>
+                        <Color>#1c3b5e</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -1195,9 +1179,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.5in</Top>
-              <Left>0in</Left>
               <Height>0.35in</Height>
-              <Width>7.0in</Width>
+              <Width>7in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1206,12 +1190,12 @@
             </Textbox>
             <Line Name="LineHeader">
               <Top>0.95in</Top>
-              <Left>0in</Left>
               <Height>0in</Height>
-              <Width>7.0in</Width>
+              <Width>7in</Width>
+              <ZIndex>3</ZIndex>
               <Style>
                 <Border>
-                  <Color>#2B4C7E</Color>
+                  <Color>#2b4c7e</Color>
                   <Style>Solid</Style>
                   <Width>2pt</Width>
                 </Border>
@@ -1227,14 +1211,12 @@
           <ReportItems>
             <Line Name="LineFooter">
               <Top>0.05in</Top>
-              <Left>0in</Left>
               <Height>0in</Height>
-              <Width>7.0in</Width>
+              <Width>7in</Width>
               <Style>
                 <Border>
-                  <Color>#B0C4DE</Color>
+                  <Color>#b0c4de</Color>
                   <Style>Solid</Style>
-                  <Width>1pt</Width>
                 </Border>
               </Style>
             </Line>
@@ -1260,9 +1242,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.15in</Top>
-              <Left>0in</Left>
               <Height>0.25in</Height>
               <Width>2.5in</Width>
+              <ZIndex>1</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1279,9 +1261,8 @@
                       <Value>Người lập báo cáo</Value>
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
-                        <FontSize>10pt</FontSize>
                         <FontWeight>Bold</FontWeight>
-                        <Color>#2B4C7E</Color>
+                        <Color>#2b4c7e</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -1294,9 +1275,9 @@
                     <TextRun>
                       <Value>(Ký và ghi rõ họ tên)</Value>
                       <Style>
+                        <FontStyle>Italic</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>8.5pt</FontSize>
-                        <FontStyle>Italic</FontStyle>
                         <Color>#666666</Color>
                       </Style>
                     </TextRun>
@@ -1310,6 +1291,7 @@
               <Left>4.5in</Left>
               <Height>0.8in</Height>
               <Width>2.5in</Width>
+              <ZIndex>2</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1329,6 +1311,12 @@
       </Page>
     </ReportSection>
   </ReportSections>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>88a1b183-b778-430b-9c2b-e770fcbc112a</rd:ReportID>
 </Report>

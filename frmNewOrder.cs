@@ -10,6 +10,8 @@ namespace Pharmacy_Nhom1
 {
     public partial class frmNewOrder : Form
     {
+        private long? _currentPrescriptionId = null;
+
         public frmNewOrder()
         {
             InitializeComponent();
@@ -23,15 +25,17 @@ namespace Pharmacy_Nhom1
 
             LoadCustomers();
             LoadUsers();
-            LoadPrescriptions();
+
+            txtPrescriptionInfo.Text = "Chưa có hồ sơ Toa thuốc (Thuốc OTC / Không kê đơn)";
+            txtTotalAmount.Text = "0 VNĐ";
+            txtNetAmount.Text = "0 VNĐ";
         }
 
         private void LoadCustomers()
         {
             using (var db = new PharmacyDbContext())
             {
-                // Lấy danh sách khách hàng và bổ sung tùy chọn khách mua lẻ vãng lai
-                var list = db.Customers.Select(c => new CustomerItem
+                var list = db.Customers.Where(c => c.IsActive == true).Select(c => new CustomerItem
                 {
                     Id = c.CustomerId,
                     Name = c.FullName + " (" + c.Phone + ")"
@@ -50,7 +54,6 @@ namespace Pharmacy_Nhom1
         {
             using (var db = new PharmacyDbContext())
             {
-                // Tải danh sách nhân viên và mặc định chọn nhân viên đang đăng nhập
                 var list = db.Users.Select(u => new UserItem
                 {
                     Id = u.UserId,
@@ -69,27 +72,57 @@ namespace Pharmacy_Nhom1
                 {
                     cbUser.SelectedIndex = 0;
                 }
+                cbUser.Enabled = false;
             }
         }
 
-        private void LoadPrescriptions()
+        private void btPrescriptionDetail_Click(object sender, EventArgs e)
         {
-            using (var db = new PharmacyDbContext())
+            if (_currentPrescriptionId.HasValue && _currentPrescriptionId.Value > 0)
             {
-                // Lấy danh sách hồ sơ toa thuốc còn hiệu lực để gán vào hóa đơn
-                var list = db.PrescriptionFiles.Where(p => p.Status).Select(p => new PrescriptionItem
+                using (var frm = new frmEditPrescription(_currentPrescriptionId.Value, 0))
                 {
-                    Id = p.PrescriptionFileId,
-                    Name = $"[{p.PrescriptionFileId}] {p.FileName} | {(string.IsNullOrEmpty(p.Note) ? "Toa thuốc" : p.Note)}"
-                }).ToList();
-
-                list.Insert(0, new PrescriptionItem { Id = 0, Name = "-- [Không có toa - Thuốc không kê đơn / OTC] --" });
-
-                cbPrescription.DataSource = list;
-                cbPrescription.DisplayMember = "Name";
-                cbPrescription.ValueMember = "Id";
-                cbPrescription.SelectedIndex = 0;
+                    if (frm.ShowDialog() == DialogResult.OK && frm.SavedPrescriptionFileId > 0)
+                    {
+                        _currentPrescriptionId = frm.SavedPrescriptionFileId;
+                        UpdatePrescriptionDisplay();
+                    }
+                }
             }
+            else
+            {
+                using (var frm = new frmNewPrescription(0))
+                {
+                    if (frm.ShowDialog() == DialogResult.OK && frm.SavedPrescriptionFileId > 0)
+                    {
+                        _currentPrescriptionId = frm.SavedPrescriptionFileId;
+                        UpdatePrescriptionDisplay();
+                        btPrescriptionDetail.Text = "✏ Sửa Toa thuốc GPP";
+                    }
+                }
+            }
+        }
+
+        private void UpdatePrescriptionDisplay()
+        {
+            if (_currentPrescriptionId.HasValue && _currentPrescriptionId.Value > 0)
+            {
+                using (var db = new PharmacyDbContext())
+                {
+                    var p = db.PrescriptionFiles.Find(_currentPrescriptionId);
+                    if (p != null)
+                    {
+                        string note = string.IsNullOrEmpty(p.Note) ? "Toa thuốc GPP" : p.Note;
+                        txtPrescriptionInfo.Text = $"✔ [{p.PrescriptionFileId}] {p.FileName} | {note}";
+                    }
+                }
+            }
+        }
+
+        private void nudDiscount_ValueChanged(object sender, EventArgs e)
+        {
+            decimal net = (0 - nudDiscount.Value) < 0 ? 0 : (0 - nudDiscount.Value);
+            txtNetAmount.Text = net.ToString("N0") + " VNĐ";
         }
 
         private void btSave_Click(object sender, EventArgs e)
@@ -112,7 +145,6 @@ namespace Pharmacy_Nhom1
             {
                 using (var db = new PharmacyDbContext())
                 {
-                    // Kiểm tra tính duy nhất của mã hóa đơn
                     string code = txtOrderCode.Text.Trim();
                     if (db.Orders.Any(o => o.OrderCode == code))
                     {
@@ -121,21 +153,12 @@ namespace Pharmacy_Nhom1
                         return;
                     }
 
-                    // Xác định liên kết khách hàng (nếu không phải khách vãng lai)
                     long? customerId = null;
                     if (cbCustomer.SelectedValue != null && (long)cbCustomer.SelectedValue > 0)
                     {
                         customerId = (long)cbCustomer.SelectedValue;
                     }
 
-                    // Xác định liên kết toa thuốc (nếu có)
-                    long? prescriptionId = null;
-                    if (cbPrescription.SelectedValue != null && (long)cbPrescription.SelectedValue > 0)
-                    {
-                        prescriptionId = (long)cbPrescription.SelectedValue;
-                    }
-
-                    // Khởi tạo hóa đơn mới với tổng tiền ban đầu bằng 0
                     decimal discount = nudDiscount.Value;
                     var order = new Order
                     {
@@ -143,11 +166,11 @@ namespace Pharmacy_Nhom1
                         OrderDate = dtpOrderDate.Value,
                         CustomerId = customerId,
                         UserId = (long)cbUser.SelectedValue,
-                        PrescriptionFileId = prescriptionId,
+                        PrescriptionFileId = _currentPrescriptionId,
                         Discount = discount,
                         TotalAmount = 0,
                         NetAmount = 0,
-                        Status = cbStatus.SelectedIndex == 1 // 1: Hủy, 0: Đã thanh toán
+                        Status = cbStatus.SelectedIndex == 1
                     };
 
                     db.Orders.Add(order);
@@ -155,15 +178,30 @@ namespace Pharmacy_Nhom1
 
                     if (MessageBox.Show($"Lập hóa đơn '{order.OrderCode}' thành công!\r\nBạn có muốn mở ngay màn hình nhập chi tiết các mặt hàng thuốc cho hóa đơn này không?", "Thành công", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        this.Hide();
-                        using (var frm = new frmProcessOrderDetails(order.OrderId))
+                        if (this.MdiParent is frmMain mainForm)
                         {
-                            frm.ShowDialog();
+                            mainForm.OpenChildForm(new frmProcessOrderDetails(order.OrderId));
+                            return;
+                        }
+                        else
+                        {
+                            this.Hide();
+                            using (var frm = new frmProcessOrderDetails(order.OrderId))
+                            {
+                                frm.ShowDialog();
+                            }
                         }
                     }
 
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    if (this.MdiParent is frmMain mainForm2)
+                    {
+                        mainForm2.OpenChildForm(new frmManageOrder());
+                    }
+                    else
+                    {
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
                 }
             }
             catch (Exception ex)
@@ -174,8 +212,15 @@ namespace Pharmacy_Nhom1
 
         private void btClose_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            if (this.MdiParent is frmMain mainForm)
+            {
+                mainForm.OpenChildForm(new frmManageOrder());
+            }
+            else
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
         }
     }
 
@@ -186,12 +231,6 @@ namespace Pharmacy_Nhom1
     }
 
     public class UserItem
-    {
-        public long Id { get; set; }
-        public string Name { get; set; } = null!;
-    }
-
-    public class PrescriptionItem
     {
         public long Id { get; set; }
         public string Name { get; set; } = null!;

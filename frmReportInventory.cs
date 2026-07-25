@@ -23,7 +23,7 @@ namespace Pharmacy_Nhom1
                 using (var db = new PharmacyDbContext())
                 {
                     var categories = db.Categories
-                        .Select(c => new { c.CategoryId, c.CategoryName })
+                        .Select(c => new { c.CategoryId, CategoryName = c.Status ? c.CategoryName : c.CategoryName + " [Đã khóa]" })
                         .ToList();
 
                     categories.Insert(0, new { CategoryId = 0, CategoryName = "-- Tất cả danh mục --" });

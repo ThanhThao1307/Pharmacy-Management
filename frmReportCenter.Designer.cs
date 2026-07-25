@@ -34,7 +34,7 @@ namespace Pharmacy_Nhom1
             pnlTopTabs.Dock = DockStyle.Top;
             pnlTopTabs.Location = new Point(0, 0);
             pnlTopTabs.Name = "pnlTopTabs";
-            pnlTopTabs.Size = new Size(1100, 48);
+            pnlTopTabs.Size = new Size(1258, 48);
             pnlTopTabs.TabIndex = 0;
             // 
             // tlpTabs
@@ -52,7 +52,7 @@ namespace Pharmacy_Nhom1
             tlpTabs.Name = "tlpTabs";
             tlpTabs.RowCount = 1;
             tlpTabs.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpTabs.Size = new Size(1100, 48);
+            tlpTabs.Size = new Size(1258, 48);
             tlpTabs.TabIndex = 0;
             // 
             // btTabInventory
@@ -61,14 +61,14 @@ namespace Pharmacy_Nhom1
             btTabInventory.Dock = DockStyle.Fill;
             btTabInventory.FlatAppearance.BorderSize = 0;
             btTabInventory.FlatStyle = FlatStyle.Flat;
-            btTabInventory.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btTabInventory.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btTabInventory.ForeColor = Color.White;
             btTabInventory.Location = new Point(0, 0);
             btTabInventory.Margin = new Padding(0);
             btTabInventory.Name = "btTabInventory";
-            btTabInventory.Size = new Size(366, 48);
+            btTabInventory.Size = new Size(419, 48);
             btTabInventory.TabIndex = 0;
-            btTabInventory.Text = "📦 BÁO CÁO TỒN KHO & GIÁ TRỊ";
+            btTabInventory.Text = "📦 BÁO CÁO TỒN KHO && GIÁ TRỊ";
             btTabInventory.UseVisualStyleBackColor = false;
             btTabInventory.Click += btTabInventory_Click;
             // 
@@ -78,12 +78,12 @@ namespace Pharmacy_Nhom1
             btTabRevenue.Dock = DockStyle.Fill;
             btTabRevenue.FlatAppearance.BorderSize = 0;
             btTabRevenue.FlatStyle = FlatStyle.Flat;
-            btTabRevenue.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btTabRevenue.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btTabRevenue.ForeColor = Color.White;
-            btTabRevenue.Location = new Point(366, 0);
+            btTabRevenue.Location = new Point(419, 0);
             btTabRevenue.Margin = new Padding(0);
             btTabRevenue.Name = "btTabRevenue";
-            btTabRevenue.Size = new Size(366, 48);
+            btTabRevenue.Size = new Size(419, 48);
             btTabRevenue.TabIndex = 1;
             btTabRevenue.Text = "📈 BÁO CÁO DOANH THU & ĐỒ THỊ";
             btTabRevenue.UseVisualStyleBackColor = false;
@@ -95,12 +95,12 @@ namespace Pharmacy_Nhom1
             btTabInvoice.Dock = DockStyle.Fill;
             btTabInvoice.FlatAppearance.BorderSize = 0;
             btTabInvoice.FlatStyle = FlatStyle.Flat;
-            btTabInvoice.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btTabInvoice.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btTabInvoice.ForeColor = Color.White;
-            btTabInvoice.Location = new Point(732, 0);
+            btTabInvoice.Location = new Point(838, 0);
             btTabInvoice.Margin = new Padding(0);
             btTabInvoice.Name = "btTabInvoice";
-            btTabInvoice.Size = new Size(368, 48);
+            btTabInvoice.Size = new Size(420, 48);
             btTabInvoice.TabIndex = 2;
             btTabInvoice.Text = "\U0001f9fe PHIẾU HÓA ĐƠN BÁN HÀNG";
             btTabInvoice.UseVisualStyleBackColor = false;
@@ -112,18 +112,18 @@ namespace Pharmacy_Nhom1
             pnlReportBody.Dock = DockStyle.Fill;
             pnlReportBody.Location = new Point(0, 48);
             pnlReportBody.Name = "pnlReportBody";
-            pnlReportBody.Size = new Size(1100, 652);
+            pnlReportBody.Size = new Size(1258, 568);
             pnlReportBody.TabIndex = 1;
             // 
             // frmReportCenter
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1100, 700);
+            ClientSize = new Size(1258, 616);
             Controls.Add(pnlReportBody);
             Controls.Add(pnlTopTabs);
             Name = "frmReportCenter";
-            Text = "TRUNG TÂM BÁO CÁO & THỐNG KÊ NHÀ THUỐC";
+            Text = "QUẢN LÝ BÁO CÁO & THỐNG KÊ NHÀ THUỐC";
             WindowState = FormWindowState.Maximized;
             Load += frmReportCenter_Load;
             pnlTopTabs.ResumeLayout(false);

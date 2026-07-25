@@ -57,6 +57,7 @@ namespace Pharmacy_Nhom1
                             TrangThai = u.IsActive ? "Hoạt động" : "Khóa"
                         }).ToList();
 
+                    dgvUsersList.AutoGenerateColumns = false;
                     dgvUsersList.DataSource = users;
                 }
             }
@@ -203,15 +204,83 @@ namespace Pharmacy_Nhom1
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dgvUsersList.Rows[e.RowIndex];
-                selectedUserId = Convert.ToInt64(row.Cells["UserId"].Value);
-                txtUsername.Text = row.Cells["Username"].Value?.ToString() ?? "";
-                txtFullName.Text = row.Cells["FullName"].Value?.ToString() ?? "";
+                selectedUserId = Convert.ToInt64(row.Cells["colUserId"].Value ?? row.Cells["UserId"].Value);
+                txtUsername.Text = row.Cells["colUsername"].Value?.ToString() ?? row.Cells["Username"].Value?.ToString() ?? "";
+                txtFullName.Text = row.Cells["colFullName"].Value?.ToString() ?? row.Cells["FullName"].Value?.ToString() ?? "";
                 txtPassword.Clear(); // Không hiển thị mật khẩu
 
-                if (row.Cells["RoleId"].Value != null)
+                var roleIdVal = row.Cells["colRoleId"].Value ?? row.Cells["RoleId"].Value;
+                if (roleIdVal != null)
                 {
-                    cboRoles.SelectedValue = Convert.ToInt32(row.Cells["RoleId"].Value);
+                    cboRoles.SelectedValue = Convert.ToInt32(roleIdVal);
                 }
+            }
+        }
+
+        private void btnAddNew_Click(object sender, EventArgs e)
+        {
+            ResetForm();
+            txtUsername.Focus();
+        }
+
+        private void dgvUsersList_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            try
+            {
+                DataGridViewRow row = dgvUsersList.Rows[e.RowIndex];
+                var idVal = row.Cells["colUserId"].Value ?? row.Cells["UserId"].Value;
+                if (idVal == null) return;
+                long userId = Convert.ToInt64(idVal);
+
+                using (var db = new PharmacyDbContext())
+                {
+                    var user = db.Users.Find(userId);
+                    if (user != null)
+                    {
+                        string colName = dgvUsersList.Columns[e.ColumnIndex].Name;
+                        string dataProp = dgvUsersList.Columns[e.ColumnIndex].DataPropertyName;
+
+                        if (colName == "colUsername" || dataProp == "Username")
+                        {
+                            string? newUsername = row.Cells[e.ColumnIndex].Value?.ToString();
+                            if (!string.IsNullOrWhiteSpace(newUsername))
+                            {
+                                bool exists = db.Users.Any(u => u.Username.ToLower() == newUsername.Trim().ToLower() && u.UserId != userId);
+                                if (exists)
+                                {
+                                    MessageBox.Show("Tên đăng nhập đã tồn tại trong hệ thống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    LoadData();
+                                    return;
+                                }
+                                user.Username = newUsername.Trim();
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                LoadData();
+                            }
+                        }
+                        else if (colName == "colFullName" || dataProp == "FullName")
+                        {
+                            string? newFullName = row.Cells[e.ColumnIndex].Value?.ToString();
+                            if (!string.IsNullOrWhiteSpace(newFullName))
+                            {
+                                user.FullName = newFullName.Trim();
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                LoadData();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi cập nhật trực tiếp: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LoadData();
             }
         }
     }

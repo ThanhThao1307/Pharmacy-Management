@@ -56,9 +56,9 @@ namespace Pharmacy_Nhom1
                     Console.WriteLine("rptOrderInvoice ERROR: " + ex.ToString());
                     if (ex.InnerException != null) Console.WriteLine("Inner: " + ex.InnerException.ToString());
                 }
-                Console.WriteLine("--- END OF REPORT DIAGNOSTIC ---");
                 return;
             }
+
             Application.Run(new frmLogin());
         }
     }

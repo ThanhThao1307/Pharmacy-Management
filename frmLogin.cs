@@ -18,6 +18,14 @@ namespace Pharmacy_Nhom1
         {
             txtUsername.Focus();
             CenterLeftPanelContent();
+            try
+            {
+                using (var db = new PharmacyDbContext())
+                {
+                    db.Database.EnsureCreated();
+                }
+            }
+            catch { }
         }
 
         private void frmLogin_Resize(object sender, EventArgs e)

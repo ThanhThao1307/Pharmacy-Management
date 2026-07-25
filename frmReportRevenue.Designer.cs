@@ -46,17 +46,17 @@ namespace Pharmacy_Nhom1
             pnlHeader.ForeColor = Color.FromArgb(24, 43, 73);
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(1100, 54);
+            pnlHeader.Size = new Size(1258, 54);
             pnlHeader.TabIndex = 0;
             // 
             // lblFromDate
             // 
             lblFromDate.AutoSize = true;
-            lblFromDate.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFromDate.ForeColor = Color.FloralWhite;
-            lblFromDate.Location = new Point(20, 14);
+            lblFromDate.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblFromDate.ForeColor = Color.White;
+            lblFromDate.Location = new Point(29, 11);
             lblFromDate.Name = "lblFromDate";
-            lblFromDate.Size = new Size(90, 28);
+            lblFromDate.Size = new Size(105, 32);
             lblFromDate.TabIndex = 1;
             lblFromDate.Text = "Từ ngày:";
             // 
@@ -64,7 +64,7 @@ namespace Pharmacy_Nhom1
             // 
             dtpFromDate.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dtpFromDate.Format = DateTimePickerFormat.Short;
-            dtpFromDate.Location = new Point(116, 9);
+            dtpFromDate.Location = new Point(140, 9);
             dtpFromDate.Name = "dtpFromDate";
             dtpFromDate.Size = new Size(140, 34);
             dtpFromDate.TabIndex = 2;
@@ -73,11 +73,11 @@ namespace Pharmacy_Nhom1
             // lblToDate
             // 
             lblToDate.AutoSize = true;
-            lblToDate.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblToDate.ForeColor = Color.FloralWhite;
-            lblToDate.Location = new Point(274, 14);
+            lblToDate.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblToDate.ForeColor = Color.White;
+            lblToDate.Location = new Point(295, 11);
             lblToDate.Name = "lblToDate";
-            lblToDate.Size = new Size(104, 28);
+            lblToDate.Size = new Size(122, 32);
             lblToDate.TabIndex = 3;
             lblToDate.Text = "Đến ngày:";
             // 
@@ -85,7 +85,7 @@ namespace Pharmacy_Nhom1
             // 
             dtpToDate.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dtpToDate.Format = DateTimePickerFormat.Short;
-            dtpToDate.Location = new Point(384, 9);
+            dtpToDate.Location = new Point(423, 9);
             dtpToDate.Name = "dtpToDate";
             dtpToDate.Size = new Size(140, 34);
             dtpToDate.TabIndex = 4;
@@ -94,37 +94,39 @@ namespace Pharmacy_Nhom1
             // lblCategory
             // 
             lblCategory.AutoSize = true;
-            lblCategory.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCategory.ForeColor = Color.FloralWhite;
-            lblCategory.Location = new Point(543, 14);
+            lblCategory.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblCategory.ForeColor = Color.White;
+            lblCategory.Location = new Point(578, 11);
             lblCategory.Name = "lblCategory";
-            lblCategory.Size = new Size(144, 28);
+            lblCategory.Size = new Size(129, 32);
             lblCategory.TabIndex = 5;
-            lblCategory.Text = "📂 Danh mục:";
+            lblCategory.Text = "Danh mục:";
             // 
             // cbCategories
             // 
+            cbCategories.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cbCategories.DropDownStyle = ComboBoxStyle.DropDownList;
             cbCategories.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbCategories.FormattingEnabled = true;
-            cbCategories.Location = new Point(693, 11);
+            cbCategories.Location = new Point(713, 11);
             cbCategories.Name = "cbCategories";
-            cbCategories.Size = new Size(207, 36);
+            cbCategories.Size = new Size(365, 36);
             cbCategories.TabIndex = 6;
             cbCategories.SelectedIndexChanged += cbCategories_SelectedIndexChanged;
             // 
             // btXemBaoCao
             // 
-            btXemBaoCao.BackColor = Color.MidnightBlue;
+            btXemBaoCao.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btXemBaoCao.BackColor = Color.Navy;
             btXemBaoCao.FlatAppearance.BorderSize = 0;
             btXemBaoCao.FlatStyle = FlatStyle.Flat;
             btXemBaoCao.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btXemBaoCao.ForeColor = Color.White;
-            btXemBaoCao.Location = new Point(915, 10);
+            btXemBaoCao.ForeColor = Color.FloralWhite;
+            btXemBaoCao.Location = new Point(1096, 10);
             btXemBaoCao.Name = "btXemBaoCao";
-            btXemBaoCao.Size = new Size(173, 36);
+            btXemBaoCao.Size = new Size(150, 36);
             btXemBaoCao.TabIndex = 7;
-            btXemBaoCao.Text = "🔍 Lọc Dữ Liệu";
+            btXemBaoCao.Text = "🔍 Tìm kiếm";
             btXemBaoCao.UseVisualStyleBackColor = false;
             btXemBaoCao.Click += btXemBaoCao_Click;
             // 
@@ -135,7 +137,7 @@ namespace Pharmacy_Nhom1
             pnlContent.Dock = DockStyle.Fill;
             pnlContent.Location = new Point(0, 54);
             pnlContent.Name = "pnlContent";
-            pnlContent.Size = new Size(1100, 646);
+            pnlContent.Size = new Size(1258, 562);
             pnlContent.TabIndex = 1;
             // 
             // reportViewer1
@@ -144,7 +146,7 @@ namespace Pharmacy_Nhom1
             reportViewer1.Location = new Point(0, 0);
             reportViewer1.Name = "reportViewer1";
             reportViewer1.ServerReport.BearerToken = null;
-            reportViewer1.Size = new Size(1100, 646);
+            reportViewer1.Size = new Size(1258, 562);
             reportViewer1.TabIndex = 0;
             reportViewer1.ZoomMode = Microsoft.Reporting.WinForms.ZoomMode.PageWidth;
             // 
@@ -152,7 +154,7 @@ namespace Pharmacy_Nhom1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1100, 700);
+            ClientSize = new Size(1258, 616);
             Controls.Add(pnlContent);
             Controls.Add(pnlHeader);
             Name = "frmReportRevenue";

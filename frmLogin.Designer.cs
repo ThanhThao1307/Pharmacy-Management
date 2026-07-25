@@ -230,7 +230,8 @@ namespace Pharmacy_Nhom1
             // 
             lblLogo.Anchor = AnchorStyles.None;
             lblLogo.Font = new Font("Segoe UI Emoji", 64F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblLogo.Location = new Point(12, 101);
+            lblLogo.ForeColor = Color.DarkSlateGray;
+            lblLogo.Location = new Point(22, 114);
             lblLogo.Name = "lblLogo";
             lblLogo.Size = new Size(200, 200);
             lblLogo.TabIndex = 0;

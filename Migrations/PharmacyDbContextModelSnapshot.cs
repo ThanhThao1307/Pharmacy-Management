@@ -49,7 +49,7 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -122,6 +122,9 @@ namespace Pharmacy_Nhom1.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -144,6 +147,9 @@ namespace Pharmacy_Nhom1.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool?>("Gender")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -160,14 +166,14 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
 
                     b.HasData(
                         new
                         {
                             CustomerId = 1L,
                             Address = "12 Vườn Lài, Tân Phú, TP.HCM",
-                            CreatedDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(848),
+                            CreatedDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1291),
                             CustomerCode = "KH001",
                             CustomerGroup = "Thường",
                             FullName = "Trần Văn Hùng",
@@ -180,7 +186,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             CustomerId = 2L,
                             Address = "456 CMT8, Quận 3, TP.HCM",
-                            CreatedDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(867),
+                            CreatedDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1312),
                             CustomerCode = "KH002",
                             CustomerGroup = "Thân thiết",
                             FullName = "Lê Thị Thảo",
@@ -193,7 +199,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             CustomerId = 3L,
                             Address = "78 Điện Biên Phủ, Bình Thạnh",
-                            CreatedDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(870),
+                            CreatedDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1315),
                             CustomerCode = "KH003",
                             CustomerGroup = "Vip",
                             FullName = "Nguyễn Hoàng Minh",
@@ -206,7 +212,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             CustomerId = 4L,
                             Address = "22 Lý Thường Kiệt, Tân Bình",
-                            CreatedDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(872),
+                            CreatedDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1317),
                             CustomerCode = "KH004",
                             CustomerGroup = "Thường",
                             FullName = "Phạm Minh Tuấn",
@@ -219,7 +225,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             CustomerId = 5L,
                             Address = "105 Nguyễn Trãi, Quận 5",
-                            CreatedDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(873),
+                            CreatedDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1318),
                             CustomerCode = "KH005",
                             CustomerGroup = "Thân thiết",
                             FullName = "Hoàng Ngọc Mai",
@@ -232,7 +238,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             CustomerId = 6L,
                             Address = "66 Lê Văn Sỹ, Phú Nhuận",
-                            CreatedDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(875),
+                            CreatedDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1320),
                             CustomerCode = "KH006",
                             CustomerGroup = "Thường",
                             FullName = "Vũ Đình Toàn",
@@ -245,7 +251,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             CustomerId = 7L,
                             Address = "19 Đường số 4, Gò Vấp",
-                            CreatedDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(878),
+                            CreatedDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1321),
                             CustomerCode = "KH007",
                             CustomerGroup = "Thường",
                             FullName = "Đỗ Thuý Hạnh",
@@ -258,7 +264,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             CustomerId = 8L,
                             Address = "312 Nguyễn Thị Minh Khai, Q1",
-                            CreatedDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(879),
+                            CreatedDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1323),
                             CustomerCode = "KH008",
                             CustomerGroup = "Vip",
                             FullName = "Bùi Quốc Anh",
@@ -303,15 +309,15 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Imports", (string)null);
+                    b.ToTable("Imports");
 
                     b.HasData(
                         new
                         {
                             ImportId = 1L,
-                            CreatedBy = "admin",
+                            CreatedBy = "Dược sĩ Lê Minh Tâm (Chủ tiệm)",
                             ImportCode = "HDN_001",
-                            ImportDate = new DateTime(2026, 5, 21, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(962),
+                            ImportDate = new DateTime(2026, 6, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1452),
                             Status = (byte)1,
                             SupplierId = 1L,
                             TotalAmount = 5100000m
@@ -319,9 +325,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportId = 2L,
-                            CreatedBy = "admin",
+                            CreatedBy = "Dược sĩ Trần Thị Thu",
                             ImportCode = "HDN_002",
-                            ImportDate = new DateTime(2026, 6, 5, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(967),
+                            ImportDate = new DateTime(2026, 7, 2, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1460),
                             Status = (byte)1,
                             SupplierId = 3L,
                             TotalAmount = 3250000m
@@ -329,9 +335,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportId = 3L,
-                            CreatedBy = "admin",
+                            CreatedBy = "Dược sĩ Vũ Hoàng Hải",
                             ImportCode = "HDN_003",
-                            ImportDate = new DateTime(2026, 6, 15, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(969),
+                            ImportDate = new DateTime(2026, 7, 12, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1462),
                             Status = (byte)1,
                             SupplierId = 4L,
                             TotalAmount = 8400000m
@@ -339,9 +345,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportId = 4L,
-                            CreatedBy = "admin",
+                            CreatedBy = "Dược sĩ Lê Minh Tâm (Chủ tiệm)",
                             ImportCode = "HDN_004",
-                            ImportDate = new DateTime(2026, 6, 19, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(971),
+                            ImportDate = new DateTime(2026, 7, 16, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1463),
                             Status = (byte)1,
                             SupplierId = 5L,
                             TotalAmount = 2900000m
@@ -385,15 +391,15 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ImportDetails", (string)null);
+                    b.ToTable("ImportDetails");
 
                     b.HasData(
                         new
                         {
                             ImportDetailId = 1L,
-                            BatchNumber = "LOT-AMX-26A",
+                            BatchNumber = "LOT-2406-01",
                             CurrentQuantity = 450,
-                            ExpiryDate = new DateTime(2028, 6, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2028, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 1L,
                             ImportPrice = 1500m,
                             OriginalQuantity = 2000,
@@ -402,9 +408,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 2L,
-                            BatchNumber = "LOT-NEX-01",
+                            BatchNumber = "LOT-2406-02",
                             CurrentQuantity = 15,
-                            ExpiryDate = new DateTime(2027, 8, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2027, 9, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 1L,
                             ImportPrice = 17500m,
                             OriginalQuantity = 200,
@@ -413,9 +419,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 3L,
-                            BatchNumber = "LOT-PANA-X",
+                            BatchNumber = "LOT-2406-03",
                             CurrentQuantity = 300,
-                            ExpiryDate = new DateTime(2029, 6, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2029, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 1L,
                             ImportPrice = 1000m,
                             OriginalQuantity = 1500,
@@ -424,9 +430,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 4L,
-                            BatchNumber = "LOT-ENVC",
+                            BatchNumber = "LOT-2406-04",
                             CurrentQuantity = 8,
-                            ExpiryDate = new DateTime(2027, 5, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2027, 6, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 1L,
                             ImportPrice = 58000m,
                             OriginalQuantity = 50,
@@ -435,9 +441,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 5L,
-                            BatchNumber = "LOT-EUGI",
+                            BatchNumber = "LOT-2407-01",
                             CurrentQuantity = 220,
-                            ExpiryDate = new DateTime(2027, 12, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2028, 1, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 2L,
                             ImportPrice = 720m,
                             OriginalQuantity = 500,
@@ -446,9 +452,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 6L,
-                            BatchNumber = "LOT-PHOS-SAPDATE",
+                            BatchNumber = "LOT-2407-02",
                             CurrentQuantity = 120,
-                            ExpiryDate = new DateTime(2026, 7, 10, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2026, 8, 6, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 2L,
                             ImportPrice = 3200m,
                             OriginalQuantity = 500,
@@ -457,9 +463,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 7L,
-                            BatchNumber = "LOT-PROP",
+                            BatchNumber = "LOT-2407-03",
                             CurrentQuantity = 12,
-                            ExpiryDate = new DateTime(2027, 2, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2027, 3, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 2L,
                             ImportPrice = 64000m,
                             OriginalQuantity = 30,
@@ -468,9 +474,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 8L,
-                            BatchNumber = "LOT-AMLO",
+                            BatchNumber = "LOT-2407-04",
                             CurrentQuantity = 380,
-                            ExpiryDate = new DateTime(2028, 6, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2028, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 3L,
                             ImportPrice = 6800m,
                             OriginalQuantity = 500,
@@ -479,9 +485,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 9L,
-                            BatchNumber = "LOT-COVE",
+                            BatchNumber = "LOT-2407-05",
                             CurrentQuantity = 260,
-                            ExpiryDate = new DateTime(2027, 10, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2027, 11, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 3L,
                             ImportPrice = 8500m,
                             OriginalQuantity = 300,
@@ -490,9 +496,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 10L,
-                            BatchNumber = "LOT-DERM",
+                            BatchNumber = "LOT-2407-06",
                             CurrentQuantity = 35,
-                            ExpiryDate = new DateTime(2027, 4, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2027, 5, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 3L,
                             ImportPrice = 68000m,
                             OriginalQuantity = 40,
@@ -501,9 +507,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 11L,
-                            BatchNumber = "LOT-AUG-NEW",
+                            BatchNumber = "LOT-2407-07",
                             CurrentQuantity = 150,
-                            ExpiryDate = new DateTime(2027, 6, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2027, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 4L,
                             ImportPrice = 13500m,
                             OriginalQuantity = 150,
@@ -512,9 +518,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 12L,
-                            BatchNumber = "LOT-CEF",
+                            BatchNumber = "LOT-2407-08",
                             CurrentQuantity = 500,
-                            ExpiryDate = new DateTime(2028, 6, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2028, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 4L,
                             ImportPrice = 3100m,
                             OriginalQuantity = 500,
@@ -523,9 +529,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 13L,
-                            BatchNumber = "LOT-EFF-SUY",
+                            BatchNumber = "LOT-2407-09",
                             CurrentQuantity = 400,
-                            ExpiryDate = new DateTime(2029, 6, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2029, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 4L,
                             ImportPrice = 2000m,
                             OriginalQuantity = 400,
@@ -534,9 +540,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 14L,
-                            BatchNumber = "LOT-SKIN",
+                            BatchNumber = "LOT-2407-10",
                             CurrentQuantity = 10,
-                            ExpiryDate = new DateTime(2028, 6, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2028, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 4L,
                             ImportPrice = 250000m,
                             OriginalQuantity = 10,
@@ -545,9 +551,9 @@ namespace Pharmacy_Nhom1.Migrations
                         new
                         {
                             ImportDetailId = 15L,
-                            BatchNumber = "LOT-BERO",
+                            BatchNumber = "LOT-2407-11",
                             CurrentQuantity = 25,
-                            ExpiryDate = new DateTime(2028, 6, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpiryDate = new DateTime(2028, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             ImportId = 4L,
                             ImportPrice = 65000m,
                             OriginalQuantity = 25,
@@ -600,7 +606,7 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
 
                     b.HasData(
                         new
@@ -610,7 +616,7 @@ namespace Pharmacy_Nhom1.Migrations
                             Discount = 0m,
                             NetAmount = 143000m,
                             OrderCode = "HD_001",
-                            OrderDate = new DateTime(2026, 6, 10, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1064),
+                            OrderDate = new DateTime(2026, 7, 7, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1559),
                             PrescriptionFileId = 1L,
                             Status = true,
                             TotalAmount = 143000m,
@@ -623,7 +629,7 @@ namespace Pharmacy_Nhom1.Migrations
                             Discount = 14000m,
                             NetAmount = 400000m,
                             OrderCode = "HD_002",
-                            OrderDate = new DateTime(2026, 6, 15, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1067),
+                            OrderDate = new DateTime(2026, 7, 12, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1562),
                             PrescriptionFileId = 3L,
                             Status = false,
                             TotalAmount = 414000m,
@@ -636,7 +642,7 @@ namespace Pharmacy_Nhom1.Migrations
                             Discount = 0m,
                             NetAmount = 250000m,
                             OrderCode = "HD_003",
-                            OrderDate = new DateTime(2026, 6, 18, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1070),
+                            OrderDate = new DateTime(2026, 7, 15, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1565),
                             PrescriptionFileId = 4L,
                             Status = false,
                             TotalAmount = 250000m,
@@ -648,10 +654,10 @@ namespace Pharmacy_Nhom1.Migrations
                             Discount = 0m,
                             NetAmount = 222000m,
                             OrderCode = "HD_004",
-                            OrderDate = new DateTime(2026, 6, 19, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1072),
+                            OrderDate = new DateTime(2026, 7, 16, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1567),
                             Status = true,
                             TotalAmount = 222000m,
-                            UserId = 3L
+                            UserId = 1L
                         },
                         new
                         {
@@ -660,10 +666,10 @@ namespace Pharmacy_Nhom1.Migrations
                             Discount = 4000m,
                             NetAmount = 120000m,
                             OrderCode = "HD_005",
-                            OrderDate = new DateTime(2026, 6, 20, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1074),
+                            OrderDate = new DateTime(2026, 7, 17, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1569),
                             Status = true,
                             TotalAmount = 124000m,
-                            UserId = 2L
+                            UserId = 1L
                         });
                 });
 
@@ -701,7 +707,7 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
 
                     b.HasData(
                         new
@@ -866,44 +872,44 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasKey("PrescriptionFileId");
 
-                    b.ToTable("PrescriptionFiles", (string)null);
+                    b.ToTable("PrescriptionFiles");
 
                     b.HasData(
                         new
                         {
                             PrescriptionFileId = 1L,
                             FileName = "TOA_LOET_DADAY_HUNG.png",
-                            FilePath = "D:/ToaThuoc/hung_daday.png",
+                            FilePath = "toa_daday.png",
                             Note = "Toa thuốc dạ dày - BV Đại học Y Dược",
                             Status = true,
-                            UploadDate = new DateTime(2026, 6, 10, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1041)
+                            UploadDate = new DateTime(2026, 7, 7, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1535)
                         },
                         new
                         {
                             PrescriptionFileId = 2L,
                             FileName = "TOA_VIEMDA_HUNG.png",
-                            FilePath = "D:/ToaThuoc/hung_dalieu.png",
+                            FilePath = "toa_dalieu.png",
                             Note = "Toa bôi da liễu - Bệnh viện Da Liễu",
                             Status = true,
-                            UploadDate = new DateTime(2026, 6, 10, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1042)
+                            UploadDate = new DateTime(2026, 7, 7, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1537)
                         },
                         new
                         {
                             PrescriptionFileId = 3L,
                             FileName = "TOA_HUYETAP_THAO.png",
-                            FilePath = "D:/ToaThuoc/thao_huyetap.png",
+                            FilePath = "toa_huyetap.png",
                             Note = "Đơn thuốc huyết áp vô căn mãn tính",
                             Status = true,
-                            UploadDate = new DateTime(2026, 5, 26, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1044)
+                            UploadDate = new DateTime(2026, 6, 22, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1539)
                         },
                         new
                         {
                             PrescriptionFileId = 4L,
                             FileName = "TOA_K_SINH_MINH.png",
-                            FilePath = "D:/ToaThuoc/minh_khangsinh.png",
+                            FilePath = "toa_khangsinh.png",
                             Note = "Toa kháng sinh trị viêm tai giữa",
                             Status = true,
-                            UploadDate = new DateTime(2026, 6, 18, 0, 27, 16, 214, DateTimeKind.Local).AddTicks(1045)
+                            UploadDate = new DateTime(2026, 7, 15, 18, 39, 36, 423, DateTimeKind.Local).AddTicks(1540)
                         });
                 });
 
@@ -917,6 +923,14 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("ImageFile")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<decimal?>("NormalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -949,13 +963,14 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             ProductId = 1L,
                             CategoryId = 1,
+                            Description = "Kháng sinh phổ rộng nhóm Penicillin, chỉ định điều trị các nhiễm khuẩn đường hô hấp trên và dưới, viêm tai giữa, nhiễm khuẩn da và đường tiết niệu.",
                             PrescriptionRequired = true,
                             Price = 2500m,
                             ProductCode = "AMX500",
@@ -967,6 +982,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 2L,
                             CategoryId = 1,
+                            Description = "Kháng sinh kết hợp Amoxicillin và Acid Clavulanic, vượt qua đề kháng của vi khuẩn, trị nhiễm khuẩn nặng tai mũi họng và viêm phế quản.",
                             PrescriptionRequired = true,
                             Price = 16000m,
                             ProductCode = "AUG625",
@@ -978,6 +994,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 3L,
                             CategoryId = 1,
+                            Description = "Kháng sinh Cephalosporin thế hệ 3, điều trị hiệu quả các nhiễm khuẩn đường tiết niệu, viêm phổi, viêm phế quản cấp và mạn tính.",
                             PrescriptionRequired = true,
                             Price = 4500m,
                             ProductCode = "CEF200",
@@ -989,6 +1006,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 4L,
                             CategoryId = 2,
+                            Description = "Thuốc ức chế bơm proton (Esomeprazole), chỉ định điều trị trào ngược dạ dày thực quản (GERD), chữa lành và phòng ngừa viêm loét thực quản.",
                             PrescriptionRequired = true,
                             Price = 24000m,
                             ProductCode = "NEX40",
@@ -1000,6 +1018,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 5L,
                             CategoryId = 2,
+                            Description = "Thuốc kháng acid dạng hỗn dịch hỗ trợ làm dịu nhanh cơn đau dạ dày, giảm ợ chua, ợ nóng do thừa acid dịch vị.",
                             PrescriptionRequired = false,
                             Price = 4800m,
                             ProductCode = "PHOS",
@@ -1011,6 +1030,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 6L,
                             CategoryId = 3,
+                            Description = "Thuốc chẹn kênh Canxi (Amlodipine), chỉ định trong kiểm soát huyết áp cao mạn tính và điều trị dự phòng cơn đau thắt ngực.",
                             PrescriptionRequired = true,
                             Price = 9200m,
                             ProductCode = "AMLO5",
@@ -1022,6 +1042,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 7L,
                             CategoryId = 3,
+                            Description = "Thuốc phối hợp Amlodipine và Perindopril, kiểm soát huyết áp kép hiệu quả cho bệnh nhân tăng huyết áp vô căn.",
                             PrescriptionRequired = true,
                             Price = 11500m,
                             ProductCode = "COVE",
@@ -1033,6 +1054,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 8L,
                             CategoryId = 4,
+                            Description = "Thuốc giảm đau, hạ sốt chứa Paracetamol kết hợp Caffeine giúp tăng cường hiệu quả giảm đau đầu, đau cơ, sốt.",
                             PrescriptionRequired = false,
                             Price = 1500m,
                             ProductCode = "PANA_EX",
@@ -1044,6 +1066,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 9L,
                             CategoryId = 4,
+                            Description = "Viên sủi Paracetamol 500mg hòa tan nhanh, giảm đau và hạ sốt nhanh chóng, tiện lợi cho người khó nuốt viên nén.",
                             PrescriptionRequired = false,
                             Price = 2900m,
                             ProductCode = "EFF500",
@@ -1055,6 +1078,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 10L,
                             CategoryId = 5,
+                            Description = "Siro thảo dược chiết xuất từ lá thường xuân, có tác dụng long đờm, chống co thắt phế quản, làm dịu cơn ho hiệu quả.",
                             PrescriptionRequired = false,
                             Price = 82000m,
                             ProductCode = "PROS",
@@ -1066,6 +1090,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 11L,
                             CategoryId = 5,
+                            Description = "Viên nang mềm kết hợp các tinh dầu thảo dược thiên nhiên (Eucalyptol, Menthol, Gừng, Tần), giúp ấm đường hô hấp, giảm ho khan.",
                             PrescriptionRequired = false,
                             Price = 1000m,
                             ProductCode = "EXPEC",
@@ -1077,6 +1102,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 12L,
                             CategoryId = 6,
+                            Description = "Kem bôi da chứa Clobetasol Propionate (Corticoid mạnh), điều trị các bệnh viêm da cơ địa dai dẳng, chàm (Eczema), vẩy nến.",
                             PrescriptionRequired = true,
                             Price = 90000m,
                             ProductCode = "DERMA",
@@ -1088,6 +1114,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 13L,
                             CategoryId = 6,
+                            Description = "Gel bôi chứa Azelaic Acid 15%, chuyên trị mụn trứng cá, giảm sưng viêm đỏ, bạt sừng và ngăn ngừa sẹo thâm sau mụn.",
                             PrescriptionRequired = false,
                             Price = 320000m,
                             ProductCode = "SKIN",
@@ -1099,6 +1126,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 14L,
                             CategoryId = 7,
+                            Description = "Viên uống bổ sung Vitamin C và các Vitamin nhóm B (B1, B2, B6, B12), tăng sức đề kháng và phục hồi sức khỏe sau ốm.",
                             PrescriptionRequired = false,
                             Price = 1500m,
                             ProductCode = "ENVC",
@@ -1110,6 +1138,7 @@ namespace Pharmacy_Nhom1.Migrations
                         {
                             ProductId = 15L,
                             CategoryId = 7,
+                            Description = "Viên sủi chứa hàm lượng cao Vitamin C, B và các khoáng chất (Canxi, Magie, Kẽm), giúp khôi phục năng lượng cho cơ thể.",
                             PrescriptionRequired = false,
                             Price = 8500m,
                             ProductCode = "BERO",
@@ -1130,6 +1159,9 @@ namespace Pharmacy_Nhom1.Migrations
                     b.Property<int>("ConversionRate")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("ImportPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -1145,55 +1177,241 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductUnits", (string)null);
+                    b.ToTable("ProductUnits");
 
                     b.HasData(
                         new
                         {
-                            ProductUnitId = 1L,
-                            ConversionRate = 100,
-                            Price = 230000m,
-                            ProductId = 1L,
-                            UnitName = "Hộp"
-                        },
-                        new
-                        {
-                            ProductUnitId = 2L,
+                            ProductUnitId = 101L,
                             ConversionRate = 10,
-                            Price = 24000m,
+                            ImportPrice = 20000m,
+                            Price = 26000m,
                             ProductId = 1L,
                             UnitName = "Vỉ"
                         },
                         new
                         {
-                            ProductUnitId = 3L,
+                            ProductUnitId = 102L,
+                            ConversionRate = 100,
+                            ImportPrice = 180000m,
+                            Price = 250000m,
+                            ProductId = 1L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 103L,
                             ConversionRate = 14,
-                            Price = 210000m,
+                            ImportPrice = 190000m,
+                            Price = 230000m,
+                            ProductId = 2L,
+                            UnitName = "Vỉ"
+                        },
+                        new
+                        {
+                            ProductUnitId = 104L,
+                            ConversionRate = 28,
+                            ImportPrice = 370000m,
+                            Price = 450000m,
                             ProductId = 2L,
                             UnitName = "Hộp"
                         },
                         new
                         {
-                            ProductUnitId = 4L,
+                            ProductUnitId = 105L,
                             ConversionRate = 10,
-                            Price = 14000m,
+                            ImportPrice = 35000m,
+                            Price = 47000m,
+                            ProductId = 3L,
+                            UnitName = "Vỉ"
+                        },
+                        new
+                        {
+                            ProductUnitId = 106L,
+                            ConversionRate = 30,
+                            ImportPrice = 100000m,
+                            Price = 135000m,
+                            ProductId = 3L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 107L,
+                            ConversionRate = 14,
+                            ImportPrice = 280000m,
+                            Price = 340000m,
+                            ProductId = 4L,
+                            UnitName = "Vỉ"
+                        },
+                        new
+                        {
+                            ProductUnitId = 108L,
+                            ConversionRate = 28,
+                            ImportPrice = 550000m,
+                            Price = 670000m,
+                            ProductId = 4L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 109L,
+                            ConversionRate = 26,
+                            ImportPrice = 100000m,
+                            Price = 125000m,
+                            ProductId = 5L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 110L,
+                            ConversionRate = 10,
+                            ImportPrice = 75000m,
+                            Price = 95000m,
+                            ProductId = 6L,
+                            UnitName = "Vỉ"
+                        },
+                        new
+                        {
+                            ProductUnitId = 111L,
+                            ConversionRate = 30,
+                            ImportPrice = 220000m,
+                            Price = 275000m,
+                            ProductId = 6L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 112L,
+                            ConversionRate = 30,
+                            ImportPrice = 280000m,
+                            Price = 350000m,
+                            ProductId = 7L,
+                            UnitName = "Vỉ"
+                        },
+                        new
+                        {
+                            ProductUnitId = 113L,
+                            ConversionRate = 30,
+                            ImportPrice = 280000m,
+                            Price = 350000m,
+                            ProductId = 7L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 114L,
+                            ConversionRate = 10,
+                            ImportPrice = 12000m,
+                            Price = 16000m,
                             ProductId = 8L,
                             UnitName = "Vỉ"
                         },
                         new
                         {
-                            ProductUnitId = 5L,
+                            ProductUnitId = 115L,
                             ConversionRate = 100,
-                            Price = 135000m,
+                            ImportPrice = 110000m,
+                            Price = 150000m,
                             ProductId = 8L,
                             UnitName = "Hộp"
                         },
                         new
                         {
-                            ProductUnitId = 6L,
-                            ConversionRate = 20,
-                            Price = 55000m,
+                            ProductUnitId = 116L,
+                            ConversionRate = 4,
+                            ImportPrice = 9000m,
+                            Price = 12000m,
                             ProductId = 9L,
+                            UnitName = "Vỉ"
+                        },
+                        new
+                        {
+                            ProductUnitId = 117L,
+                            ConversionRate = 16,
+                            ImportPrice = 35000m,
+                            Price = 45000m,
+                            ProductId = 9L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 118L,
+                            ConversionRate = 50,
+                            ImportPrice = 3500000m,
+                            Price = 4000000m,
+                            ProductId = 10L,
+                            UnitName = "Thùng"
+                        },
+                        new
+                        {
+                            ProductUnitId = 119L,
+                            ConversionRate = 10,
+                            ImportPrice = 8000m,
+                            Price = 11000m,
+                            ProductId = 11L,
+                            UnitName = "Vỉ"
+                        },
+                        new
+                        {
+                            ProductUnitId = 120L,
+                            ConversionRate = 100,
+                            ImportPrice = 75000m,
+                            Price = 105000m,
+                            ProductId = 11L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 121L,
+                            ConversionRate = 1,
+                            ImportPrice = 80000m,
+                            Price = 95000m,
+                            ProductId = 12L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 122L,
+                            ConversionRate = 1,
+                            ImportPrice = 280000m,
+                            Price = 330000m,
+                            ProductId = 13L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 123L,
+                            ConversionRate = 10,
+                            ImportPrice = 12000m,
+                            Price = 16000m,
+                            ProductId = 14L,
+                            UnitName = "Vỉ"
+                        },
+                        new
+                        {
+                            ProductUnitId = 124L,
+                            ConversionRate = 100,
+                            ImportPrice = 115000m,
+                            Price = 155000m,
+                            ProductId = 14L,
+                            UnitName = "Hộp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 125L,
+                            ConversionRate = 10,
+                            ImportPrice = 70000m,
+                            Price = 86000m,
+                            ProductId = 15L,
+                            UnitName = "Tuýp"
+                        },
+                        new
+                        {
+                            ProductUnitId = 126L,
+                            ConversionRate = 20,
+                            ImportPrice = 135000m,
+                            Price = 170000m,
+                            ProductId = 15L,
                             UnitName = "Hộp"
                         });
                 });
@@ -1213,7 +1431,7 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -1264,7 +1482,7 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasKey("SupplierId");
 
-                    b.ToTable("Suppliers", (string)null);
+                    b.ToTable("Suppliers");
 
                     b.HasData(
                         new
@@ -1346,7 +1564,7 @@ namespace Pharmacy_Nhom1.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new

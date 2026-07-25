@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -368,24 +368,24 @@ namespace Pharmacy_Nhom1.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ProductId", "CategoryId", "NormalPrice", "PrescriptionRequired", "Price", "ProductCode", "ProductName", "Status", "Unit" },
+                columns: new[] { "ProductId", "CategoryId", "Description", "NormalPrice", "PrescriptionRequired", "Price", "ProductCode", "ProductName", "Status", "Unit" },
                 values: new object[,]
                 {
-                    { 1L, 1, null, true, 2500m, "AMX500", "Amoxicillin 500mg", true, "Viên" },
-                    { 2L, 1, null, true, 16000m, "AUG625", "Augmentin 625mg", true, "Viên" },
-                    { 3L, 1, null, true, 4500m, "CEF200", "Cefixim 200mg", true, "Viên" },
-                    { 4L, 2, null, true, 24000m, "NEX40", "Nexium Mups 40mg", true, "Viên" },
-                    { 5L, 2, null, false, 4800m, "PHOS", "Phosphalugel", true, "Gói" },
-                    { 6L, 3, null, true, 9200m, "AMLO5", "Amlor 5mg", true, "Viên" },
-                    { 7L, 3, null, true, 11500m, "COVE", "Coveram 5mg/5mg", true, "Viên" },
-                    { 8L, 4, null, false, 1500m, "PANA_EX", "Panadol Extra", true, "Viên" },
-                    { 9L, 4, null, false, 2900m, "EFF500", "Efferalgan Sủi 500mg", true, "Viên" },
-                    { 10L, 5, null, false, 82000m, "PROS", "Siro Ho Prospan 100ml", true, "Chai" },
-                    { 11L, 5, null, false, 1000m, "EXPEC", "Eugica Đỏ", true, "Viên" },
-                    { 12L, 6, null, true, 90000m, "DERMA", "Dermovate Cream 15g", true, "Tuýp" },
-                    { 13L, 6, null, false, 320000m, "SKIN", "Skinoren Gel 30g", true, "Tuýp" },
-                    { 14L, 7, null, false, 1500m, "ENVC", "Vitamin C Enervon", true, "Viên" },
-                    { 15L, 7, null, false, 8500m, "BERO", "Berocca Viên Sủi Bổ Sung", true, "Viên" }
+                    { 1L, 1, "Kháng sinh phổ rộng nhóm Penicillin, chỉ định điều trị các nhiễm khuẩn đường hô hấp trên và dưới, viêm tai giữa, nhiễm khuẩn da và đường tiết niệu.", null, true, 2500m, "AMX500", "Amoxicillin 500mg", true, "Viên" },
+                    { 2L, 1, "Kháng sinh kết hợp Amoxicillin và Acid Clavulanic, vượt qua đề kháng của vi khuẩn, trị nhiễm khuẩn nặng tai mũi họng và viêm phế quản.", null, true, 16000m, "AUG625", "Augmentin 625mg", true, "Viên" },
+                    { 3L, 1, "Kháng sinh Cephalosporin thế hệ 3, điều trị hiệu quả các nhiễm khuẩn đường tiết niệu, viêm phổi, viêm phế quản cấp và mạn tính.", null, true, 4500m, "CEF200", "Cefixim 200mg", true, "Viên" },
+                    { 4L, 2, "Thuốc ức chế bơm proton (Esomeprazole), chỉ định điều trị trào ngược dạ dày thực quản (GERD), chữa lành và phòng ngừa viêm loét thực quản.", null, true, 24000m, "NEX40", "Nexium Mups 40mg", true, "Viên" },
+                    { 5L, 2, "Thuốc kháng acid dạng hỗn dịch hỗ trợ làm dịu nhanh cơn đau dạ dày, giảm ợ chua, ợ nóng do thừa acid dịch vị.", null, false, 4800m, "PHOS", "Phosphalugel", true, "Gói" },
+                    { 6L, 3, "Thuốc chẹn kênh Canxi (Amlodipine), chỉ định trong kiểm soát huyết áp cao mạn tính và điều trị dự phòng cơn đau thắt ngực.", null, true, 9200m, "AMLO5", "Amlor 5mg", true, "Viên" },
+                    { 7L, 3, "Thuốc phối hợp Amlodipine và Perindopril, kiểm soát huyết áp kép hiệu quả cho bệnh nhân tăng huyết áp vô căn.", null, true, 11500m, "COVE", "Coveram 5mg/5mg", true, "Viên" },
+                    { 8L, 4, "Thuốc giảm đau, hạ sốt chứa Paracetamol kết hợp Caffeine giúp tăng cường hiệu quả giảm đau đầu, đau cơ, sốt.", null, false, 1500m, "PANA_EX", "Panadol Extra", true, "Viên" },
+                    { 9L, 4, "Viên sủi Paracetamol 500mg hòa tan nhanh, giảm đau và hạ sốt nhanh chóng, tiện lợi cho người khó nuốt viên nén.", null, false, 2900m, "EFF500", "Efferalgan Sủi 500mg", true, "Viên" },
+                    { 10L, 5, "Siro thảo dược chiết xuất từ lá thường xuân, có tác dụng long đờm, chống co thắt phế quản, làm dịu cơn ho hiệu quả.", null, false, 82000m, "PROS", "Siro Ho Prospan 100ml", true, "Chai" },
+                    { 11L, 5, "Viên nang mềm kết hợp các tinh dầu thảo dược thiên nhiên (Eucalyptol, Menthol, Gừng, Tần), giúp ấm đường hô hấp, giảm ho khan.", null, false, 1000m, "EXPEC", "Eugica Đỏ", true, "Viên" },
+                    { 12L, 6, "Kem bôi da chứa Clobetasol Propionate (Corticoid mạnh), điều trị các bệnh viêm da cơ địa dai dẳng, chàm (Eczema), vẩy nến.", null, true, 90000m, "DERMA", "Dermovate Cream 15g", true, "Tuýp" },
+                    { 13L, 6, "Gel bôi chứa Azelaic Acid 15%, chuyên trị mụn trứng cá, giảm sưng viêm đỏ, bạt sừng và ngăn ngừa sẹo thâm sau mụn.", null, false, 320000m, "SKIN", "Skinoren Gel 30g", true, "Tuýp" },
+                    { 14L, 7, "Viên uống bổ sung Vitamin C và các Vitamin nhóm B (B1, B2, B6, B12), tăng sức đề kháng và phục hồi sức khỏe sau ốm.", null, false, 1500m, "ENVC", "Vitamin C Enervon", true, "Viên" },
+                    { 15L, 7, "Viên sủi chứa hàm lượng cao Vitamin C, B và các khoáng chất (Canxi, Magie, Kẽm), giúp khôi phục năng lượng cho cơ thể.", null, false, 8500m, "BERO", "Berocca Viên Sủi Bổ Sung", true, "Viên" }
                 });
 
             migrationBuilder.InsertData(

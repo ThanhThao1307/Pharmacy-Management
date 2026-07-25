@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.ML;
@@ -25,15 +26,17 @@ namespace Pharmacy_Nhom1
         {
             try
             {
-                cbCustomers.DisplayMember = "FullName";
-                cbCustomers.ValueMember = "CustomerId";
-                cbCustomers.DataSource = db.Customers.Select(c => new { c.CustomerId, FullName = c.FullName }).ToList();
-                cbCustomers.Text = null;
+                // Tải danh sách sản phẩm
+                var prodList = new List<object>
+                {
+                    new { ProductId = 0L, ProductName = "-- Tất cả sản phẩm (Phân tích toàn bộ kho & xu hướng mua) --" }
+                };
+                prodList.AddRange(db.Products.Where(p => p.Status).Select(p => new { p.ProductId, ProductName = p.ProductName }).ToList());
 
                 cbProducts.DisplayMember = "ProductName";
                 cbProducts.ValueMember = "ProductId";
-                cbProducts.DataSource = db.Products.Select(p => new { p.ProductId, ProductName = p.ProductName }).ToList();
-                cbProducts.Text = null;
+                cbProducts.DataSource = prodList;
+                cbProducts.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -45,14 +48,14 @@ namespace Pharmacy_Nhom1
         {
             using var db = new PharmacyDbContext();
 
-            // Lấy danh sách lịch sử mua thuốc của khách hàng
+            // Lấy lịch sử bán thuốc
             var rawList = db.OrderDetails
                 .Include(od => od.Order)
                 .Include(od => od.ImportDetail)
-                .Where(od => od.Order != null && od.Order.CustomerId.HasValue && od.ImportDetail != null)
+                .Where(od => od.Order != null && od.ImportDetail != null && !od.Order.Status)
                 .Select(od => new
                 {
-                    CustomerId = od.Order!.CustomerId!.Value,
+                    CustomerId = od.Order!.CustomerId ?? 1L,
                     ProductId = od.ImportDetail.ProductId,
                     Quantity = od.Quantity
                 })
@@ -60,10 +63,10 @@ namespace Pharmacy_Nhom1
 
             if (rawList.Count == 0)
             {
-                throw new Exception("Chưa có đủ dữ liệu lịch sử hóa đơn mua thuốc trong CSDL để huấn luyện AI!");
+                throw new Exception("Chưa có đủ dữ liệu lịch sử hóa đơn mua thuốc trong CSDL để AI phân tích!");
             }
 
-            // Gộp theo từng cặp khách hàng - sản phẩm và tổng hợp số lượng mua
+            // Tổng hợp số lượng bán
             var list = rawList
                 .GroupBy(x => new { x.CustomerId, x.ProductId })
                 .Select(g => new MedicineRating
@@ -75,8 +78,6 @@ namespace Pharmacy_Nhom1
                 .ToList();
 
             IDataView dataView = mlContext.Data.LoadFromEnumerable(list);
-
-            // Phân chia tập dữ liệu huấn luyện và tập kiểm định
             double testFraction = list.Count <= 5 ? 0.1 : 0.2;
             DataOperationsCatalog.TrainTestData dataSplit = mlContext.Data.TrainTestSplit(dataView, testFraction: testFraction);
             return (dataSplit.TrainSet, dataSplit.TestSet);
@@ -84,11 +85,9 @@ namespace Pharmacy_Nhom1
 
         public static ITransformer BuildAndTrainModel(MLContext mlContext, IDataView trainingDataView)
         {
-            // Chuyển đổi ID khách hàng và sản phẩm sang dạng key
             IEstimator<ITransformer> estimator = mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "customerIdEncoded", inputColumnName: nameof(MedicineRating.CustomerId))
                 .Append(mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "productIdEncoded", inputColumnName: nameof(MedicineRating.ProductId)));
 
-            // Thiết lập tham số huấn luyện thuật toán Matrix Factorization
             var options = new MatrixFactorizationTrainer.Options
             {
                 MatrixColumnIndexColumnName = "customerIdEncoded",
@@ -101,95 +100,43 @@ namespace Pharmacy_Nhom1
             };
 
             var trainerEstimator = estimator.Append(mlContext.Recommendation().Trainers.MatrixFactorization(options));
-            ITransformer model = trainerEstimator.Fit(trainingDataView);
-            return model;
+            return trainerEstimator.Fit(trainingDataView);
         }
 
-        public static string EvaluateModel(MLContext mlContext, IDataView testDataView, ITransformer model)
+        public static void SaveModel(MLContext mlContext, DataViewSchema schema, ITransformer model)
         {
-            // Đánh giá sai số và độ chính xác của mô hình trên tập kiểm định
-            var prediction = model.Transform(testDataView);
-            var metrics = mlContext.Regression.Evaluate(prediction, labelColumnName: nameof(MedicineRating.QuantityBought), scoreColumnName: "Score");
-            
-            double rSquared = metrics.RSquared;
-            // Trên tập dữ liệu nhỏ của các nhà thuốc, R² theo công thức chuẩn có thể <= 0, ta tính toán tỷ lệ độ tin cậy tối ưu từ sai số RMSE
-            double accuracyDisplay = rSquared > 0 ? rSquared * 100 : Math.Max(85.5, 98.2 - (metrics.RootMeanSquaredError * 12.5));
-            if (accuracyDisplay > 99.5) accuracyDisplay = 99.5;
-
-            return $"✔ TRẠNG THÁI: HUẤN LUYỆN THÀNH CÔNG\r\n" +
-                   $"--------------------------------------------\r\n" +
-                   $"• Sai số trung bình (RMSE): {metrics.RootMeanSquaredError:F2}\r\n" +
-                   $"• Độ tin cậy mô hình: {accuracyDisplay:F1}%\r\n" +
-                   $"• Thuật toán: Matrix Factorization\r\n\r\n" +
-                   $"📌 KẾT LUẬN:\r\n" +
-                   $"AI đã phân tích xong ma trận hành vi mua\r\n" +
-                   $"của từng khách hàng đối với các dòng thuốc.\r\n" +
-                   $"Hệ thống sẵn sàng tư vấn và đề xuất!";
-        }
-
-        public static string SaveModel(MLContext mlContext, DataViewSchema schema, ITransformer model)
-        {
-            // Lưu mô hình ra file zip để sử dụng cho dự đoán
             string modelPath = Path.Combine(Application.StartupPath, "MedicineRecommenderModel.zip");
             mlContext.Model.Save(model, schema, modelPath);
-            return $"📦 LƯU TRỮ MÔ HÌNH AI:\r\n" +
-                   $"• Tên tệp: MedicineRecommenderModel.zip\r\n" +
-                   $"• Trạng thái: Đã đồng bộ vào bộ nhớ hệ thống\r\n" +
-                   $"• Thời gian cập nhật: {DateTime.Now:dd/MM/yyyy HH:mm}";
         }
 
-        private void btTrain_Click(object sender, EventArgs e)
+        private void EnsureModelReady()
         {
-            try
-            {
-                txtEvaluate.Text = "⏳ Đang đọc lịch sử hóa đơn từ CSDL và huấn luyện AI... Vui lòng đợi...";
-                Application.DoEvents();
+            string modelPath = Path.Combine(Application.StartupPath, "MedicineRecommenderModel.zip");
+            if (File.Exists(modelPath)) return;
 
-                // Khởi tạo MLContext và tải dữ liệu huấn luyện
-                MLContext mlContext = new MLContext();
-                var (trainingData, testData) = LoadData(mlContext);
+            MLContext mlContext = new MLContext();
+            var (trainingData, _) = LoadData(mlContext);
 
-                // Xây dựng, huấn luyện và lưu mô hình
-                ITransformer model = BuildAndTrainModel(mlContext, trainingData);
-                string evalResult = EvaluateModel(mlContext, testData, model);
+            using var db = new PharmacyDbContext();
+            var fullList = db.OrderDetails
+                .Include(od => od.Order)
+                .Include(od => od.ImportDetail)
+                .Where(od => od.Order != null && od.ImportDetail != null && !od.Order.Status)
+                .GroupBy(x => new { CustomerId = x.Order!.CustomerId ?? 1L, x.ImportDetail!.ProductId })
+                .Select(g => new MedicineRating
+                {
+                    CustomerId = (float)g.Key.CustomerId,
+                    ProductId = (float)g.Key.ProductId,
+                    QuantityBought = (float)g.Sum(x => x.Quantity)
+                }).ToList();
 
-                // Huấn luyện trên toàn bộ tập dữ liệu để mô hình ghi nhớ đầy đủ 100% ID khách hàng và sản phẩm
-                using var db = new PharmacyDbContext();
-                var fullList = db.OrderDetails
-                    .Include(od => od.Order)
-                    .Include(od => od.ImportDetail)
-                    .Where(od => od.Order != null && od.Order.CustomerId.HasValue && od.ImportDetail != null)
-                    .GroupBy(x => new { x.Order!.CustomerId, x.ImportDetail!.ProductId })
-                    .Select(g => new MedicineRating
-                    {
-                        CustomerId = (float)g.Key.CustomerId!.Value,
-                        ProductId = (float)g.Key.ProductId,
-                        QuantityBought = (float)g.Sum(x => x.Quantity)
-                    }).ToList();
-
-                IDataView fullDataView = mlContext.Data.LoadFromEnumerable(fullList);
-                ITransformer finalModel = BuildAndTrainModel(mlContext, fullDataView);
-                string saveResult = SaveModel(mlContext, fullDataView.Schema, finalModel);
-
-                txtEvaluate.Text = $"{evalResult}\r\n\r\n{saveResult}";
-                MessageBox.Show("Huấn luyện mô hình AI gợi ý thuốc thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                txtEvaluate.Text = "❌ Lỗi huấn luyện: " + ex.Message;
-                MessageBox.Show("Lỗi khi huấn luyện mô hình AI:\r\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            IDataView fullDataView = mlContext.Data.LoadFromEnumerable(fullList);
+            ITransformer finalModel = BuildAndTrainModel(mlContext, fullDataView);
+            SaveModel(mlContext, fullDataView.Schema, finalModel);
         }
 
         private void btPredict_Click(object sender, EventArgs e)
         {
-            if (cbCustomers.SelectedValue == null)
-            {
-                MessageBox.Show("Vui lòng chọn Khách hàng cần tư vấn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cbCustomers.Focus();
-                return;
-            }
-
             if (cbProducts.SelectedValue == null)
             {
                 MessageBox.Show("Vui lòng chọn Sản phẩm thuốc cần phân tích!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -197,161 +144,220 @@ namespace Pharmacy_Nhom1
                 return;
             }
 
-            string modelPath = Path.Combine(Application.StartupPath, "MedicineRecommenderModel.zip");
-            if (!File.Exists(modelPath))
-            {
-                MessageBox.Show("Chưa có mô hình AI! Vui lòng nhấn nút 'Huấn luyện & Xây dựng Mô hình' bên trái trước.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             try
             {
-                // Tải mô hình đã huấn luyện từ file
+                EnsureModelReady();
+                string modelPath = Path.Combine(Application.StartupPath, "MedicineRecommenderModel.zip");
+                if (!File.Exists(modelPath)) return;
+
                 MLContext mlContext = new MLContext();
-                ITransformer model = mlContext.Model.Load(modelPath, out var schema);
+                ITransformer model = mlContext.Model.Load(modelPath, out var _);
                 var predictionEngine = mlContext.Model.CreatePredictionEngine<MedicineRating, MedicineRatingPrediction>(model);
 
-                float customerId = Convert.ToSingle(cbCustomers.SelectedValue);
-                float productId = Convert.ToSingle(cbProducts.SelectedValue);
+                long selectedProductId = Convert.ToInt64(cbProducts.SelectedValue);
+                Product? selectedProduct = selectedProductId > 0 ? db.Products.Include(p => p.Category).Include(p => p.ImportDetails).FirstOrDefault(p => p.ProductId == selectedProductId) : null;
 
-                int intCustomerId = (int)customerId;
-                int intProductId = (int)productId;
-
-                // Kiểm tra lịch sử giao dịch của khách hàng và sản phẩm trong CSDL
-                bool hasCustomerHistory = db.OrderDetails.Any(od => od.Order != null && od.Order.CustomerId == intCustomerId);
-                bool hasProductHistory = db.OrderDetails.Any(od => od.ImportDetail != null && od.ImportDetail.ProductId == intProductId);
-
-                // Lấy thống kê số lượng mua thực tế để tính điểm ước lượng chính xác cho các trường hợp thiếu dữ liệu
-                var customerProdSoldMap = db.OrderDetails
-                    .Where(od => od.Order != null && od.Order.CustomerId == intCustomerId && od.ImportDetail != null)
-                    .GroupBy(od => od.ImportDetail.ProductId)
-                    .Select(g => new { ProductId = g.Key, Qty = g.Sum(x => x.Quantity) })
-                    .ToDictionary(x => x.ProductId, x => x.Qty);
-
+                // Lấy danh sách sản phẩm
+                var allProducts = db.Products.Include(p => p.Category).Include(p => p.ImportDetails).Where(p => p.Status).ToList();
+                
+                // Thống kê số lượng bán
                 var totalProdSoldMap = db.OrderDetails
-                    .Where(od => od.ImportDetail != null)
+                    .Where(od => od.ImportDetail != null && od.Order != null && !od.Order.Status)
                     .GroupBy(od => od.ImportDetail.ProductId)
                     .Select(g => new { ProductId = g.Key, Qty = g.Sum(x => x.Quantity) })
                     .ToDictionary(x => x.ProductId, x => x.Qty);
 
-                // Thực hiện dự đoán mức độ quan tâm (Score)
-                var testInput = new MedicineRating { CustomerId = customerId, ProductId = productId };
-                var prediction = predictionEngine.Predict(testInput);
-                float finalScore = prediction.Score;
-
-                // Xử lý điểm số cho các sản phẩm mới hoặc khi thuật toán ma trận chưa đủ dữ liệu hội tụ
-                if (float.IsNaN(finalScore) || finalScore < 0)
+                var productAnalysis = new List<(Product Prod, float Score, int TotalSold, int CurrentStock, int PredictedDemand)>();
+                foreach (var p in allProducts)
                 {
-                    int cSold = customerProdSoldMap.ContainsKey(intProductId) ? customerProdSoldMap[intProductId] : 0;
-                    if (cSold > 0)
+                    var pred = predictionEngine.Predict(new MedicineRating { CustomerId = 1f, ProductId = (float)p.ProductId });
+                    float sc = pred.Score;
+                    int totalSold = totalProdSoldMap.ContainsKey(p.ProductId) ? totalProdSoldMap[p.ProductId] : 0;
+                    int currentStock = p.TotalStock;
+
+                    if (float.IsNaN(sc) || sc < 0)
                     {
-                        finalScore = 1.5f + Math.Min(3.5f, (float)cSold * 0.5f);
+                        sc = totalSold > 20 ? 3.5f : (totalSold > 5 ? 1.8f : (totalSold > 0 ? 0.9f : 0.4f));
+                    }
+
+                    // Tính số lượng dự đoán
+                    int predictedDemand = totalSold > 0 ? Math.Max(15, (int)(totalSold * 1.35f + sc * 10f)) : Math.Max(20, (int)(sc * 18f));
+                    productAnalysis.Add((p, sc, totalSold, currentStock, predictedDemand));
+                }
+
+                // Sắp xếp theo xu hướng và số lượng bán
+                var topTrendingInStore = productAnalysis.OrderByDescending(x => x.TotalSold).ThenByDescending(x => x.Score).ToList();
+
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("BÁO CÁO PHÂN TÍCH NHU CẦU TIÊU THỤ, ĐỀ XUẤT CHUẨN BỊ KHO & SUY ĐOÁN MÙA BỆNH");
+                sb.AppendLine($"Thời gian phân tích: {DateTime.Now:dd/MM/yyyy HH:mm:ss}");
+                sb.AppendLine($"Chế độ phân tích: {(selectedProduct != null ? $"Phân tích chi tiết thuốc [{selectedProduct.ProductName}]" : "Phân tích tổng quan toàn bộ kho & thị trường")}");
+                sb.AppendLine();
+
+                // Phân tích và dự đoán nhu cầu
+                sb.AppendLine("[I] PHÂN TÍCH SẢN PHẨM LỰA CHỌN & DỰ ĐOÁN NHU CẦU CHUẨN BỊ KHO:");
+                if (selectedProduct != null)
+                {
+                    var itemInfo = productAnalysis.First(x => x.Prod.ProductId == selectedProduct.ProductId);
+                    int totalSold = itemInfo.TotalSold;
+                    int currentStock = itemInfo.CurrentStock;
+                    int predictedDemand = itemInfo.PredictedDemand;
+                    float sc = itemInfo.Score;
+
+                    sb.AppendLine($"  Tên sản phẩm: {selectedProduct.ProductName} (Mã: {selectedProduct.ProductCode})");
+                    sb.AppendLine($"  Danh mục thuốc: {selectedProduct.Category.CategoryName}");
+                    sb.AppendLine($"  Đơn vị tính: {selectedProduct.Unit} (vỉ / hộp / viên / chai / lọ...)");
+                    sb.AppendLine($"  Quy định kê đơn: {(selectedProduct.PrescriptionRequired ? "BẮT BUỘC CÓ TOA BÁC SĨ (Rx - Thuốc kê đơn)" : "THUỐC KHÔNG KÊ ĐƠN (OTC - Bán trực tiếp)")}");
+                    sb.AppendLine();
+
+                    sb.AppendLine("  DỮ LIỆU BÁN HÀNG & THÔNG TIN DÙNG ĐỂ DỰ ĐOÁN:");
+                    sb.AppendLine($"  - Tổng số lượng đã xuất bán trong CSDL: {totalSold} {selectedProduct.Unit}");
+                    sb.AppendLine($"  - Số lượng tồn kho thực tế hiện tại: {currentStock} {selectedProduct.Unit}");
+                    sb.AppendLine($"  - Nhịp độ tiêu thụ và sức mua thị trường: {(sc >= 2.5f || totalSold >= 30 ? "ĐANG TIÊU THỤ RẤT MẠNH / ĐẮT HÀNG" : (sc >= 1.0f || totalSold >= 10 ? "TIÊU THỤ ỔN ĐỊNH - ĐỀU ĐẶN" : "GIAO DỊCH CHẬM / ÍT NHU CẦU"))}");
+                    sb.AppendLine();
+
+                    sb.AppendLine("  KẾT LUẬN & DỰ ĐOÁN:");
+                    sb.AppendLine($"  - Dự đoán nhu cầu mua sắp tới: ~ {predictedDemand} {selectedProduct.Unit}");
+                    sb.AppendLine($"  - So sánh kho vs Dự đoán nhu cầu: Tồn kho hiện tại ({currentStock} {selectedProduct.Unit}) so với Dự đoán sắp tới ({predictedDemand} {selectedProduct.Unit})");
+                    sb.AppendLine();
+
+                    sb.AppendLine("  KHUYẾN NGHỊ KẾ HOẠCH CHUẨN BỊ SỐ LƯỢNG KHO:");
+                    if (currentStock < predictedDemand)
+                    {
+                        int deficit = predictedDemand - currentStock + 25; // Lượng cần nhập bù
+                        sb.AppendLine("    CẢNH BÁO THIẾU HỤT KHO: Số lượng trong kho HIỆN TẠI KHÔNG ĐỦ để đáp ứng nhu cầu tăng cao sắp tới!");
+                        sb.AppendLine($"    Kế hoạch chuẩn bị: Nhà thuốc cần lập phiếu nhập kho KHẨN CẤP bổ sung ngay ít nhất [{deficit} {selectedProduct.Unit}] để tránh nguy cơ cháy hàng trong giai đoạn tới.");
+                    }
+                    else if (currentStock < (int)(predictedDemand * 1.4f))
+                    {
+                        sb.AppendLine("    CẢNH BÁO MỨC TỒN AN TOÀN: Nguồn kho hiện tại đang vừa đủ đáp ứng nhưng đã sát ngưỡng dự đoán.");
+                        sb.AppendLine($"    Kế hoạch chuẩn bị: Nên liên hệ nhà cung cấp để dự trù chuẩn bị nhập thêm ~ [{predictedDemand} {selectedProduct.Unit}] trong đợt nhập hàng tiếp theo.");
                     }
                     else
                     {
-                        int pSold = totalProdSoldMap.ContainsKey(intProductId) ? totalProdSoldMap[intProductId] : 0;
-                        finalScore = pSold > 10 ? 0.9f : (pSold > 0 ? 0.6f : 0.2f);
+                        sb.AppendLine("    NGUỒN HÀNG ĐẢM BẢO: Số lượng trong kho HIỆN TẠI ĐANG DƯ DẢ và hoàn toàn đáp ứng tốt nhu cầu mua sắp tới.");
+                        sb.AppendLine("    Kế hoạch chuẩn bị: Chưa cần nhập thêm lô mới. Tiếp tục duy trì bán, theo dõi nhịp độ tiêu thụ và kiểm tra hạn sử dụng định kỳ.");
                     }
-                }
+                    sb.AppendLine();
 
-                string customerName = cbCustomers.Text;
-                string productName = cbProducts.Text;
-
-                string resultText = $"KẾT QUẢ PHÂN TÍCH KHÁCH HÀNG: {customerName.ToUpper()}\r\n";
-                resultText += $"• Sản phẩm kiểm tra: {productName}\r\n";
-                resultText += $"• Điểm dự đoán: {finalScore:F2}\r\n";
-
-                if (!hasCustomerHistory)
-                {
-                    resultText += "  * Ghi chú: Khách hàng chưa có lịch sử giao dịch. Hệ thống tính toán theo mức độ tiêu thụ chung.\r\n";
-                }
-                if (!hasProductHistory)
-                {
-                    resultText += "  * Ghi chú: Sản phẩm chưa có lịch sử bán ra. Hệ thống ước tính theo mức độ trung bình.\r\n";
-                }
-                resultText += "\r\n";
-
-                if (finalScore >= 1.5f)
-                {
-                    resultText += "ĐÁNH GIÁ: Khách hàng CÓ XU HƯỚNG MUA sản phẩm này!\r\n";
-                    resultText += "=> Lời khuyên: Nên giới thiệu, tư vấn hoặc đưa vào đơn thuốc cho khách.\r\n\r\n";
-                }
-                else if (finalScore >= 0.5f)
-                {
-                    resultText += "ĐÁNH GIÁ: Khách hàng ở mức QUAN TÂM TRUNG BÌNH với sản phẩm này.\r\n";
-                    resultText += "=> Lời khuyên: Có thể tư vấn bổ sung tùy theo triệu chứng thực tế.\r\n\r\n";
-                }
-                else
-                {
-                    resultText += "ĐÁNH GIÁ: Khách hàng ÍT QUAN TÂM hoặc ít có nhu cầu với sản phẩm này.\r\n";
-                    resultText += "=> Lời khuyên: Có thể tư vấn dòng sản phẩm khác phù hợp hơn.\r\n\r\n";
-                }
-
-                resultText += "DANH SÁCH 3 THUỐC ĐỀ XUẤT PHÙ HỢP NHẤT:\r\n";
-                // Lấy danh sách sản phẩm đang kinh doanh để đề xuất gợi ý
-                var allProducts = db.Products.Where(p => p.Status).ToList();
-                var recommendations = new List<(Product Prod, float Score)>();
-
-                foreach (var p in allProducts)
-                {
-                    var pred = predictionEngine.Predict(new MedicineRating { CustomerId = customerId, ProductId = (float)p.ProductId });
-                    float sc = pred.Score;
-                    if (float.IsNaN(sc) || sc < 0)
+                    sb.AppendLine("  KIỂM SOÁT TOA THUỐC GPP KHI XUẤT BÁN:");
+                    if (selectedProduct.PrescriptionRequired)
                     {
-                        int cSold = customerProdSoldMap.ContainsKey(p.ProductId) ? customerProdSoldMap[p.ProductId] : 0;
-                        if (cSold > 0)
-                        {
-                            sc = 1.5f + Math.Min(3.5f, (float)cSold * 0.5f);
-                        }
-                        else
-                        {
-                            int pSold = totalProdSoldMap.ContainsKey(p.ProductId) ? totalProdSoldMap[p.ProductId] : 0;
-                            sc = pSold > 10 ? 0.9f : (pSold > 0 ? 0.6f : 0.2f);
-                        }
+                        sb.AppendLine("    Lưu ý GPP (Thuốc kê đơn Rx): Vì đây là thuốc kê đơn bắt buộc, khi nhu cầu mua tăng cao sắp tới, Dược sĩ phải tuân thủ");
+                        sb.AppendLine("    chặt chẽ quy trình kiểm tra Toa chỉ định của Bác sĩ, lưu hình ảnh hồ sơ toa hợp lệ vào CSDL, tuyệt đối không bán tùy tiện.");
                     }
-                    recommendations.Add((p, sc));
-                }
-
-                // Xử lý gợi ý Top 3 sản phẩm (kết hợp sản phẩm bán chạy nếu khách hàng chưa có lịch sử mua)
-                if (!hasCustomerHistory)
-                {
-                    var bestSellers = db.OrderDetails
-                        .Include(od => od.ImportDetail)
-                        .Where(od => od.ImportDetail != null)
-                        .GroupBy(od => od.ImportDetail.ProductId)
-                        .Select(g => new { ProductId = g.Key, TotalQty = g.Sum(x => x.Quantity) })
-                        .ToDictionary(x => x.ProductId, x => x.TotalQty);
-
-                    var top3New = allProducts
-                        .OrderByDescending(p => bestSellers.ContainsKey(p.ProductId) ? bestSellers[p.ProductId] : 0)
-                        .ThenByDescending(p => recommendations.First(r => r.Prod.ProductId == p.ProductId).Score)
-                        .Take(3)
-                        .ToList();
-
-                    int rankNew = 1;
-                    foreach (var item in top3New)
+                    else
                     {
-                        int sold = bestSellers.ContainsKey(item.ProductId) ? bestSellers[item.ProductId] : 0;
-                        float sc = recommendations.First(r => r.Prod.ProductId == item.ProductId).Score;
-                        resultText += $"   {rankNew++}. {item.ProductName} (Điểm dự đoán: {sc:F2} - Đã bán: {sold} {item.Unit})\r\n";
+                        sb.AppendLine("    Lưu ý GPP (Thuốc OTC): Sản phẩm không bắt buộc kê đơn. Dược sĩ có thể tư vấn liều dùng, cách sử dụng an toàn");
+                        sb.AppendLine("    và giải thích công dụng rõ ràng cho người bệnh trực tiếp tại quầy.");
                     }
                 }
                 else
                 {
-                    var top3 = recommendations.OrderByDescending(r => r.Score).Take(3).ToList();
-                    int rank = 1;
-                    foreach (var item in top3)
-                    {
-                        resultText += $"   {rank++}. {item.Prod.ProductName} (Điểm dự đoán: {item.Score:F2})\r\n";
-                    }
+                    sb.AppendLine("  Bạn đang chọn [-- Tất cả sản phẩm --]. Hệ thống thực hiện phân tích toàn diện trên 100% mặt hàng trong kho để tra cứu các thuốc có nhu cầu cao nhất.");
                 }
+                sb.AppendLine();
 
-                lblResult.Text = resultText;
+                // Suy đoán mùa bệnh
+                sb.AppendLine("[II] SUY ĐOÁN MÙA BỆNH TỪ DỮ LIỆU BÁN HÀNG THỰC TẾ TRÊN HỆ THỐNG:");
+                sb.AppendLine(DiagnoseDiseaseSeason(topTrendingInStore));
+                sb.AppendLine();
+
+                // Top 5 thuốc mua nhiều nhất
+                sb.AppendLine("[III] DANH SÁCH 5 LOẠI THUỐC ĐANG ĐƯỢC MUA NHIỀU NHẤT HIỆN NAY & ĐỀ XUẤT CHUẨN BỊ:");
+                int rank = 1;
+                foreach (var rec in topTrendingInStore.Take(5))
+                {
+                    string rxTag = rec.Prod.PrescriptionRequired ? "[Rx - Kê đơn]" : "[OTC - Không kê đơn]";
+                    string statusTag = rec.CurrentStock < rec.PredictedDemand ? "Thiếu hụt -> Cần nhập bổ sung khẩn cấp" : "Kho đủ đáp ứng -> Tiếp tục theo dõi";
+
+                    sb.AppendLine($"  {rank++}. {rec.Prod.ProductName} - {rxTag}");
+                    sb.AppendLine($"     Danh mục: {rec.Prod.Category.CategoryName} | Đơn vị tính: {rec.Prod.Unit}");
+                    sb.AppendLine($"     Đã bán thực tế: {rec.TotalSold} {rec.Prod.Unit} | Tồn kho HIỆN TẠI: {rec.CurrentStock} {rec.Prod.Unit} | Dự đoán sắp tới: ~ {rec.PredictedDemand} {rec.Prod.Unit}");
+                    sb.AppendLine($"     Đánh giá kho: {statusTag}");
+                }
+                sb.AppendLine();
+                sb.AppendLine("CHỈ ĐỊNH DƯỢC SĨ: Luôn theo dõi sát sao số liệu xuất bán, chuẩn bị nguồn hàng trước các đợt cao điểm");
+                sb.AppendLine("mùa bệnh và đảm bảo tư vấn hướng dẫn sử dụng thuốc an toàn, hiệu quả cho người bệnh theo GPP.");
+
+                txtResult.Text = sb.ToString();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi dự đoán: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi phân tích dự đoán AI: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        // Suy đoán mùa bệnh từ xu hướng mua
+        private string DiagnoseDiseaseSeason(List<(Product Prod, float Score, int TotalSold, int CurrentStock, int PredictedDemand)> trendingList)
+        {
+            if (trendingList.Count == 0)
+                return "  Chưa có đủ dữ liệu bán hàng để kết luận xu hướng mùa bệnh.";
+
+            int respScore = 0, digScore = 0, jointScore = 0, chronicScore = 0, tonicScore = 0;
+
+            foreach (var item in trendingList.Take(10))
+            {
+                string name = (item.Prod.ProductName + " " + item.Prod.Category.CategoryName + " " + (item.Prod.Description ?? "")).ToLower();
+                int weight = Math.Max(1, item.TotalSold) + (int)(item.Score * 2);
+
+                if (name.Contains("cảm") || name.Contains("cúm") || name.Contains("ho") || name.Contains("sốt") || name.Contains("họng") || name.Contains("phế quản") || name.Contains("kháng sinh") || name.Contains("paracetamol") || name.Contains("siro") || name.Contains("histamin") || name.Contains("cetirizin") || name.Contains("loratadin") || name.Contains("hô hấp"))
+                    respScore += weight * 2;
+                if (name.Contains("tiêu hóa") || name.Contains("dạ dày") || name.Contains("tiêu chảy") || name.Contains("smecta") || name.Contains("berberin") || name.Contains("oresol") || name.Contains("men vi sinh") || name.Contains("omeprazol") || name.Contains("phosphalugel") || name.Contains("đường ruột"))
+                    digScore += weight * 2;
+                if (name.Contains("xương khớp") || name.Contains("đau nhức") || name.Contains("khớp") || name.Contains("gout") || name.Contains("diclofenac") || name.Contains("meloxicam") || name.Contains("glucosamin") || name.Contains("canxi") || name.Contains("salonpas"))
+                    jointScore += weight * 2;
+                if (name.Contains("huyết áp") || name.Contains("tim mạch") || name.Contains("tiểu đường") || name.Contains("amlodipin") || name.Contains("metformin") || name.Contains("losartan") || name.Contains("insulin") || name.Contains("mỡ máu"))
+                    chronicScore += weight * 2;
+                if (name.Contains("bổ") || name.Contains("vitamin") || name.Contains("hoạt huyết") || name.Contains("omega") || name.Contains("kẽm") || name.Contains("đề kháng") || name.Contains("dinh dưỡng"))
+                    tonicScore += weight;
+            }
+
+            int maxScore = Math.Max(respScore, Math.Max(digScore, Math.Max(jointScore, Math.Max(chronicScore, tonicScore))));
+
+            StringBuilder diag = new StringBuilder();
+            if (maxScore == 0 || (respScore == 0 && digScore == 0 && jointScore == 0 && chronicScore == 0))
+            {
+                diag.AppendLine("  Kết luận cụ thể: Thị trường tiêu thụ thuốc đang ở mức ỔN ĐỊNH TỔNG QUAN, chưa xuất hiện bùng phát mùa bệnh dịch truyền nhiễm.");
+                diag.AppendLine("  - Khuyến nghị Dược sĩ: Duy trì nguồn hàng đa dạng và tập trung vào các nhóm thuốc thiết yếu hàng ngày.");
+            }
+            else if (maxScore == respScore)
+            {
+                diag.AppendLine("  Kết luận cụ thể: Đang là GIAI ĐOẠN CAO ĐIỂM CÁC BỆNH ĐƯỜNG HÔ HẤP (Cảm cúm, Sốt, Ho, Viêm họng, Viêm mũi dị ứng).");
+                diag.AppendLine("  - Ngữ cảnh / Thời tiết: Giao mùa, thời tiết thay đổi thất thường hoặc độ ẩm cao làm virus và vi khuẩn đường hô hấp bùng phát.");
+                diag.AppendLine("  - Nhóm thuốc mua nhiều: Thuốc hạ sốt giảm đau (Paracetamol), Kháng sinh đường hô hấp, Siro ho thảo dược, Kháng Histamin và Vitamin C.");
+                diag.AppendLine("  - Khuyến nghị Dược sĩ: Kiểm tra tồn kho nhóm kháng sinh, thuốc hạ sốt; nhắc nhở khách giữ ấm đường thở, súc họng nước muối thường xuyên.");
+            }
+            else if (maxScore == digScore)
+            {
+                diag.AppendLine("  Kết luận cụ thể: Đang là MÙA GIA TĂNG BỆNH LÝ ĐƯỜNG TIÊU HÓA (Rối loạn tiêu hóa, Tiêu chảy, Ngộ độc thực phẩm, Viêm dạ dày).");
+                diag.AppendLine("  - Ngữ cảnh / Thời tiết: Thời tiết nóng ẩm, vi khuẩn phát triển nhanh trong thực phẩm hoặc thay đổi thói quen ăn uống, sinh hoạt.");
+                diag.AppendLine("  - Nhóm thuốc mua nhiều: Men vi sinh đường ruột, Oresol bù nước điện giải, Thuốc giảm tiết acid dịch vị (PPI/Antacid) và thuốc cầm tiêu chảy.");
+                diag.AppendLine("  - Khuyến nghị Dược sĩ: Hướng dẫn kỹ người bệnh pha Oresol đúng tỷ lệ nước, uống men vi sinh cách giờ kháng sinh và đảm bảo an toàn vệ sinh thực phẩm.");
+            }
+            else if (maxScore == jointScore)
+            {
+                diag.AppendLine("  Kết luận cụ thể: GIA TĂNG CÁC BỆNH LÝ CƠ XƯƠNG KHỚP & ĐAU NHỨC MÃN TÍNH.");
+                diag.AppendLine("  - Ngữ cảnh / Thời tiết: Thời tiết chuyển lạnh/ẩm hoặc tập khách hàng của nhà thuốc có tỷ lệ người cao tuổi, lao động thể lực cao.");
+                diag.AppendLine("  - Nhóm thuốc mua nhiều: Thuốc kháng viêm giảm đau (NSAIDs), Glucosamin tái tạo sụn khớp, Canxi và các thuốc bôi/dầu xoa bóp ngoài da.");
+                diag.AppendLine("  - Khuyến nghị Dược sĩ: Lưu ý khách hàng uống thuốc sau bữa ăn no để bảo vệ dạ dày, kết hợp chế độ tập luyện nhẹ nhàng.");
+            }
+            else if (maxScore == chronicScore)
+            {
+                diag.AppendLine("  Kết luận cụ thể: NHU CẦU DUY TRÌ ĐIỀU TRỊ BỆNH MÃN TÍNH (Huyết áp, Tim mạch, Tiểu đường).");
+                diag.AppendLine("  - Ngữ cảnh / Thời tiết: Khách hàng định kỳ mua tái đơn theo chu kỳ điều trị tháng theo chỉ định của chuyên gia y tế.");
+                diag.AppendLine("  - Nhóm thuốc mua nhiều: Thuốc kiểm soát huyết áp, đường huyết, mỡ máu và tim mạch.");
+                diag.AppendLine("  - Khuyến nghị Dược sĩ: Nhắc nhở người bệnh uống thuốc đúng giờ cố định mỗi ngày, theo dõi huyết áp/đường huyết định kỳ và kiểm tra đơn chỉ định.");
+            }
+            else
+            {
+                diag.AppendLine("  Kết luận cụ thể: GIA TĂNG NHU CẦU TĂNG CƯỜNG SỨC ĐỀ KHÁNG & BỒI BỔ THỂ TRẠNG TỔNG THỂ.");
+                diag.AppendLine("  - Ngữ cảnh / Thời tiết: Khách hàng quan tâm phòng bệnh chủ động, phục hồi thể lực sau giai đoạn làm việc căng thẳng hoặc ốm dậy.");
+                diag.AppendLine("  - Nhóm thuốc mua nhiều: Vitamin tổng hợp, Hoạt huyết dưỡng não, Bổ gan và khoáng chất thiết yếu.");
+                diag.AppendLine("  - Khuyến nghị Dược sĩ: Tư vấn liều dùng bổ sung phù hợp theo độ tuổi, tránh lạm dụng quá liều và kết hợp chế độ dinh dưỡng lành mạnh.");
+            }
+
+            return diag.ToString().TrimEnd();
         }
     }
 }
